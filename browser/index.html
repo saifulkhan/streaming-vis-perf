@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>XXX</title>
+</head>
+
+<body>
+
+ 
+<script>
+
+var ws = new WebSocket('ws://localhost:8002/consumer/spectrum1'); 
+
+ws.onerror = function (error) { 
+    console.log("Error");
+} 
+ws.onclose = function () {
+    console.log("Error");
+ } 
+
+ws.onopen = function () { 
+  ws.send("Connection established. Hello server!"); 
+}
+
+ws.onmessage = function(msg) { 
+    console.log(msg);
+//   if(msg.data instanceof Blob) { 
+//     processBlob(msg.data);
+//   } else {
+//     processText(msg.data);
+//   }
+}
+ 
+</script>
+
+</body>
+</html>

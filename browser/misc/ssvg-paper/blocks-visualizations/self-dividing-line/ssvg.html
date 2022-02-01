@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>SVG Self Dividing Line</title>
+    <script src="http://d3js.org/d3.v3.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script>
+
+    <style type="text/css">
+        body {
+            margin: 0;
+            background-color: #FFF;
+        }
+
+        path {
+            stroke-width: 1.5px;
+        }
+    </style>
+</head>
+<body></body>
+<script src="./ssvg-auto.js"></script>
+<script type="text/javascript">
+  _ = {}
+  _.random = function(min, max) {
+    if (max == null) {
+      max = min;
+      min = 0;
+    }
+    return min + (0 | Math.random() * (max - min + 1));
+  };
+
+  var width = window.innerWidth,
+    height = window.innerHeight
+
+  var svg = d3.select("body")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+
+  var config = { "angle": 50, "iterations": 7, "margin": 0, "duration": 500, "interpolation" : "linear" };
+  var gui = new dat.GUI();
+  gui.close()
+  angleChanger = gui.add(config, "angle", 0, 150)
+  angleChanger.onFinishChange(function(value) {
+    d3.timer.flush()
+    redraw()
+  });
+  interpolationChanger = gui.add(config, "interpolation", ["linear", "step-before", "step-after", "basis", "basis-open", "basis-closed", "cardinal", "cardinal-open", "cardinal-closed", "monotone"])
+  interpolationChanger.onChange(function(value) {
+    d3.timer.flush()
+    line.interpolate(value)
+    updateEdges()
+  })
+  iterationsChanger = gui.add(config, "iterations", 1, 7).step(1)
+  iterationsChanger.onFinishChange(function(value) {
+    d3.timer.flush()
+    redraw()
+  });
+  durationChanger = gui.add(config, "duration", 0, 500)
+  durationChanger.onFinishChange(function(value) {
+    d3.timer.flush()
+    redraw()
+  });
+  marginChanger = gui.add(config, "margin", 0, 200)
+  marginChanger.onFinishChange(function(value) {
+    d3.timer.flush()
+    redraw()
+  });
+  config.random = function(){
+    gui.__controllers.forEach(function(c){
+      if(typeof(c.__select) != 'undefined') {
+        c.setValue(c.__select[Math.floor(Math.random()*(c.__select.length-1))].value)
+      } else {
+        if(c.property!="random"&&c.property!="margin"&&c.property!="iterations"&&c.property!="duration"){
+          c.setValue(Math.floor(Math.random() * c.__max) + c.__min)
+        }
+      }
+    })
+    redraw()
+  }
+  gui.add(config, "random")
+  config.redraw = function(){
+    redraw()
+  }
+  gui.add(config, "redraw")
+
+  var line = d3.svg.line(), edge;
+
+  redraw()
+
+  function redraw(triangles) {
+    if(typeof(triangles)==='undefined') triangles = [];
+
+    //draw([[width/3, config["margin"]], [width/3, height-config["margin"]]], 1)
+    //draw([[width/3, config["margin"]], [width/3, height-config["margin"]]], 1)
+
+    draw(triangles, [[width/2, config["margin"]], [width/2, height-config["margin"]]], 1)
+    draw(triangles, [[width/2, config["margin"]], [width/2, height-config["margin"]]], 1)
+
+    //draw([[2*width/3, config["margin"]], [2*width/3, height-config["margin"]]], 1)
+    //draw([[2*width/3, config["margin"]], [2*width/3, height-config["margin"]]], 1)
+  }
+
+  function draw(triangles, triangle, depth) {
+    var t = triangle
+    var mp = [(t[0][0] + t[1][0])/2, (t[0][1] + t[1][1])/2]
+    var d = Math.sqrt(Math.pow(mp[0] - t[0][0], 2) + Math.pow(mp[1] - t[0][1], 2))
+    t.push([mp[0], mp[1]])
+    triangles.push(t)
+    drawEdges(triangles)
+    ratio = config["angle"]/100
+    t[2] = [mp[0]+_.random(-d, d)*ratio, mp[1]+_.random(-d, d)*ratio]
+    drawEdges(triangles)
+    if(d > 10 && depth < config["iterations"]) {
+      d3.timer(function(){
+        draw(triangles, [[t[0][0], t[0][1]], [t[2][0], t[2][1]]], depth+1)
+        draw(triangles, [[t[2][0], t[2][1]], [t[1][0], t[1][1]]], depth+1)
+        return true
+      }, config["duration"]+100)
+    }
+  }
+
+  function drawEdges(triangles) {
+    edge = svg.selectAll("path")
+      .data(triangles)
+    updateEdges()
+  }
+
+  function updateEdges() {
+    edge
+      .enter()
+      .append("path")
+      .style("fill", function(d, i) { return d3.hsl(0, 0, 1-(i)/100) })
+      .style("stroke", function(d, i) { return d3.select(this).style("fill") })
+      .attr("d", line)
+
+    edge
+      .transition()
+      .duration(config["duration"])
+      .attr("d", line)
+
+    edge
+      .exit()
+      .remove()
+  }
+</script>
+</html>

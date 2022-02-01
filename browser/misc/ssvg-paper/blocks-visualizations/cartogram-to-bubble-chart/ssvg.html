@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Force-Based Cartogram to Bubble Chart</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+    </style>
+</head>
+<body>
+
+<svg
+        width="1200"
+        height="1000"
+        version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+</svg>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://unpkg.com/d3-scale-cluster@1.1.7/dist/d3-scale-cluster.min.js"></script>
+<script src="https://measure-fps.surge.sh/measureFPS.js"></script>
+<script src="ssvg.js"></script>
+<script>
+if(location.search.indexOf('svg') === -1) {
+    new SSVG({
+        getFps: function(fps) {
+            const fpsElement = document.getElementById("fps-element");
+            fpsElement.innerHTML = fps;
+        }
+    });
+}
+
+
+  var colors = [
+    "#d0d9c4",
+    "#dfa3ad",
+    "#d0915b",
+    "#a9573f",
+    "#844e5e"
+  ]
+
+  var keys = {
+    tot_pop: "Total population",
+    tot_male: "Total population, male",
+    tot_female: "Total population, female",
+    nh_male: "Total population, non‐Hispanic male",
+    nh_female: "Total population, non‐Hispanic female",
+    h_male: "Total population, Hispanic male",
+    h_female: "Total population, Hispanic female",
+    wa_male: "Total population, White male",
+    wa_female: "Total population, White female",
+    ba_male: "Total population, Black male",
+    ba_female: "Total population, Black female",
+    ia_male: "Total population, American Indian/Alaska Native male",
+    ia_female: "Total population, American Indian/Alaska Native female",
+    aa_male: "Total population, Asian male",
+    aa_female: "Total population, Asian female",
+    na_male: "Total population, Native Hawaiian and Other Pacific Islander male",
+    na_female: "Total population, Native Hawaiian and Other Pacific Islander female",
+    tom_male: "Total population, Two or more races male",
+    tom_female: "Total population, Two or more races female",
+    nhwa_male: "White male alone, not Hispanic or Latino",
+    nhwa_female: "White female alone, not Hispanic or Latino",
+    nhba_male: "Black male alone, not Hispanic or Latino",
+    nhba_female: "Black female alone, not Hispanic or Latino",
+    nhia_male: "American Indian or Alaska Native male, not Hispanic or Latino",
+    nhia_female: "American Indian or Alaska Native female, not Hispanic or Latino",
+    nhaa_male: "Asian male, not Hispanic or Latino",
+    nhaa_female: "Asian female, not Hispanic or Latino",
+    nhna_male: "Native Hawaiian and Other Pacific Islander male alone, not Hispanic or Latino",
+    nhna_female: "Native Hawaiian and Other Pacific Islander female alone, not Hispanic or Latino",
+    nhtom_male: "Two or more races male, not Hispanic or Latino",
+    nhtom_female: "Two or more races female, not Hispanic or Latino",
+    hwa_male: "White male alone, Hispanic or Latino",
+    hwa_female: "White female alone, Hispanic or Latino",
+    hba_male: "Black male alone, Hispanic or Latino",
+    hba_female: "Black female alone, Hispanic or Latino",
+    hia_male: "American Indian or Alaska Native male, Hispanic or Latino",
+    hia_female: "American Indian or Alaska Native female, Hispanic or Latino",
+    haa_male: "Asian male, Hispanic or Latino",
+    haa_female: "Asian female, Hispanic or Latino",
+    hna_male: "Native Hawaiian and Other Pacific Islander male alone, Hispanic or Latino",
+    hna_female: "Native Hawaiian and Other Pacific Islander male alone, Hispanic or Latino",
+    htom_male: "Two or more races male, not Hispanic or Latino",
+    htom_female: "Two or more races female, not Hispanic or Latino"
+  }
+
+  var selectedValue = "tot_pop"
+  var selectedIndex = 0
+  var sizeRange = [1.5,50]
+  var notcarto = true
+
+  d3.csv("https://gist.githubusercontent.com/emeeks/894ff63d02551badfc75536d77dcd49c/raw/e4359d1c5a7002f07df6c07b49f8132b7ddb0ad6/county_demo.csv", cartogram)
+
+  function cartogram(data) {
+
+    var dataKeys = Object.keys(keys)
+
+    data.forEach(d => {
+      dataKeys.forEach(k => {
+        d[k] = parseInt(d[k])
+      })
+    })
+
+    var thisKeyValues = data.map(d => d[selectedValue])
+
+    var extent = d3.extent(thisKeyValues)
+
+    var scale = d3.scaleLinear().domain(extent).range(sizeRange)
+    var colorScale = d3.scaleCluster().domain(thisKeyValues).range(colors)
+
+    var force = d3.forceSimulation()
+      .force("collision", d3.forceCollide(d => scale(d[selectedValue])).iterations(2))
+      .force("x", d3.forceX(d => d.cx))
+      .force("y", d3.forceY(d => d.cy))
+      .nodes(data)
+      .alphaMin(0.25)
+      .on("tick", updateCartogram)
+      .on("end", resetCartogram)
+
+    d3.select("svg")
+      .selectAll("circle.node")
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("class", "node")
+      .style("stroke-width", 2)
+
+    d3.select("svg").append("text")
+      .style("text-anchor", "middle")
+      .attr("class", "title")
+      .text("Total Population")
+      .style("font-size", "36px")
+      .attr("x", 600)
+      .attr("y", 50)
+
+    redrawNodes()
+
+    function updateCartogram() {
+      d3.selectAll("circle.node")
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y)
+    }
+
+    function resetCartogram() {
+      if (notcarto) {
+        selectedIndex = selectedIndex === dataKeys.length ? 0 : selectedIndex + 1
+        selectedValue = dataKeys[selectedIndex]
+        d3.select("text.title")
+          .text(keys[selectedValue])
+
+        thisKeyValues = data.map(d => d[selectedValue])
+        extent = d3.extent(thisKeyValues)
+
+        scale = d3.scaleLinear().domain(extent).range(sizeRange)
+        colorScale = d3.scaleCluster().domain(thisKeyValues).range(colors)
+
+        redrawNodes()
+        force.force("collision", d3.forceCollide(d => scale(d[selectedValue])).iterations(2))
+          .force("x", d3.forceX(d => d.cx))
+          .force("y", d3.forceY(d => d.cy))
+          .alpha(1)
+          .restart()
+
+      }
+      else {
+        var positionScale = d3.scaleCluster().domain(thisKeyValues).range([200,400,600,800,1000])
+        force
+          .force("x", d3.forceX(d => positionScale(d[selectedValue])))
+          .force("y", d3.forceY(400))
+          .alpha(1)
+          .restart()
+
+      }
+      notcarto = !notcarto
+    }
+
+    function redrawNodes() {
+      d3.selectAll("circle.node")
+        /*.transition()
+        .duration(500)*/
+        .style("fill", d => colorScale(d[selectedValue]))
+        .style("stroke", d => d3.hsl(colorScale(d[selectedValue])).darker())
+        .attr("r", d => scale(d[selectedValue]))
+
+
+    }
+
+  }
+
+</script>

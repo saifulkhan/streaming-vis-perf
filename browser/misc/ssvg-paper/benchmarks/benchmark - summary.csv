@@ -1,0 +1,24 @@
+Shapes on a Circle,Alternative Average FPS,SSVG Average FPS,Factor
+SVG Rect VS SSVG Rect 7000,3.125718513,22.55387909,7.215582272
+SVG Rect VS SSVG Rect,7.937984522,31.15448488,3.924734899
+Canvas Rect VS SSVG Rect,47.37375429,31.15448488,0.6576317488
+SVG Text VS SSVG Text,7.743078738,7.094130731,1.091476748
+SVG Rect VS SSVG Rect 1 Thread,7.937984522,24.80509416,3.124860485
+,,,
+Wind Map,svg,ssvg,factor
+Average FPS,6.62,35.86,5.416918429
+Responsiveness ms,151.0574018,20.54231717,7.35347432
+,,,
+Vis Author Graph,svg,ssvg,factor
+Average FPS,16.32,43.74,2.680147059
+Responsiveness ms,61.2745098,22.67573696,2.702205882
+Average Layout Time,15.8948,4.9248,3.227501624
+,,,
+Uncertainty Graph,svg,ssvg,factor
+Average FPS,8.52,23.48,2.755868545
+Responsiveness ms,117.370892,43.97537379,2.669014085
+Average Layout Time,78.9325,27.2566,2.895904111
+,,,
+Donut ,svg,ssvg,factor
+Average FPS,14.04,58.426,4.161396011
+Responsiveness ms,71.22507123,17.03171305,4.181908832
