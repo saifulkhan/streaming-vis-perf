@@ -34,4 +34,4 @@ while True:
 
     print("Sending...")
     requests.post("http://0.0.0.0:8002/producer", json=msg)
-    sleep(1)
+    sleep(0.001)
