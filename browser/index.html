@@ -26,16 +26,31 @@ ws.onopen = function () {
 var div = document.getElementById('divID');
 
 ws.onmessage = function(msg) { 
- //   console.log(msg);
-//   if(msg.data instanceof Blob) { 
-//     processBlob(msg.data);
-//   } else {
-//     processText(msg.data);
-//   }
-    div.innerHTML = event.data;
+    console.log(msg.data);
 
+    let data;
+
+
+    if (msg.data instanceof ArrayBuffer) {
+        data = processArrayBuffer(msg.data);
+    } else {
+        data = processText(msg.data);
+    }
+ 
+    div.innerHTML = data;
+}
+
+function processArrayBuffer(buffer) {
+    var name = new Uint8Array(buffer, 0, 16);
+    var id = new Uint16Array(buffer, 16, 1);
+    var score = new Float32Array(buffer, 18, 32);
 }
  
+function processText(data) {
+    return data
+}
+ 
+
 </script>
 
 </body>

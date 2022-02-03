@@ -7,3 +7,4 @@ loguru
 uvicorn[standard]
 requests
 black
+pyarrow
