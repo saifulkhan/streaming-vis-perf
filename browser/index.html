@@ -26,7 +26,6 @@ ws.onopen = function () {
 var div = document.getElementById('divID');
 
 ws.onmessage = function(msg) { 
-    console.log(msg.data);
 
     let data;
 
@@ -47,6 +46,7 @@ function processArrayBuffer(buffer) {
 }
  
 function processText(data) {
+    console.log("processText: data = ", data);
     return data
 }
  

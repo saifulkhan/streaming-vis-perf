@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="./spectrogram.js"></script>
+
+    <style type="text/css">
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      canvas {
+        display: block;
+        height: 500px;
+        width: 2500px;
+        outline: gray 1px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="divID"></canvas>
+
+    <script type="text/javascript">
+      // Spectrogram
+      const spectrogram = new Spectrogram("divID");
+
+      // Web-socket
+      var ws = new WebSocket("ws://localhost:8002/consumer/spectrogram");
+
+      ws.onerror = function (error) {
+        console.log("Error");
+      };
+      ws.onclose = function () {
+        console.log("Error");
+      };
+
+      ws.onopen = function () {
+        ws.send("Connection established. Hello server!");
+      };
+
+      ws.onmessage = function (msg) {
+        let data;
+
+        if (msg.data instanceof ArrayBuffer) {
+          data = processArrayBuffer(msg.data);
+        } else {
+          data = processText(msg.data);
+        }
+
+        // console.log("onmessage: data.topic = ", data);
+
+        if (data?.topic == "spectrogram" && data?.body.length) {
+          spectrogram.draw(data.body);
+        }
+      };
+
+      function processArrayBuffer(buffer) {
+        var name = new Uint8Array(buffer, 0, 16);
+        var id = new Uint16Array(buffer, 16, 1);
+        var score = new Float32Array(buffer, 18, 32);
+      }
+
+      function processText(data) {
+        console.log("processText: data = ", data);
+        const _data = JSON.parse(data);
+        return _data;
+      }
+    </script>
+  </body>
+</html>

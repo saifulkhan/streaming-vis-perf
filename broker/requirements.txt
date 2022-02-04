@@ -8,3 +8,4 @@ uvicorn[standard]
 requests
 black
 pyarrow
+protobuf
