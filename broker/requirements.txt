@@ -1,4 +1,4 @@
---index-url https://artefact.skao.int/repository/pypi-all/simple
+# --index-url https://artefact.skao.int/repository/pypi-all/simple
 aiokafka
 fastapi
 pydantic
@@ -9,3 +9,5 @@ requests
 black
 pyarrow
 protobuf
+confluent-kafka
+six

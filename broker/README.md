@@ -1,6 +1,5 @@
 # About
 
-
 ## Getting Started
 
 Start the message broker
@@ -13,7 +12,8 @@ docker-compose ps
 Start the consumer API server
 
 Prerequisite
-- Python 3.8+, 
+
+- Python 3.8+,
 - FastAPI
 
 ```bash
@@ -26,16 +26,26 @@ source ./venv/bin/activate
 pip install -r requirements.txt
 ```
 
+Start the server
+
 ```bash
 ## set the configuration variables, e.g, the broker address
 export BROKER_INSTANCE=localhost:9092
 
-## start the server
 uvicorn app.main:app --reload-include app --port 8002 --host 0.0.0.0
 ```
 
 ## Send Messages
 
 ```bash
-python ./tests/send.py        
+python ./tests/protobuf_producer.py -b "localhost:9092" -s "http://0.0.0.0:8081"
+
+python ./tests/protobuf_consumer.py  -b "localhost:9092" -s "http://0.0.0.0:8081"
+
+```
+
+proto file
+
+```
+protoc -I=./app/models --python_out=./app/models ./app/models/user.proto
 ```

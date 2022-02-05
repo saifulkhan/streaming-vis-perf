@@ -10,23 +10,8 @@ from app.models.model import ProducerMessage, ProducerResponse
 producer = APIRouter()
 
 
-def serializer(value):
-    return json.dumps(value).encode("ascii")
-
-
-loop = asyncio.get_event_loop()
-aioproducer = AIOKafkaProducer(
-    # loop=loop,
-    # client_id=PROJECT_NAME,
-    bootstrap_servers=BROKER_INSTANCE,
-    value_serializer=serializer,
-    compression_type="gzip",
-    max_request_size=15728640,  # 15 MB
-)
-
-
-@producer.post("")
-async def producer_send(msg: ProducerMessage):
+@producer.post("/1")
+async def producer_1():
     """
     Produce a message into <topicname>
     This will produce a message into a Apache Kafka topic
@@ -34,17 +19,108 @@ async def producer_send(msg: ProducerMessage):
     * return ProducerResponse
     """
 
-    payload = msg.dict()
-    topic = payload.get("topic")
-
     logger.info(
         f"producer: broker instance = {BROKER_INSTANCE}, project name = {PROJECT_NAME}"
     )
+    topic = "test1"
+
+    import random
+    from datetime import datetime
+
+    curve = []
+    xMax = 600000
+    yMax = 20
+    for i in range(xMax):
+        curve.append([i, random.randrange(5, yMax - 1, 5), 0.4, 0.8])
+
+    data = {
+        "topic": "spectrum",
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "body": {
+            "description": "Spectrum",
+            "xLabel": "Frequency (MHz)",
+            "yLabel": "Power (dB)",
+            "xMin": 0,
+            "xMax": xMax,
+            "yMin": 1,
+            "yMax": yMax,
+            "data": curve,
+        },
+    }
+
+    def serializer(value):
+        return json.dumps(value).encode("utf-8")
+
+    aioproducer = AIOKafkaProducer(
+        bootstrap_servers=BROKER_INSTANCE,
+        value_serializer=serializer,
+        compression_type="gzip",
+        max_request_size=15728640,  # 15 MB
+    )
+
     await aioproducer.start()
+    logger.info(f"producer: send topic = {topic}, data = {True}")
+    await aioproducer.send_and_wait(topic, data)
+    # response = ProducerResponse(topic=topic)
+    logger.info(f"producer: response")
+    return
 
-    logger.info(f"producer: send topic = {topic}, payload = {payload}")
 
-    await aioproducer.send_and_wait(topic, payload)
+# @producer.post("")
+# async def producer_send(msg: ProducerMessage):
+#     """
+#     Produce a message into <topicname>
+#     This will produce a message into a Apache Kafka topic
+#     And this path operation will:
+#     * return ProducerResponse
+#     """
+
+#     payload = msg.dict()
+#     topic = payload.get("topic")
+
+#     logger.info(
+#         f"producer: broker instance = {BROKER_INSTANCE}, project name = {PROJECT_NAME}"
+#     )
+#     await aioproducer.start()
+
+#     logger.info(f"producer: send topic = {topic}, payload = {payload}")
+
+#     await aioproducer.send_and_wait(topic, payload)
+
+#     # response = ProducerResponse(topic=topic)
+#     logger.info(f"producer: response")
+#     return
+
+
+@producer.post("/2")
+async def producer_2():
+    """ """
+    topic = "test1"
+    logger.info(
+        f"producer: broker instance = {BROKER_INSTANCE}, project name = {PROJECT_NAME}"
+    )
+
+    from app.models.user_pb2 import User
+
+    data = User(
+        name="Saiful Khan",
+        favorite_color="Blue",
+        favorite_number=1234567890,
+    )
+
+    def serializer(value):
+        return json.dumps(value).encode()
+
+    producer = AIOKafkaProducer(
+        bootstrap_servers=BROKER_INSTANCE,
+        # value_serializer=serializer,
+        compression_type="gzip",
+    )
+    await producer.start()
+
+    logger.info(f"producer: send topic = {topic}, data = {data.SerializeToString()}")
+
+    await producer.send_and_wait(topic, data.SerializeToString())
 
     # response = ProducerResponse(topic=topic)
     logger.info(f"producer: response")
