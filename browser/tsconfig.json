@@ -18,6 +18,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["src", "src/pages/.tsx"],
+  "include": ["src", "src/pages/.tsx", "src/types/**/*"],
   "exclude": ["node_modules"]
 }
