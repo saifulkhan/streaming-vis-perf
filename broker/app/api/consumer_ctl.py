@@ -13,10 +13,10 @@ from app.core.config import PROJECT_NAME
 
 # logger = logging.getLogger(__name__)
 
-consumer = APIRouter()
+consumer_ctl = APIRouter()
 
 
-@consumer.websocket_route("/{topicname}")
+@consumer_ctl.websocket_route("/{topicname}")
 class WebsocketConsumer(WebSocketEndpoint):
     """
     Consume messages from <topicname>
@@ -110,6 +110,7 @@ class WebsocketConsumer(WebSocketEndpoint):
                     print(
                         f"consumer:send_consumer_message: topic = {msg.topic}, {msg.partition}, {msg.offset}, {msg.key}, {msg.timestamp}"
                     )
+                    print(f"consumer:send_consumer_message: value = {msg.value}")
                     print(f"consumer:send_consumer_message: type = {type(msg.value)}")
 
                     await websocket.send_bytes(msg.value)

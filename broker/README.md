@@ -45,7 +45,8 @@ proto file
 protoc -I=./app/models --python_out=./app/models ./app/models/user.proto
 ```
 
-Protobuf serializer and deserializer
+Protobuf Kafka serializer and deserializer with schema registry
+[Ref.](https://github.com/confluentinc/confluent-kafka-python/tree/master/examples)
 
 ```bash
 python ./tests/protobuf_producer.py -b "localhost:9092" -s "http://0.0.0.0:8081"

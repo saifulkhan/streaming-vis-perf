@@ -9,10 +9,10 @@ from aiokafka import AIOKafkaProducer
 from app.core.config import PROJECT_NAME, BROKER_INSTANCE, LOGGING_LEVEL
 from app.models.model import ProducerMessage, ProducerResponse
 
-producer = APIRouter()
+producer_ctl = APIRouter()
 
 
-@producer.post("/1")
+@producer_ctl.post("/1")
 async def producer_1():
     """
     Produce a message into <topicname>
@@ -65,7 +65,7 @@ async def producer_1():
     return
 
 
-@producer.post("/2")
+@producer_ctl.post("/2")
 async def producer_2():
     """ """
     topic = "topic2"
@@ -101,7 +101,7 @@ async def producer_2():
     return
 
 
-@producer.post("/3")
+@producer_ctl.post("/3")
 async def producer_3():
     """ """
     topic = "topic3"
