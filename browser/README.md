@@ -66,3 +66,14 @@ See [Next.js docs → Environment Variables](https://nextjs.org/docs/basic-featu
 
 - Bootstrapped with [Next.js](https://github.com/vercel/next.js)
 - Using [React MUI dashboard style](https://mui.com)
+
+Protobuf install, [doc](https://www.npmjs.com/package/protobufjs)
+
+```bash
+npm install protobufjs -g
+```
+
+```
+pbjs -t static-module -w commonjs -o spectrum.js spectrum.proto
+pbts -o spectrum.d.ts spectrum.js
+```

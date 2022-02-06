@@ -108,8 +108,10 @@ class WebsocketConsumer(WebSocketEndpoint):
             try:
                 async for msg in self.consumer:
                     print(
-                        f"consumer:send_consumer_message: topic = {msg.topic}, {msg.partition}, {msg.offset}, {msg.key}, {msg.value}, {msg.timestamp}"
+                        f"consumer:send_consumer_message: topic = {msg.topic}, {msg.partition}, {msg.offset}, {msg.key}, {msg.timestamp}"
                     )
+                    print(f"consumer:send_consumer_message: type = {type(msg.value)}")
+
                     await websocket.send_bytes(msg.value)
 
             finally:

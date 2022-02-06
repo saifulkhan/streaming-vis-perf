@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-message Spectrogram {
+message Spectrum {
     string timestamp = 1;
     int64 xMin = 2;
     int64 xMax = 3;

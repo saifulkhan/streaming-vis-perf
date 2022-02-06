@@ -37,15 +37,17 @@ uvicorn app.main:app --reload-include app --port 8002 --host 0.0.0.0
 
 ## Send Messages
 
-```bash
-python ./tests/protobuf_producer.py -b "localhost:9092" -s "http://0.0.0.0:8081"
-
-python ./tests/protobuf_consumer.py  -b "localhost:9092" -s "http://0.0.0.0:8081"
-
-```
+Protocol buffer compiler installation [doc](https://grpc.io/docs/protoc-installation).
 
 proto file
 
 ```
 protoc -I=./app/models --python_out=./app/models ./app/models/user.proto
+```
+
+Protobuf serializer and deserializer
+
+```bash
+python ./tests/protobuf_producer.py -b "localhost:9092" -s "http://0.0.0.0:8081"
+python ./tests/protobuf_consumer.py  -b "localhost:9092" -s "http://0.0.0.0:8081"
 ```
