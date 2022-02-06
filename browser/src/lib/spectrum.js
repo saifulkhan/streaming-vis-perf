@@ -16,9 +16,9 @@ $root.Spectrum = (function() {
      * @exports ISpectrum
      * @interface ISpectrum
      * @property {string|null} [timestamp] Spectrum timestamp
-     * @property {number|Long|null} [xMin] Spectrum xMin
-     * @property {number|Long|null} [xMax] Spectrum xMax
-     * @property {number|Long|null} [yMin] Spectrum yMin
+     * @property {number|null} [xMin] Spectrum xMin
+     * @property {number|null} [xMax] Spectrum xMax
+     * @property {number|null} [yMin] Spectrum yMin
      * @property {number|null} [yMax] Spectrum yMax
      * @property {Array.<number>|null} [data] Spectrum data
      */
@@ -49,27 +49,27 @@ $root.Spectrum = (function() {
 
     /**
      * Spectrum xMin.
-     * @member {number|Long} xMin
+     * @member {number} xMin
      * @memberof Spectrum
      * @instance
      */
-    Spectrum.prototype.xMin = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+    Spectrum.prototype.xMin = 0;
 
     /**
      * Spectrum xMax.
-     * @member {number|Long} xMax
+     * @member {number} xMax
      * @memberof Spectrum
      * @instance
      */
-    Spectrum.prototype.xMax = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+    Spectrum.prototype.xMax = 0;
 
     /**
      * Spectrum yMin.
-     * @member {number|Long} yMin
+     * @member {number} yMin
      * @memberof Spectrum
      * @instance
      */
-    Spectrum.prototype.yMin = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+    Spectrum.prototype.yMin = 0;
 
     /**
      * Spectrum yMax.
@@ -114,17 +114,17 @@ $root.Spectrum = (function() {
         if (message.timestamp != null && Object.hasOwnProperty.call(message, "timestamp"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.timestamp);
         if (message.xMin != null && Object.hasOwnProperty.call(message, "xMin"))
-            writer.uint32(/* id 2, wireType 0 =*/16).int64(message.xMin);
+            writer.uint32(/* id 2, wireType 0 =*/16).int32(message.xMin);
         if (message.xMax != null && Object.hasOwnProperty.call(message, "xMax"))
-            writer.uint32(/* id 3, wireType 0 =*/24).int64(message.xMax);
+            writer.uint32(/* id 3, wireType 0 =*/24).int32(message.xMax);
         if (message.yMin != null && Object.hasOwnProperty.call(message, "yMin"))
-            writer.uint32(/* id 4, wireType 0 =*/32).int64(message.yMin);
+            writer.uint32(/* id 4, wireType 0 =*/32).int32(message.yMin);
         if (message.yMax != null && Object.hasOwnProperty.call(message, "yMax"))
-            writer.uint32(/* id 5, wireType 1 =*/41).double(message.yMax);
+            writer.uint32(/* id 5, wireType 0 =*/40).int32(message.yMax);
         if (message.data != null && message.data.length) {
             writer.uint32(/* id 6, wireType 2 =*/50).fork();
             for (var i = 0; i < message.data.length; ++i)
-                writer.double(message.data[i]);
+                writer.float(message.data[i]);
             writer.ldelim();
         }
         return writer;
@@ -165,16 +165,16 @@ $root.Spectrum = (function() {
                 message.timestamp = reader.string();
                 break;
             case 2:
-                message.xMin = reader.int64();
+                message.xMin = reader.int32();
                 break;
             case 3:
-                message.xMax = reader.int64();
+                message.xMax = reader.int32();
                 break;
             case 4:
-                message.yMin = reader.int64();
+                message.yMin = reader.int32();
                 break;
             case 5:
-                message.yMax = reader.double();
+                message.yMax = reader.int32();
                 break;
             case 6:
                 if (!(message.data && message.data.length))
@@ -182,9 +182,9 @@ $root.Spectrum = (function() {
                 if ((tag & 7) === 2) {
                     var end2 = reader.uint32() + reader.pos;
                     while (reader.pos < end2)
-                        message.data.push(reader.double());
+                        message.data.push(reader.float());
                 } else
-                    message.data.push(reader.double());
+                    message.data.push(reader.float());
                 break;
             default:
                 reader.skipType(tag & 7);
@@ -225,17 +225,17 @@ $root.Spectrum = (function() {
             if (!$util.isString(message.timestamp))
                 return "timestamp: string expected";
         if (message.xMin != null && message.hasOwnProperty("xMin"))
-            if (!$util.isInteger(message.xMin) && !(message.xMin && $util.isInteger(message.xMin.low) && $util.isInteger(message.xMin.high)))
-                return "xMin: integer|Long expected";
+            if (!$util.isInteger(message.xMin))
+                return "xMin: integer expected";
         if (message.xMax != null && message.hasOwnProperty("xMax"))
-            if (!$util.isInteger(message.xMax) && !(message.xMax && $util.isInteger(message.xMax.low) && $util.isInteger(message.xMax.high)))
-                return "xMax: integer|Long expected";
+            if (!$util.isInteger(message.xMax))
+                return "xMax: integer expected";
         if (message.yMin != null && message.hasOwnProperty("yMin"))
-            if (!$util.isInteger(message.yMin) && !(message.yMin && $util.isInteger(message.yMin.low) && $util.isInteger(message.yMin.high)))
-                return "yMin: integer|Long expected";
+            if (!$util.isInteger(message.yMin))
+                return "yMin: integer expected";
         if (message.yMax != null && message.hasOwnProperty("yMax"))
-            if (typeof message.yMax !== "number")
-                return "yMax: number expected";
+            if (!$util.isInteger(message.yMax))
+                return "yMax: integer expected";
         if (message.data != null && message.hasOwnProperty("data")) {
             if (!Array.isArray(message.data))
                 return "data: array expected";
@@ -261,34 +261,13 @@ $root.Spectrum = (function() {
         if (object.timestamp != null)
             message.timestamp = String(object.timestamp);
         if (object.xMin != null)
-            if ($util.Long)
-                (message.xMin = $util.Long.fromValue(object.xMin)).unsigned = false;
-            else if (typeof object.xMin === "string")
-                message.xMin = parseInt(object.xMin, 10);
-            else if (typeof object.xMin === "number")
-                message.xMin = object.xMin;
-            else if (typeof object.xMin === "object")
-                message.xMin = new $util.LongBits(object.xMin.low >>> 0, object.xMin.high >>> 0).toNumber();
+            message.xMin = object.xMin | 0;
         if (object.xMax != null)
-            if ($util.Long)
-                (message.xMax = $util.Long.fromValue(object.xMax)).unsigned = false;
-            else if (typeof object.xMax === "string")
-                message.xMax = parseInt(object.xMax, 10);
-            else if (typeof object.xMax === "number")
-                message.xMax = object.xMax;
-            else if (typeof object.xMax === "object")
-                message.xMax = new $util.LongBits(object.xMax.low >>> 0, object.xMax.high >>> 0).toNumber();
+            message.xMax = object.xMax | 0;
         if (object.yMin != null)
-            if ($util.Long)
-                (message.yMin = $util.Long.fromValue(object.yMin)).unsigned = false;
-            else if (typeof object.yMin === "string")
-                message.yMin = parseInt(object.yMin, 10);
-            else if (typeof object.yMin === "number")
-                message.yMin = object.yMin;
-            else if (typeof object.yMin === "object")
-                message.yMin = new $util.LongBits(object.yMin.low >>> 0, object.yMin.high >>> 0).toNumber();
+            message.yMin = object.yMin | 0;
         if (object.yMax != null)
-            message.yMax = Number(object.yMax);
+            message.yMax = object.yMax | 0;
         if (object.data) {
             if (!Array.isArray(object.data))
                 throw TypeError(".Spectrum.data: array expected");
@@ -316,42 +295,21 @@ $root.Spectrum = (function() {
             object.data = [];
         if (options.defaults) {
             object.timestamp = "";
-            if ($util.Long) {
-                var long = new $util.Long(0, 0, false);
-                object.xMin = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-            } else
-                object.xMin = options.longs === String ? "0" : 0;
-            if ($util.Long) {
-                var long = new $util.Long(0, 0, false);
-                object.xMax = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-            } else
-                object.xMax = options.longs === String ? "0" : 0;
-            if ($util.Long) {
-                var long = new $util.Long(0, 0, false);
-                object.yMin = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-            } else
-                object.yMin = options.longs === String ? "0" : 0;
+            object.xMin = 0;
+            object.xMax = 0;
+            object.yMin = 0;
             object.yMax = 0;
         }
         if (message.timestamp != null && message.hasOwnProperty("timestamp"))
             object.timestamp = message.timestamp;
         if (message.xMin != null && message.hasOwnProperty("xMin"))
-            if (typeof message.xMin === "number")
-                object.xMin = options.longs === String ? String(message.xMin) : message.xMin;
-            else
-                object.xMin = options.longs === String ? $util.Long.prototype.toString.call(message.xMin) : options.longs === Number ? new $util.LongBits(message.xMin.low >>> 0, message.xMin.high >>> 0).toNumber() : message.xMin;
+            object.xMin = message.xMin;
         if (message.xMax != null && message.hasOwnProperty("xMax"))
-            if (typeof message.xMax === "number")
-                object.xMax = options.longs === String ? String(message.xMax) : message.xMax;
-            else
-                object.xMax = options.longs === String ? $util.Long.prototype.toString.call(message.xMax) : options.longs === Number ? new $util.LongBits(message.xMax.low >>> 0, message.xMax.high >>> 0).toNumber() : message.xMax;
+            object.xMax = message.xMax;
         if (message.yMin != null && message.hasOwnProperty("yMin"))
-            if (typeof message.yMin === "number")
-                object.yMin = options.longs === String ? String(message.yMin) : message.yMin;
-            else
-                object.yMin = options.longs === String ? $util.Long.prototype.toString.call(message.yMin) : options.longs === Number ? new $util.LongBits(message.yMin.low >>> 0, message.yMin.high >>> 0).toNumber() : message.yMin;
+            object.yMin = message.yMin;
         if (message.yMax != null && message.hasOwnProperty("yMax"))
-            object.yMax = options.json && !isFinite(message.yMax) ? String(message.yMax) : message.yMax;
+            object.yMax = message.yMax;
         if (message.data && message.data.length) {
             object.data = [];
             for (var j = 0; j < message.data.length; ++j)

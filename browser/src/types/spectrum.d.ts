@@ -6,13 +6,13 @@ export interface ISpectrum {
     timestamp?: (string|null);
 
     /** Spectrum xMin */
-    xMin?: (number|Long|null);
+    xMin?: (number|null);
 
     /** Spectrum xMax */
-    xMax?: (number|Long|null);
+    xMax?: (number|null);
 
     /** Spectrum yMin */
-    yMin?: (number|Long|null);
+    yMin?: (number|null);
 
     /** Spectrum yMax */
     yMax?: (number|null);
@@ -34,13 +34,13 @@ export class Spectrum implements ISpectrum {
     public timestamp: string;
 
     /** Spectrum xMin. */
-    public xMin: (number|Long);
+    public xMin: number;
 
     /** Spectrum xMax. */
-    public xMax: (number|Long);
+    public xMax: number;
 
     /** Spectrum yMin. */
-    public yMin: (number|Long);
+    public yMin: number;
 
     /** Spectrum yMax. */
     public yMax: number;

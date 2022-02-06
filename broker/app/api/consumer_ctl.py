@@ -1,3 +1,4 @@
+import sys
 import asyncio
 import json
 from loguru import logger
@@ -28,7 +29,7 @@ class WebsocketConsumer(WebSocketEndpoint):
     async def on_connect(self, websocket: WebSocket) -> None:
         topicname = websocket["path"].split("/")[2]
 
-        logger.info(f"consumer: topicname = {topicname}")
+        logger.info(f"consumer_ctl: topicname = {topicname}")
         await websocket.accept()
         await websocket.send_json({"status": "connected"})
 
@@ -45,7 +46,7 @@ class WebsocketConsumer(WebSocketEndpoint):
         await self.consumer.start()
 
         # try:
-        #     async for msg in self.consumer:
+        #     async for msg in self.consumer_ctl:
         #         print(
         #             "{}:{:d}:{:d}: key={} value={} timestamp_ms={}".format(
         #                 msg.topic,
@@ -61,38 +62,37 @@ class WebsocketConsumer(WebSocketEndpoint):
         #         await websocket.send_bytes(msg.value)
 
         # finally:
-        #     logger.info("consumer: connected")
+        #     logger.info("consumer_ctl: connected")
         #     await self.consumer.stop()
 
         self.consumer_task = asyncio.create_task(
             self.send_consumer_message(websocket=websocket, topicname=topicname)
         )
 
-        logger.info("consumer:on_connect: connected")
+        logger.info("consumer_ctl:on_connect: connected")
 
     async def on_disconnect(self, websocket: WebSocket, close_code: int) -> None:
-        # self.consumer_task.cancel()
         await self.consumer.stop()
         # logger.info("counter: %d", self.counter)
-        logger.info("consumer:on_disconnect: stopped")
+        logger.info("consumer_ctl:on_disconnect: stopped")
 
     async def on_receive(self, websocket: WebSocket, data: typing.Any) -> None:
-        logger.info(f"consumer:on_receive: data = {data}")
+        logger.info(f"consumer_ctl:on_receive: data")
         await websocket.send_json({"Message": data})
 
     async def send_consumer_message(self, websocket: WebSocket, topicname: str) -> None:
-        logger.info(f"consumer:send_consumer_message:")
+        logger.info(f"consumer_ctl:send_consumer_message:")
 
-        async def consume(consumer, topicname):
-            async for msg in consumer:
-                return msg.value.decode()
+        # async def consume(consumer, topicname):
+        #     async for msg in consumer:
+        #         return msg.value.decode()
 
         while True:
 
             # text / json
             # data = await consume(self.consumer, topicname)
-            # # logger.info(f"consumer: data = {data}, {json.loads(data)}")
-            # logger.info(f"consumer:send_consumer_message: data = {True}")
+            # # logger.info(f"consumer_ctl: data = {data}, {json.loads(data)}")
+            # logger.info(f"consumer_ctl:send_consumer_message: data = {True}")
             # # TODO
             # # response = ConsumerResponse(topic=topicname, **json.loads(data))
             # # response = SpectrumDataResponse(topic=topicname, **json.loads(data))
@@ -107,14 +107,19 @@ class WebsocketConsumer(WebSocketEndpoint):
 
             try:
                 async for msg in self.consumer:
-                    print(
-                        f"consumer:send_consumer_message: topic = {msg.topic}, {msg.partition}, {msg.offset}, {msg.key}, {msg.timestamp}"
+                    logger.info(
+                        f"consumer_ctl:send_consumer_message: topic = {msg.topic}, {msg.partition}, {msg.offset}, {msg.key}, {msg.timestamp}"
                     )
-                    print(f"consumer:send_consumer_message: value = {msg.value}")
-                    print(f"consumer:send_consumer_message: type = {type(msg.value)}")
+                    logger.info(
+                        f"consumer_ctl:send_consumer_message: type = {type(msg.value)}, size = {sys.getsizeof(msg.value)}"
+                    )
+                    # logger.debug(f"consumer_ctl:send_consumer_message: value = {msg.value}")
 
-                    await websocket.send_bytes(msg.value)
+                    if msg.topic == "topic1":
+                        await websocket.send_json(json.loads(msg.value))
+                    else:
+                        await websocket.send_bytes(msg.value)
 
             finally:
-                logger.info("consumer: connected")
+                logger.info("consumer_ctl: connected")
                 await self.consumer.stop()

@@ -14,7 +14,7 @@ app.add_middleware(GZipMiddleware, minimum_size=1000)
 app.add_middleware(CORSMiddleware, allow_origins=["*"])
 app.include_router(router, prefix=DEFAULT_ROUTE_STR)
 
-logger.info("PROJECT_NAME: %s; BROKER_INSTANCE: %s", PROJECT_NAME, BROKER_INSTANCE)
+logger.info(f"PROJECT_NAME = {PROJECT_NAME}, BROKER_INSTANCE = {BROKER_INSTANCE}")
 
 
 @app.on_event("startup")

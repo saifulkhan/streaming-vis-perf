@@ -33,6 +33,7 @@ Start the server
 export BROKER_INSTANCE=localhost:9092
 
 uvicorn app.main:app --reload-include app --port 8002 --host 0.0.0.0
+uvicorn app.main:app --reload --port 8002 --host 0.0.0.0
 ```
 
 ## Send Messages

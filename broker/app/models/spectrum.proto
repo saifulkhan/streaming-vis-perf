@@ -2,9 +2,9 @@ syntax = "proto3";
 
 message Spectrum {
     string timestamp = 1;
-    int64 xMin = 2;
-    int64 xMax = 3;
-    int64 yMin =  4;
-    double yMax = 5;
-    repeated double data = 6 [packed=true];
+    int32 xMin = 2;
+    int32 xMax = 3;
+    int32 yMin =  4;
+    int32 yMax = 5;
+    repeated float data = 6 [packed=true];
 }
