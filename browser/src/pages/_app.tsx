@@ -58,7 +58,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
-        <title>RAMPVIS</title>
+        <title>Performance</title>
       </Head>
       <StrictMode>
         <HelmetProvider>
