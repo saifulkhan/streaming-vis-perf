@@ -11,3 +11,5 @@ pyarrow
 protobuf
 confluent-kafka
 six
+matplotlib
+seaborn

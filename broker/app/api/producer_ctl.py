@@ -27,20 +27,25 @@ async def producer_1():
     )
     topic = "topic1"
 
-    curve = []
+    d = []
+    sd_u = []
+    sd_l = []
     xMax = 600000
     yMax = 20
     for i in range(xMax):
-        # curve.append([i, random.randrange(5, yMax - 1, 5), 0.4, 0.8])
-        curve.extend([random.randrange(5, yMax - 1, 5), 0.4, 0.8])
+        d.append(random.randrange(5, yMax - 1, 5))
+        sd_u.append(0.4)
+        sd_l.append(0.4)
 
     data = {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "xMin": 0,
-        "xMax": xMax,
-        "yMin": 1,
-        "yMax": yMax,
-        "data": curve,
+        "x_min": 0,
+        "x_max": xMax,
+        "y_min": 1,
+        "y_max": yMax,
+        "data": d,
+        "sd_u": sd_u,
+        "sd_l": sd_l,
     }
 
     def serializer(value):

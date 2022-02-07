@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+message Spectrogram {
+    string timestamp = 1;
+    string baseline = 2;
+    string polarization = 3;
+    repeated float data = 6 [packed=true];
+}

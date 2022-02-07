@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0espectrum.proto\"g\n\x08Spectrum\x12\x11\n\ttimestamp\x18\x01 \x01(\t\x12\x0c\n\x04xMin\x18\x02 \x01(\x05\x12\x0c\n\x04xMax\x18\x03 \x01(\x05\x12\x0c\n\x04yMin\x18\x04 \x01(\x05\x12\x0c\n\x04yMax\x18\x05 \x01(\x05\x12\x10\n\x04\x64\x61ta\x18\x06 \x03(\x02\x42\x02\x10\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0espectrum.proto\"\x8f\x01\n\x08Spectrum\x12\x11\n\ttimestamp\x18\x01 \x01(\t\x12\r\n\x05x_min\x18\x02 \x01(\x05\x12\r\n\x05x_max\x18\x03 \x01(\x05\x12\r\n\x05y_min\x18\x04 \x01(\x05\x12\r\n\x05y_max\x18\x05 \x01(\x05\x12\x10\n\x04\x64\x61ta\x18\x06 \x03(\x02\x42\x02\x10\x01\x12\x10\n\x04sd_l\x18\x07 \x03(\x02\x42\x02\x10\x01\x12\x10\n\x04sd_u\x18\x08 \x03(\x02\x42\x02\x10\x01\x62\x06proto3')
 
 
 
@@ -31,6 +31,10 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
   _SPECTRUM.fields_by_name['data']._options = None
   _SPECTRUM.fields_by_name['data']._serialized_options = b'\020\001'
-  _SPECTRUM._serialized_start=18
-  _SPECTRUM._serialized_end=121
+  _SPECTRUM.fields_by_name['sd_l']._options = None
+  _SPECTRUM.fields_by_name['sd_l']._serialized_options = b'\020\001'
+  _SPECTRUM.fields_by_name['sd_u']._options = None
+  _SPECTRUM.fields_by_name['sd_u']._serialized_options = b'\020\001'
+  _SPECTRUM._serialized_start=19
+  _SPECTRUM._serialized_end=162
 # @@protoc_insertion_point(module_scope)
