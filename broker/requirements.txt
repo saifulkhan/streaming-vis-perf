@@ -13,3 +13,4 @@ confluent-kafka
 six
 matplotlib
 seaborn
+jupyter

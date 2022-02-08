@@ -4,18 +4,11 @@ import { useRouter } from "next/router";
 import { Box, Divider, Drawer, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import TimelineIcon from "@mui/icons-material/Timeline";
-import BookmarksIcon from "@mui/icons-material/Bookmarks";
-import PlaceIcon from "@mui/icons-material/Place";
-import AssessmentIcon from "@mui/icons-material/Assessment";
-import DonutSmallIcon from "@mui/icons-material/DonutSmall";
-import SearchIcon from "@mui/icons-material/Search";
-import AllInboxIcon from "@mui/icons-material/AllInbox";
-import Filter1Icon from "@mui/icons-material/Filter1";
-import Filter2Icon from "@mui/icons-material/Filter2";
-import Filter3Icon from "@mui/icons-material/Filter3";
-import PublicIcon from "@mui/icons-material/Public";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
+import LooksOneIcon from "@mui/icons-material/LooksOne";
+import LooksTwoIcon from "@mui/icons-material/LooksTwo";
+import AirIcon from "@mui/icons-material/Air";
+import WaterfallChartIcon from "@mui/icons-material/WaterfallChart";
 import Logo from "src/components/Logo";
 import NavSection from "src/components/dashboard-layout/NavSection";
 import Scrollbar from "src/components/Scrollbar";
@@ -27,44 +20,68 @@ interface DashboardSidebarProps {
 
 const sections = [
   {
-    title: "Wind Map",
-    path: "/wind-map",
+    title: "",
     items: [
       {
-        title: "SVG",
-        path: "/wind-map/?type=svg",
-        icon: <Filter1Icon fontSize="small" />,
-      },
-      {
-        title: "Canvas",
-        path: "/2",
-        icon: <Filter2Icon fontSize="small" />,
-      },
-      {
-        title: "WebGL",
-        path: "/3",
-        icon: <Filter3Icon fontSize="small" />,
+        title: "Spectrum Plot",
+        path: "",
+        icon: <ShowChartIcon fontSize="large" />,
+        children: [
+          {
+            title: "ProtoBus",
+            path: "/spectrum/pb",
+            icon: <LooksOneIcon fontSize="small" />,
+          },
+          {
+            title: "UTF-8",
+            path: "/spectrum/utf",
+            icon: <LooksTwoIcon fontSize="small" />,
+          },
+        ],
       },
     ],
   },
   {
-    title: "Spectrogram",
-    path: "/spectrogram",
+    title: "",
     items: [
       {
-        title: "SVG",
-        path: "/1",
-        icon: <Filter1Icon fontSize="small" />,
+        title: "Spectrogram",
+        path: "",
+        icon: <WaterfallChartIcon fontSize="large" />,
+        children: [
+          {
+            title: "ProtoBus",
+            path: "/spectrogram/pb",
+            icon: <LooksOneIcon fontSize="small" />,
+          },
+          {
+            title: "UTF-8",
+            path: "/spectrogram/utf",
+            icon: <LooksTwoIcon fontSize="small" />,
+          },
+        ],
       },
+    ],
+  },
+  {
+    title: "",
+    items: [
       {
-        title: "Canvas",
-        path: "/2",
-        icon: <Filter2Icon fontSize="small" />,
-      },
-      {
-        title: "WebGL",
-        path: "/3",
-        icon: <Filter3Icon fontSize="small" />,
+        title: "Windmap",
+        path: "",
+        icon: <AirIcon fontSize="large" />,
+        children: [
+          {
+            title: "ProtoBus",
+            path: "/windmap/pb",
+            icon: <LooksOneIcon fontSize="small" />,
+          },
+          {
+            title: "UTF-8",
+            path: "/windmap/utf",
+            icon: <LooksTwoIcon fontSize="small" />,
+          },
+        ],
       },
     ],
   },
@@ -113,10 +130,10 @@ const DashboardSidebar: FC<DashboardSidebarProps> = ({
 
             <Box sx={{ ml: 2 }}>
               <Typography color="primary" variant="h5">
-                Performance
+                streaming vis
               </Typography>
-              <Typography color="primary" alignItems="center" variant="body2">
-                Streaming VIS (v.0.1)
+              <Typography color="primary" alignItems="center" variant="caption">
+                performance of streaming data vis
               </Typography>
             </Box>
           </Box>

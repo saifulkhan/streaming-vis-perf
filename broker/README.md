@@ -38,13 +38,25 @@ uvicorn app.main:app --reload --port 8002 --host 0.0.0.0
 
 ## Send Messages
 
+### ProtoBuf message
+
 Protocol buffer compiler installation [doc](https://grpc.io/docs/protoc-installation).
 
 proto file
 
-```
+```bash
+# general syntax
 protoc -I=./app/models --python_out=./app/models ./app/models/user.proto
+
+cd messages
+
+# spectrum
+rm spectrum_pb2.py ../broker/app/models/spectrum_pb2.py
+protoc -I=. --python_out=. ./spectrum.proto
+mv spectrum_pb2.py ../broker/app/models/spectrum_pb2.py
 ```
+
+###
 
 Protobuf Kafka serializer and deserializer with schema registry
 [Ref.](https://github.com/confluentinc/confluent-kafka-python/tree/master/examples)

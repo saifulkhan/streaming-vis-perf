@@ -15,7 +15,9 @@ const Home = () => {
       <Container>
         <Card sx={{ minWidth: 275 }}>
           <CardContent>
-            <Typography variant="h4">Welcome to Name</Typography>
+            <Typography variant="h5">
+              Performance benchmark of streaming data visualization!
+            </Typography>
             <br />
           </CardContent>
         </Card>

@@ -115,11 +115,12 @@ class WebsocketConsumer(WebSocketEndpoint):
                     )
                     # logger.debug(f"consumer_ctl:send_consumer_message: value = {msg.value}")
 
-                    if msg.topic == "topic1":
+                    if "pb" in msg.topic:
+                        await websocket.send_bytes(msg.value)
+                    elif "utf" in msg.topic:
                         await websocket.send_json(json.loads(msg.value))
                     else:
-                        await websocket.send_bytes(msg.value)
-
+                        logger.error()
             finally:
                 logger.info("consumer_ctl: connected")
                 await self.consumer.stop()

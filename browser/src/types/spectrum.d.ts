@@ -19,6 +19,12 @@ export interface ISpectrum {
 
     /** Spectrum data */
     data?: (number[]|null);
+
+    /** Spectrum sdL */
+    sdL?: (number[]|null);
+
+    /** Spectrum sdU */
+    sdU?: (number[]|null);
 }
 
 /** Represents a Spectrum. */
@@ -47,6 +53,12 @@ export class Spectrum implements ISpectrum {
 
     /** Spectrum data. */
     public data: number[];
+
+    /** Spectrum sdL. */
+    public sdL: number[];
+
+    /** Spectrum sdU. */
+    public sdU: number[];
 
     /**
      * Creates a new Spectrum instance using the specified properties.

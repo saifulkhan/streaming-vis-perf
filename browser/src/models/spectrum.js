@@ -21,6 +21,8 @@ $root.Spectrum = (function() {
      * @property {number|null} [yMin] Spectrum yMin
      * @property {number|null} [yMax] Spectrum yMax
      * @property {Array.<number>|null} [data] Spectrum data
+     * @property {Array.<number>|null} [sdL] Spectrum sdL
+     * @property {Array.<number>|null} [sdU] Spectrum sdU
      */
 
     /**
@@ -33,6 +35,8 @@ $root.Spectrum = (function() {
      */
     function Spectrum(properties) {
         this.data = [];
+        this.sdL = [];
+        this.sdU = [];
         if (properties)
             for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                 if (properties[keys[i]] != null)
@@ -88,6 +92,22 @@ $root.Spectrum = (function() {
     Spectrum.prototype.data = $util.emptyArray;
 
     /**
+     * Spectrum sdL.
+     * @member {Array.<number>} sdL
+     * @memberof Spectrum
+     * @instance
+     */
+    Spectrum.prototype.sdL = $util.emptyArray;
+
+    /**
+     * Spectrum sdU.
+     * @member {Array.<number>} sdU
+     * @memberof Spectrum
+     * @instance
+     */
+    Spectrum.prototype.sdU = $util.emptyArray;
+
+    /**
      * Creates a new Spectrum instance using the specified properties.
      * @function create
      * @memberof Spectrum
@@ -125,6 +145,18 @@ $root.Spectrum = (function() {
             writer.uint32(/* id 6, wireType 2 =*/50).fork();
             for (var i = 0; i < message.data.length; ++i)
                 writer.float(message.data[i]);
+            writer.ldelim();
+        }
+        if (message.sdL != null && message.sdL.length) {
+            writer.uint32(/* id 7, wireType 2 =*/58).fork();
+            for (var i = 0; i < message.sdL.length; ++i)
+                writer.float(message.sdL[i]);
+            writer.ldelim();
+        }
+        if (message.sdU != null && message.sdU.length) {
+            writer.uint32(/* id 8, wireType 2 =*/66).fork();
+            for (var i = 0; i < message.sdU.length; ++i)
+                writer.float(message.sdU[i]);
             writer.ldelim();
         }
         return writer;
@@ -186,6 +218,26 @@ $root.Spectrum = (function() {
                 } else
                     message.data.push(reader.float());
                 break;
+            case 7:
+                if (!(message.sdL && message.sdL.length))
+                    message.sdL = [];
+                if ((tag & 7) === 2) {
+                    var end2 = reader.uint32() + reader.pos;
+                    while (reader.pos < end2)
+                        message.sdL.push(reader.float());
+                } else
+                    message.sdL.push(reader.float());
+                break;
+            case 8:
+                if (!(message.sdU && message.sdU.length))
+                    message.sdU = [];
+                if ((tag & 7) === 2) {
+                    var end2 = reader.uint32() + reader.pos;
+                    while (reader.pos < end2)
+                        message.sdU.push(reader.float());
+                } else
+                    message.sdU.push(reader.float());
+                break;
             default:
                 reader.skipType(tag & 7);
                 break;
@@ -243,6 +295,20 @@ $root.Spectrum = (function() {
                 if (typeof message.data[i] !== "number")
                     return "data: number[] expected";
         }
+        if (message.sdL != null && message.hasOwnProperty("sdL")) {
+            if (!Array.isArray(message.sdL))
+                return "sdL: array expected";
+            for (var i = 0; i < message.sdL.length; ++i)
+                if (typeof message.sdL[i] !== "number")
+                    return "sdL: number[] expected";
+        }
+        if (message.sdU != null && message.hasOwnProperty("sdU")) {
+            if (!Array.isArray(message.sdU))
+                return "sdU: array expected";
+            for (var i = 0; i < message.sdU.length; ++i)
+                if (typeof message.sdU[i] !== "number")
+                    return "sdU: number[] expected";
+        }
         return null;
     };
 
@@ -275,6 +341,20 @@ $root.Spectrum = (function() {
             for (var i = 0; i < object.data.length; ++i)
                 message.data[i] = Number(object.data[i]);
         }
+        if (object.sdL) {
+            if (!Array.isArray(object.sdL))
+                throw TypeError(".Spectrum.sdL: array expected");
+            message.sdL = [];
+            for (var i = 0; i < object.sdL.length; ++i)
+                message.sdL[i] = Number(object.sdL[i]);
+        }
+        if (object.sdU) {
+            if (!Array.isArray(object.sdU))
+                throw TypeError(".Spectrum.sdU: array expected");
+            message.sdU = [];
+            for (var i = 0; i < object.sdU.length; ++i)
+                message.sdU[i] = Number(object.sdU[i]);
+        }
         return message;
     };
 
@@ -291,8 +371,11 @@ $root.Spectrum = (function() {
         if (!options)
             options = {};
         var object = {};
-        if (options.arrays || options.defaults)
+        if (options.arrays || options.defaults) {
             object.data = [];
+            object.sdL = [];
+            object.sdU = [];
+        }
         if (options.defaults) {
             object.timestamp = "";
             object.xMin = 0;
@@ -314,6 +397,16 @@ $root.Spectrum = (function() {
             object.data = [];
             for (var j = 0; j < message.data.length; ++j)
                 object.data[j] = options.json && !isFinite(message.data[j]) ? String(message.data[j]) : message.data[j];
+        }
+        if (message.sdL && message.sdL.length) {
+            object.sdL = [];
+            for (var j = 0; j < message.sdL.length; ++j)
+                object.sdL[j] = options.json && !isFinite(message.sdL[j]) ? String(message.sdL[j]) : message.sdL[j];
+        }
+        if (message.sdU && message.sdU.length) {
+            object.sdU = [];
+            for (var j = 0; j < message.sdU.length; ++j)
+                object.sdU[j] = options.json && !isFinite(message.sdU[j]) ? String(message.sdU[j]) : message.sdU[j];
         }
         return object;
     };
