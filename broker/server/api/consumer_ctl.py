@@ -8,9 +8,9 @@ from fastapi import APIRouter, WebSocket
 from starlette.endpoints import WebSocketEndpoint
 from aiokafka import AIOKafkaConsumer
 
-from app.models.model import ConsumerResponse
-from app.core.config import BROKER_INSTANCE
-from app.core.config import PROJECT_NAME
+from server.models.model import ConsumerResponse
+from server.core.config import BROKER_INSTANCE
+from server.core.config import PROJECT_NAME
 
 # logger = logging.getLogger(__name__)
 

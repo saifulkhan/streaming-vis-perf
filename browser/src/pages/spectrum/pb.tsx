@@ -3,7 +3,9 @@ import { Box } from "@mui/system";
 import Head from "next/head";
 import React, { ReactElement, useEffect } from "react";
 import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
+import SpectrumPlot from "src/lib/SpectrumPlot";
 import { processSpectrumProto } from "src/utils/process";
+import { mockData } from "./mock-data";
 
 const wsUrl = "ws://localhost:8002/consumer/spectrum-pb";
 
@@ -41,6 +43,10 @@ const SpectrumPb = () => {
       }
     };
 
+    // plot
+
+    new SpectrumPlot("#chart", 0, 100, 0, 5);
+
     return () => {
       ws.close();
     };
@@ -60,10 +66,9 @@ const SpectrumPb = () => {
           }}
         >
           <Container>
-            <Card sx={{ minWidth: 275 }}>
+            <Card sx={{ minWidth: 1800 }}>
               <CardContent>
-                {/* <Typography variant="h4"></Typography> */}
-                {/* <br /> */}
+                <div id="chart" />
               </CardContent>
             </Card>
           </Container>

@@ -17,7 +17,7 @@ export async function processSpectrumProto(data) {
   const bytes = new Uint8Array(buffer);
   const decoded = Spectrum.decode(bytes);
 
-  // console.log("processSpectrumProto: spectrum = ", decoded);
+  console.log("processSpectrumProto: spectrum = ", decoded);
   performance.mark("deserialise-end");
   performance.measure("deserialise", "deserialise-start", "deserialise-end");
   var measures = performance.getEntriesByName("deserialise");

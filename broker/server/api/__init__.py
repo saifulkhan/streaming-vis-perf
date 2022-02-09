@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from app.api.consumer_ctl import consumer_ctl
-from app.api.producer_ctl import producer_ctl
+from server.api.consumer_ctl import consumer_ctl
+from server.api.producer_ctl import producer_ctl
 
 
 router = APIRouter()

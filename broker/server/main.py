@@ -4,9 +4,9 @@ from starlette.middleware.gzip import GZipMiddleware
 from starlette.middleware.cors import CORSMiddleware
 from loguru import logger
 
-from app.core.settings import DEFAULT_ROUTE_STR
-from app.api import router
-from app.core.config import PROJECT_NAME, BROKER_INSTANCE, LOGGING_LEVEL
+from server.core.settings import DEFAULT_ROUTE_STR
+from server.api import router
+from server.core.config import PROJECT_NAME, BROKER_INSTANCE, LOGGING_LEVEL
 
 
 app = FastAPI(title=PROJECT_NAME, version="2")

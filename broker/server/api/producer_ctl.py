@@ -7,8 +7,8 @@ from datetime import datetime
 from fastapi import APIRouter, WebSocket
 from aiokafka import AIOKafkaProducer
 
-from app.core.config import PROJECT_NAME, BROKER_INSTANCE, LOGGING_LEVEL
-from app.models.model import ProducerMessage, ProducerResponse
+from server.core.config import PROJECT_NAME, BROKER_INSTANCE, LOGGING_LEVEL
+from server.models.model import ProducerMessage, ProducerResponse
 
 producer_ctl = APIRouter()
 
@@ -76,7 +76,7 @@ async def producer_2():
         f"producer_ctl: broker instance = {BROKER_INSTANCE}, project name = {PROJECT_NAME}"
     )
 
-    from app.models.user_pb2 import User
+    from server.models.user_pb2 import User
 
     data = User(
         name="Saiful Khan",
@@ -120,7 +120,7 @@ async def producer_3():
     for i in range(xMax):
         curve.extend([random.randrange(5, yMax - 1, 5), 0.4, 0.8])
 
-    from app.models.spectrum_pb2 import Spectrum
+    from server.models.spectrum_pb2 import Spectrum
 
     data = Spectrum(
         timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -162,7 +162,7 @@ async def producer_4():
     for i in range(xMax):
         curve.extend([random.randrange(5, yMax - 1, 5), 0.4, 0.8])
 
-    from app.models.spectrum_pb2 import Spectrum
+    from server.models.spectrum_pb2 import Spectrum
 
     data = Spectrum(
         timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),

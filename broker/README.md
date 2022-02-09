@@ -32,17 +32,19 @@ Start the server
 ## set the configuration variables, e.g, the broker address
 export BROKER_INSTANCE=localhost:9092
 
-uvicorn app.main:app --reload-include app --port 8002 --host 0.0.0.0
-uvicorn app.main:app --reload --port 8002 --host 0.0.0.0
+uvicorn server.main:app --reload-include app --port 8002 --host 0.0.0.0
+uvicorn server.main:app --reload --port 8002 --host 0.0.0.0
 ```
 
-## Send Messages
+## Notebooks for Generating and Plotting Benchmarks
 
-### ProtoBuf message
+```bash
+
+```
+
+## ProtoBuf Commands
 
 Protocol buffer compiler installation [doc](https://grpc.io/docs/protoc-installation).
-
-proto file
 
 ```bash
 # general syntax
@@ -56,7 +58,7 @@ protoc -I=. --python_out=. ./spectrum.proto
 mv spectrum_pb2.py ../broker/app/models/spectrum_pb2.py
 ```
 
-###
+## Experimental Code for ProtoBuf Serialisation and Deserialisation in Kafaka
 
 Protobuf Kafka serializer and deserializer with schema registry
 [Ref.](https://github.com/confluentinc/confluent-kafka-python/tree/master/examples)
