@@ -45,7 +45,8 @@ const SpectrumPb = () => {
 
     // plot
 
-    new SpectrumPlot("#chart", 0, 100, 0, 5);
+    const spectrumPlot = new SpectrumPlot("#chart", 0, 100, 0, 20);
+    spectrumPlot.draw(mockData);
 
     return () => {
       ws.close();

@@ -1,9 +1,12 @@
 export const mockData = {
     "timestamp": "2022-02-09 15:36:49",
-    "xMax": 10000,
+    "channels": [...Array(10000).keys()],
+    "xMin": 0,
+    "xMax": 9999,
     "yMin": 1,
     "yMax": 20,
-    "data": [
+
+    "amplitude": [
         4,
         18,
         17,

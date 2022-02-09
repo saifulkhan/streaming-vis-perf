@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+// import { Spectrum } from "src/models/spectrum";
 // import { useRef, useEffect } from "react";
 // import PropTypes from "prop-types";
 
@@ -12,8 +13,8 @@ const yLabel = "";
 
 export class SpectrumPlot {
   svg: any;
-  x: any;
-  y: any;
+  xScale: any;
+  yScale: any;
 
   constructor(selector, xMin, xMax, yMin, yMax) {
     // append the svg object to the selector
@@ -26,17 +27,17 @@ export class SpectrumPlot {
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
     // create x-scale
-    this.x = d3.scaleLinear().domain([xMin, xMax]).range([0, width]);
+    this.xScale = d3.scaleLinear().domain([xMin, xMax]).range([0, width]);
     // add x-axis
     this.svg
       .append("g")
       .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(this.x));
+      .call(d3.axisBottom(this.xScale));
 
     // create y-scale
-    this.y = d3.scaleLinear().domain([yMin, yMax]).range([height, 0]);
+    this.yScale = d3.scaleLinear().domain([yMin, yMax]).range([height, 0]);
     // add y axis
-    this.svg.append("g").call(d3.axisLeft(this.y));
+    this.svg.append("g").call(d3.axisLeft(this.yScale));
 
     // label for the x-axis
     this.svg
@@ -60,7 +61,7 @@ export class SpectrumPlot {
       .text(yLabel);
   }
 
-  public draw(width: number, height: number, data: any) {
+  public draw(data: any) {
     // console.log("SpectrumPlot:draw: data = ", data);
     // console.log("SpectrumPlot:draw: width, height =", width, height);
     // if (
@@ -75,18 +76,18 @@ export class SpectrumPlot {
     // Clear
     // d3.select(ref.current).select("svg").remove();
 
-    const {
-      xMin,
-      xMax,
-      yMin,
-      yMax,
-      xLabel,
-      yLabel,
-      frequencies,
-      rfis,
-      flags,
-      spectrum_values,
-    } = data;
+    // const {
+    //   xMin,
+    //   xMax,
+    //   yMin,
+    //   yMax,
+    //   xLabel,
+    //   yLabel,
+    //   frequencies,
+    //   rfis,
+    //   flags,
+    //   spectrum_values,
+    // } = data;
 
     // set the dimensions and margins of the graph
     // const margin = { top: 10, right: 10, bottom: 40, left: 50 };
@@ -113,10 +114,10 @@ export class SpectrumPlot {
     // const y = d3.scaleLinear().domain([yMin, yMax]).range([height, 0]);
     // svg.append("g").call(d3.axisLeft(y));
 
-    // Show confidence interval or std
+    // show confidence interval or std
     this.svg
       .append("path")
-      .datum(spectrum_values)
+      .datum(data.channels)
       .attr("fill", "#1f77b4")
       .attr("stroke", "none")
       .attr("opacity", 0.3)
@@ -125,15 +126,15 @@ export class SpectrumPlot {
         d3
           .area()
           .curve(d3.curveMonotoneX)
-          .x((value, i) => this.x(frequencies[i]))
-          .y0((value) => this.y(value[0] + value[1]))
-          .y1((value) => this.y(value[0] - value[2])),
+          .x((d, i) => this.xScale(data.channels[i]))
+          .y0((d, i) => this.yScale(data.amplitude[i] + data.sdU[i]))
+          .y1((d, i) => this.yScale(data.amplitude[i] - data.sdL[i])),
       );
 
-    // Add the line
+    // add the line
     this.svg
       .append("path")
-      .datum(spectrum_values)
+      .datum(data.channels)
       .attr("fill", "none")
       .attr("stroke", "#3366CC")
       .attr("stroke-width", 1.5)
@@ -143,8 +144,11 @@ export class SpectrumPlot {
         d3
           .line()
           .curve(d3.curveMonotoneX)
-          .x((value, i) => x(frequencies[i]))
-          .y((value) => y(value[0])),
+          .x((d, i) => {
+            // console.log(data.channels[i]);
+            return this.xScale(data.channels[i]);
+          })
+          .y((d, i) => this.yScale(data.amplitude[i])),
       );
 
     this.svg
