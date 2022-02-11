@@ -62,7 +62,7 @@ export class SpectrumPlot {
   }
 
   public draw(data: any) {
-    // console.log("SpectrumPlot:draw: data = ", data);
+    console.log("SpectrumPlot:draw: data = ", data);
     // console.log("SpectrumPlot:draw: width, height =", width, height);
     // if (
     //   !data ||
@@ -127,8 +127,8 @@ export class SpectrumPlot {
           .area()
           .curve(d3.curveMonotoneX)
           .x((d, i) => this.xScale(data.channels[i]))
-          .y0((d, i) => this.yScale(data.amplitude[i] + data.sdU[i]))
-          .y1((d, i) => this.yScale(data.amplitude[i] - data.sdL[i])),
+          .y0((d, i) => this.yScale(data.power[i] + data.sdU[i]))
+          .y1((d, i) => this.yScale(data.power[i] - data.sdL[i])),
       );
 
     // add the line
@@ -148,7 +148,7 @@ export class SpectrumPlot {
             // console.log(data.channels[i]);
             return this.xScale(data.channels[i]);
           })
-          .y((d, i) => this.yScale(data.amplitude[i])),
+          .y((d, i) => this.yScale(data.power[i])),
       );
 
     this.svg

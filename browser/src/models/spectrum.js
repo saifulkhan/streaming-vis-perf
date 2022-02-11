@@ -20,7 +20,8 @@ $root.Spectrum = (function() {
      * @property {number|null} [xMax] Spectrum xMax
      * @property {number|null} [yMin] Spectrum yMin
      * @property {number|null} [yMax] Spectrum yMax
-     * @property {Array.<number>|null} [data] Spectrum data
+     * @property {Array.<number>|null} [channels] Spectrum channels
+     * @property {Array.<number>|null} [power] Spectrum power
      * @property {Array.<number>|null} [sdL] Spectrum sdL
      * @property {Array.<number>|null} [sdU] Spectrum sdU
      */
@@ -34,7 +35,8 @@ $root.Spectrum = (function() {
      * @param {ISpectrum=} [properties] Properties to set
      */
     function Spectrum(properties) {
-        this.data = [];
+        this.channels = [];
+        this.power = [];
         this.sdL = [];
         this.sdU = [];
         if (properties)
@@ -84,12 +86,20 @@ $root.Spectrum = (function() {
     Spectrum.prototype.yMax = 0;
 
     /**
-     * Spectrum data.
-     * @member {Array.<number>} data
+     * Spectrum channels.
+     * @member {Array.<number>} channels
      * @memberof Spectrum
      * @instance
      */
-    Spectrum.prototype.data = $util.emptyArray;
+    Spectrum.prototype.channels = $util.emptyArray;
+
+    /**
+     * Spectrum power.
+     * @member {Array.<number>} power
+     * @memberof Spectrum
+     * @instance
+     */
+    Spectrum.prototype.power = $util.emptyArray;
 
     /**
      * Spectrum sdL.
@@ -141,20 +151,26 @@ $root.Spectrum = (function() {
             writer.uint32(/* id 4, wireType 0 =*/32).int32(message.yMin);
         if (message.yMax != null && Object.hasOwnProperty.call(message, "yMax"))
             writer.uint32(/* id 5, wireType 0 =*/40).int32(message.yMax);
-        if (message.data != null && message.data.length) {
+        if (message.channels != null && message.channels.length) {
             writer.uint32(/* id 6, wireType 2 =*/50).fork();
-            for (var i = 0; i < message.data.length; ++i)
-                writer.float(message.data[i]);
+            for (var i = 0; i < message.channels.length; ++i)
+                writer.int32(message.channels[i]);
+            writer.ldelim();
+        }
+        if (message.power != null && message.power.length) {
+            writer.uint32(/* id 7, wireType 2 =*/58).fork();
+            for (var i = 0; i < message.power.length; ++i)
+                writer.float(message.power[i]);
             writer.ldelim();
         }
         if (message.sdL != null && message.sdL.length) {
-            writer.uint32(/* id 7, wireType 2 =*/58).fork();
+            writer.uint32(/* id 8, wireType 2 =*/66).fork();
             for (var i = 0; i < message.sdL.length; ++i)
                 writer.float(message.sdL[i]);
             writer.ldelim();
         }
         if (message.sdU != null && message.sdU.length) {
-            writer.uint32(/* id 8, wireType 2 =*/66).fork();
+            writer.uint32(/* id 9, wireType 2 =*/74).fork();
             for (var i = 0; i < message.sdU.length; ++i)
                 writer.float(message.sdU[i]);
             writer.ldelim();
@@ -209,16 +225,26 @@ $root.Spectrum = (function() {
                 message.yMax = reader.int32();
                 break;
             case 6:
-                if (!(message.data && message.data.length))
-                    message.data = [];
+                if (!(message.channels && message.channels.length))
+                    message.channels = [];
                 if ((tag & 7) === 2) {
                     var end2 = reader.uint32() + reader.pos;
                     while (reader.pos < end2)
-                        message.data.push(reader.float());
+                        message.channels.push(reader.int32());
                 } else
-                    message.data.push(reader.float());
+                    message.channels.push(reader.int32());
                 break;
             case 7:
+                if (!(message.power && message.power.length))
+                    message.power = [];
+                if ((tag & 7) === 2) {
+                    var end2 = reader.uint32() + reader.pos;
+                    while (reader.pos < end2)
+                        message.power.push(reader.float());
+                } else
+                    message.power.push(reader.float());
+                break;
+            case 8:
                 if (!(message.sdL && message.sdL.length))
                     message.sdL = [];
                 if ((tag & 7) === 2) {
@@ -228,7 +254,7 @@ $root.Spectrum = (function() {
                 } else
                     message.sdL.push(reader.float());
                 break;
-            case 8:
+            case 9:
                 if (!(message.sdU && message.sdU.length))
                     message.sdU = [];
                 if ((tag & 7) === 2) {
@@ -288,12 +314,19 @@ $root.Spectrum = (function() {
         if (message.yMax != null && message.hasOwnProperty("yMax"))
             if (!$util.isInteger(message.yMax))
                 return "yMax: integer expected";
-        if (message.data != null && message.hasOwnProperty("data")) {
-            if (!Array.isArray(message.data))
-                return "data: array expected";
-            for (var i = 0; i < message.data.length; ++i)
-                if (typeof message.data[i] !== "number")
-                    return "data: number[] expected";
+        if (message.channels != null && message.hasOwnProperty("channels")) {
+            if (!Array.isArray(message.channels))
+                return "channels: array expected";
+            for (var i = 0; i < message.channels.length; ++i)
+                if (!$util.isInteger(message.channels[i]))
+                    return "channels: integer[] expected";
+        }
+        if (message.power != null && message.hasOwnProperty("power")) {
+            if (!Array.isArray(message.power))
+                return "power: array expected";
+            for (var i = 0; i < message.power.length; ++i)
+                if (typeof message.power[i] !== "number")
+                    return "power: number[] expected";
         }
         if (message.sdL != null && message.hasOwnProperty("sdL")) {
             if (!Array.isArray(message.sdL))
@@ -334,12 +367,19 @@ $root.Spectrum = (function() {
             message.yMin = object.yMin | 0;
         if (object.yMax != null)
             message.yMax = object.yMax | 0;
-        if (object.data) {
-            if (!Array.isArray(object.data))
-                throw TypeError(".Spectrum.data: array expected");
-            message.data = [];
-            for (var i = 0; i < object.data.length; ++i)
-                message.data[i] = Number(object.data[i]);
+        if (object.channels) {
+            if (!Array.isArray(object.channels))
+                throw TypeError(".Spectrum.channels: array expected");
+            message.channels = [];
+            for (var i = 0; i < object.channels.length; ++i)
+                message.channels[i] = object.channels[i] | 0;
+        }
+        if (object.power) {
+            if (!Array.isArray(object.power))
+                throw TypeError(".Spectrum.power: array expected");
+            message.power = [];
+            for (var i = 0; i < object.power.length; ++i)
+                message.power[i] = Number(object.power[i]);
         }
         if (object.sdL) {
             if (!Array.isArray(object.sdL))
@@ -372,7 +412,8 @@ $root.Spectrum = (function() {
             options = {};
         var object = {};
         if (options.arrays || options.defaults) {
-            object.data = [];
+            object.channels = [];
+            object.power = [];
             object.sdL = [];
             object.sdU = [];
         }
@@ -393,10 +434,15 @@ $root.Spectrum = (function() {
             object.yMin = message.yMin;
         if (message.yMax != null && message.hasOwnProperty("yMax"))
             object.yMax = message.yMax;
-        if (message.data && message.data.length) {
-            object.data = [];
-            for (var j = 0; j < message.data.length; ++j)
-                object.data[j] = options.json && !isFinite(message.data[j]) ? String(message.data[j]) : message.data[j];
+        if (message.channels && message.channels.length) {
+            object.channels = [];
+            for (var j = 0; j < message.channels.length; ++j)
+                object.channels[j] = message.channels[j];
+        }
+        if (message.power && message.power.length) {
+            object.power = [];
+            for (var j = 0; j < message.power.length; ++j)
+                object.power[j] = options.json && !isFinite(message.power[j]) ? String(message.power[j]) : message.power[j];
         }
         if (message.sdL && message.sdL.length) {
             object.sdL = [];

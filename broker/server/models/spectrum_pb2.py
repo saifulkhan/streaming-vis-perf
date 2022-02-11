@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0espectrum.proto\"\x8f\x01\n\x08Spectrum\x12\x11\n\ttimestamp\x18\x01 \x01(\t\x12\r\n\x05x_min\x18\x02 \x01(\x05\x12\r\n\x05x_max\x18\x03 \x01(\x05\x12\r\n\x05y_min\x18\x04 \x01(\x05\x12\r\n\x05y_max\x18\x05 \x01(\x05\x12\x10\n\x04\x64\x61ta\x18\x06 \x03(\x02\x42\x02\x10\x01\x12\x10\n\x04sd_l\x18\x07 \x03(\x02\x42\x02\x10\x01\x12\x10\n\x04sd_u\x18\x08 \x03(\x02\x42\x02\x10\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x0espectrum.proto\"\xa6\x01\n\x08Spectrum\x12\x11\n\ttimestamp\x18\x01 \x01(\t\x12\r\n\x05x_min\x18\x02 \x01(\x05\x12\r\n\x05x_max\x18\x03 \x01(\x05\x12\r\n\x05y_min\x18\x04 \x01(\x05\x12\r\n\x05y_max\x18\x05 \x01(\x05\x12\x14\n\x08\x63hannels\x18\x06 \x03(\x05\x42\x02\x10\x01\x12\x11\n\x05power\x18\x07 \x03(\x02\x42\x02\x10\x01\x12\x10\n\x04sd_l\x18\x08 \x03(\x02\x42\x02\x10\x01\x12\x10\n\x04sd_u\x18\t \x03(\x02\x42\x02\x10\x01\x62\x06proto3')
 )
 
 
@@ -68,22 +68,29 @@ _SPECTRUM = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='data', full_name='Spectrum.data', index=5,
-      number=6, type=2, cpp_type=6, label=3,
+      name='channels', full_name='Spectrum.channels', index=5,
+      number=6, type=5, cpp_type=1, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=_b('\020\001'), file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='sd_l', full_name='Spectrum.sd_l', index=6,
+      name='power', full_name='Spectrum.power', index=6,
       number=7, type=2, cpp_type=6, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=_b('\020\001'), file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='sd_u', full_name='Spectrum.sd_u', index=7,
+      name='sd_l', full_name='Spectrum.sd_l', index=7,
       number=8, type=2, cpp_type=6, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=_b('\020\001'), file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='sd_u', full_name='Spectrum.sd_u', index=8,
+      number=9, type=2, cpp_type=6, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -101,7 +108,7 @@ _SPECTRUM = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=19,
-  serialized_end=162,
+  serialized_end=185,
 )
 
 DESCRIPTOR.message_types_by_name['Spectrum'] = _SPECTRUM
@@ -115,7 +122,8 @@ Spectrum = _reflection.GeneratedProtocolMessageType('Spectrum', (_message.Messag
 _sym_db.RegisterMessage(Spectrum)
 
 
-_SPECTRUM.fields_by_name['data']._options = None
+_SPECTRUM.fields_by_name['channels']._options = None
+_SPECTRUM.fields_by_name['power']._options = None
 _SPECTRUM.fields_by_name['sd_l']._options = None
 _SPECTRUM.fields_by_name['sd_u']._options = None
 # @@protoc_insertion_point(module_scope)

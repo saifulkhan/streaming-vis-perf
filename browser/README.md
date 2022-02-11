@@ -81,7 +81,10 @@ Generate
 cd messages
 
 # spectrum
-rm spectrum.js spectrum.d.ts ../browser/src/types/spectrum.d.ts ../browser/src/models/spectrum.js
+rm spectrum.js
+rm spectrum.d.ts
+rm ../browser/src/types/spectrum.d.ts
+rm ../browser/src/models/spectrum.js
 pbjs -t static-module -w commonjs -o spectrum.js spectrum.proto
 pbts -o spectrum.d.ts spectrum.js
 mv spectrum.js ../browser/src/models/spectrum.js

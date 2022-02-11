@@ -12,25 +12,29 @@ def generate_spectrum_pb(num_data):
     """
     Generate UTF-8 payload of spectrum plot
     """
-    d = []
-    sd_u = []
-    sd_l = []
+    x_min = 0
     x_max = num_data
     y_min = 1
     y_max = 20
+    channels = []
+    power = []
+    sd_u = []
+    sd_l = []
 
-    for i in range(x_max):
-        d.append(random.randrange(y_min, y_max - 1, 1))
+    for channel in range(x_max):
+        channels.append(channel)
+        power.append(random.randrange(y_min, y_max - 1, 1))
         sd_u.append(0.4)
         sd_l.append(0.2)
 
     payload_pb = Spectrum(
         timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        x_min=0,
+        x_min=x_min,
         x_max=x_max,
         y_min=y_min,
         y_max=y_max,
-        data=d,
+        channels=channels,
+        power=power,
         sd_l=sd_l,
         sd_u=sd_u,
     )
@@ -44,25 +48,29 @@ def generate_spectrum_utf(num_data):
     Generate UTF-8 payload of spectrum plot
     Returns payload and its size
     """
-    d = []
-    sd_u = []
-    sd_l = []
+    x_min = 0
     x_max = num_data
     y_min = 1
     y_max = 20
+    channels = []
+    power = []
+    sd_u = []
+    sd_l = []
 
-    for i in range(x_max):
-        d.append(random.randrange(y_min, y_max - 1, 1))
+    for channel in range(x_max):
+        channels.append(channel)
+        power.append(random.randrange(y_min, y_max - 1, 1))
         sd_u.append(0.4)
-        sd_l.append(0.4)
+        sd_l.append(0.2)
 
     payload_text = {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "x_min": 0,
+        "x_min": x_min,
         "x_max": x_max,
         "y_min": y_min,
         "y_max": y_max,
-        "data": d,
+        "channels": channels,
+        "power": power,
         "sd_l": sd_l,
         "sd_u": sd_u,
     }

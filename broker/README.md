@@ -53,9 +53,10 @@ protoc -I=./app/models --python_out=./app/models ./app/models/user.proto
 cd messages
 
 # spectrum
-rm spectrum_pb2.py ../broker/app/models/spectrum_pb2.py
+rm spectrum_pb2.py
+rm ../broker/server/models/spectrum_pb2.py
 protoc -I=. --python_out=. ./spectrum.proto
-mv spectrum_pb2.py ../broker/app/models/spectrum_pb2.py
+mv spectrum_pb2.py ../broker/server/models/spectrum_pb2.py
 ```
 
 ## Experimental Code for ProtoBuf Serialisation and Deserialisation in Kafaka

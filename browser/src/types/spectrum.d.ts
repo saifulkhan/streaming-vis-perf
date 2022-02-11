@@ -17,8 +17,11 @@ export interface ISpectrum {
     /** Spectrum yMax */
     yMax?: (number|null);
 
-    /** Spectrum data */
-    data?: (number[]|null);
+    /** Spectrum channels */
+    channels?: (number[]|null);
+
+    /** Spectrum power */
+    power?: (number[]|null);
 
     /** Spectrum sdL */
     sdL?: (number[]|null);
@@ -51,8 +54,11 @@ export class Spectrum implements ISpectrum {
     /** Spectrum yMax. */
     public yMax: number;
 
-    /** Spectrum data. */
-    public data: number[];
+    /** Spectrum channels. */
+    public channels: number[];
+
+    /** Spectrum power. */
+    public power: number[];
 
     /** Spectrum sdL. */
     public sdL: number[];
