@@ -12,7 +12,7 @@ const wsUrl = "ws://localhost:8002/consumer/spectrum-pb";
 const SpectrumPb = () => {
   useEffect(() => {
     // plot
-    const spectrumPlot = new SpectrumPlot("#chart", 0, 100, 0, 20);
+    const spectrumPlot = new SpectrumPlot("#chart");
     // spectrumPlot.draw(mockData);
 
     // socket
@@ -40,7 +40,7 @@ const SpectrumPb = () => {
         } else if (data instanceof Blob) {
           console.log("[spectrum-pb]: received, type = Blob, data = ", data);
           processSpectrumProto(data).then((spectrum: any) => {
-            spectrumPlot.draw(spectrum);
+            window.requestAnimationFrame(() => spectrumPlot.draw(spectrum));
           });
         } else {
           console.log("[spectrum-pb]: received, type = text, data = ", data);

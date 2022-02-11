@@ -8,22 +8,27 @@ sys.path.append("..")
 from server.models.spectrum_pb2 import Spectrum
 
 
+x_min = 0
+x_max = 0
+y_min = 1
+y_max = 20
+channels = []
+power = []
+sd_u = []
+sd_l = []
+
+step = 10
+
+
 def generate_spectrum_pb(num_data):
     """
     Generate UTF-8 payload of spectrum plot
     """
-    x_min = 0
     x_max = num_data
-    y_min = 1
-    y_max = 20
-    channels = []
-    power = []
-    sd_u = []
-    sd_l = []
 
     for channel in range(x_max):
         channels.append(channel)
-        power.append(random.randrange(y_min, y_max - 1, 1))
+        power.append(random.randrange(y_min, y_max - 1, step))
         sd_u.append(0.4)
         sd_l.append(0.2)
 
@@ -48,18 +53,10 @@ def generate_spectrum_utf(num_data):
     Generate UTF-8 payload of spectrum plot
     Returns payload and its size
     """
-    x_min = 0
-    x_max = num_data
-    y_min = 1
-    y_max = 20
-    channels = []
-    power = []
-    sd_u = []
-    sd_l = []
 
     for channel in range(x_max):
         channels.append(channel)
-        power.append(random.randrange(y_min, y_max - 1, 1))
+        power.append(random.randrange(y_min, y_max - 1, step))
         sd_u.append(0.4)
         sd_l.append(0.2)
 

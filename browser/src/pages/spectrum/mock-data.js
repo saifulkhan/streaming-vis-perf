@@ -5,8 +5,7 @@ export const mockData = {
     "xMax": 9999,
     "yMin": 1,
     "yMax": 20,
-
-    "amplitude": [
+    "power": [
         4,
         18,
         17,

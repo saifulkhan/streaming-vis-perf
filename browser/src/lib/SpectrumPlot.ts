@@ -1,22 +1,19 @@
 import * as d3 from "d3";
-// import { Spectrum } from "src/models/spectrum";
-// import { useRef, useEffect } from "react";
-// import PropTypes from "prop-types";
 
 let width = 1200;
 let height = 600;
 const margin = { top: 10, right: 10, bottom: 40, left: 50 };
 width = width - margin.left - margin.right;
 height = height - margin.top - margin.bottom;
-const xLabel = "";
-const yLabel = "";
+const xLabel = "frequency channels";
+const yLabel = "power (in dB)";
 
 export class SpectrumPlot {
   svg: any;
   xScale: any;
   yScale: any;
 
-  constructor(selector, xMin, xMax, yMin, yMax) {
+  constructor(selector: string) {
     // append the svg object to the selector
     this.svg = d3
       .select(selector)
@@ -25,19 +22,6 @@ export class SpectrumPlot {
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
-
-    // create x-scale
-    this.xScale = d3.scaleLinear().domain([xMin, xMax]).range([0, width]);
-    // add x-axis
-    this.svg
-      .append("g")
-      .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(this.xScale));
-
-    // create y-scale
-    this.yScale = d3.scaleLinear().domain([yMin, yMax]).range([height, 0]);
-    // add y axis
-    this.svg.append("g").call(d3.axisLeft(this.yScale));
 
     // label for the x-axis
     this.svg
@@ -62,59 +46,32 @@ export class SpectrumPlot {
   }
 
   public draw(data: any) {
-    console.log("SpectrumPlot:draw: data = ", data);
-    // console.log("SpectrumPlot:draw: width, height =", width, height);
-    // if (
-    //   !data ||
-    //   !data.spectrum_values ||
-    //   !data.spectrum_values.length ||
-    //   !width ||
-    //   !height
-    // )
-    //   return;
+    //console.log("SpectrumPlot:draw: data = ", data);
+    this.svg.selectAll("path").remove();
+    this.svg.selectAll(".tick").remove();
 
-    // Clear
-    // d3.select(ref.current).select("svg").remove();
+    // create x-scale
+    this.xScale = d3
+      .scaleLinear()
+      .domain([data?.xMin || 0, data.xMax])
+      .range([0, width]);
 
-    // const {
-    //   xMin,
-    //   xMax,
-    //   yMin,
-    //   yMax,
-    //   xLabel,
-    //   yLabel,
-    //   frequencies,
-    //   rfis,
-    //   flags,
-    //   spectrum_values,
-    // } = data;
+    // create y-scale
+    this.yScale = d3
+      .scaleLinear()
+      .domain([data?.yMin || 0, data.yMax])
+      .range([height, 0]);
 
-    // set the dimensions and margins of the graph
-    // const margin = { top: 10, right: 10, bottom: 40, left: 50 };
-    // width = width - margin.left - margin.right;
-    // height = height - margin.top - margin.bottom;
+    // add x-axis
+    this.svg
+      .append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(this.xScale));
 
-    // // append the svg object to the body of the page
-    // const svg = d3
-    //   .select(ref.current)
-    //   .append("svg")
-    //   .attr("width", width + margin.left + margin.right)
-    //   .attr("height", height + margin.top + margin.bottom)
-    //   .append("g")
-    //   .attr("transform", `translate(${margin.left},${margin.top})`);
+    // add y axis
+    this.svg.append("g").call(d3.axisLeft(this.yScale));
 
-    // // Add X axis --> it is a date format
-    // const x = d3.scaleLinear().domain([xMin, xMax]).range([0, width]);
-    // svg
-    //   .append("g")
-    //   .attr("transform", `translate(0,${height})`)
-    //   .call(d3.axisBottom(x));
-
-    // // Add Y axis
-    // const y = d3.scaleLinear().domain([yMin, yMax]).range([height, 0]);
-    // svg.append("g").call(d3.axisLeft(y));
-
-    // show confidence interval or std
+    // show confidence interval/std
     this.svg
       .append("path")
       .datum(data.channels)
@@ -137,7 +94,7 @@ export class SpectrumPlot {
       .datum(data.channels)
       .attr("fill", "none")
       .attr("stroke", "#3366CC")
-      .attr("stroke-width", 1.5)
+      .attr("stroke-width", 2)
       .attr("opacity", 1)
       .attr(
         "d",
@@ -154,7 +111,7 @@ export class SpectrumPlot {
     this.svg
       .exit()
       .transition()
-      .duration(300)
+      // .duration(300)
       .attr("y", height)
       .attr("height", 0)
       .remove();
