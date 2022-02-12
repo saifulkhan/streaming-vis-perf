@@ -1,71 +1,64 @@
 import { Card, CardContent, Container, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Head from "next/head";
-import React, { ReactElement, useEffect } from "react";
+import { useEffect } from "react";
 import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
+import { SpectrumPlotCanvas } from "src/lib/spectrum-plot-canvas";
+import { SpectrumPlotSvg } from "src/lib/spectrum-plot-svg";
+import { decodeSpectrumUtf } from "src/utils/process";
+import { mockSpectrumData } from "./spectrum-mock-data";
 
-import { processUserProto } from "src/utils/process";
+const wsUrl = "ws://localhost:8002/consumer/spectrum-utf";
 
-const wsUrl = "ws://localhost:8002/consumer/topic2";
-
-const Topic2 = () => {
+const SpectrumPb = () => {
   useEffect(() => {
-    //
-    // Test protobuf encoding and decoding in JS
-    // console.log("Protobuf: useEffect: 1");
-    // let message = User.create({
-    //   name: "Saiful Khan",
-    //   favoriteNumber: 1234567891,
-    //   favoriteColor: "red",
-    // });
-    // let buffer = User.encode(message).finish();
-    // let decoded = User.decode(buffer);
-    // console.log("Protobuf: buffer = ", buffer);
-    // console.log("Protobuf: decoded = ", decoded);
+    // SVG
+    // const spectrumPlot = new SpectrumPlotSvg("#chart");
+    // spectrumPlot.draw(mockSpectrumData);
 
+    // Canvas
+    const spectrumPlotCanvas = new SpectrumPlotCanvas({
+      canvasId: "myCanvas",
+      unitsPerTickX: 1000,
+      unitsPerTickY: 2,
+    });
+
+    // spectrumPlotCanvas.draw(mockSpectrumData);
+
+    // socket
     const ws = new WebSocket(wsUrl);
 
-    ws.onerror = function (error) {
-      console.log("Error");
+    ws.onerror = function (e) {
+      console.error("[utf-8]: ws error = ", e);
     };
 
     ws.onclose = function () {
-      console.log("Error");
+      console.log("[utf-8]: ws closed");
     };
 
     ws.onopen = function () {
-      ws.send("Connection established. Hello server!");
+      ws.send("[utf-8]: ws open");
     };
 
     ws.onmessage = function (msg) {
       let data = msg?.data;
 
-      // Test
-      // var protobuf = require("protobufjs/minimal");
-      // try {
-      //   var decodedMessage = User.decode(data);
-      //   console.log("decodedMessage = ", decodedMessage);
-      // } catch (e) {
-      //   if (e instanceof protobuf.util.ProtocolError) {
-      //     console.log("e = ", e);
-      //     // e.instance holds the so far decoded message with missing required fields
-      //   } else {
-      //     // wire format is invalid
-      //     console.log("format invalid");
-      //   }
-      // }
-
       try {
         if (data instanceof ArrayBuffer) {
-          console.log("onmessage: type = ArrayBuffer, data = ", data);
-        } else if (msg.data instanceof Blob) {
-          console.log("onmessage: type = Blob, data = ", data);
-          processUserProto(data);
+          // prettier-ignore
+          console.log("[utf-8]: received, type = ArrayBuffer, data = ", data);
+        } else if (data instanceof Blob) {
+          console.log("[utf-8]: received, type = Blob, data = ", data);
         } else {
-          console.log("onmessage: type = text, data = ", data);
+          // console.log("[utf-8]: received, type = text, data = ", data);
+          data = decodeSpectrumUtf(data);
+          if (data && data?.channels?.length > 0 && data?.power.length > 0) {
+            console.log("[utf-8]: received, type = text, data = ", data);
+            window.requestAnimationFrame(() => spectrumPlotCanvas.draw(data));
+          }
         }
       } catch (e) {
-        console.error("invalid data");
+        console.error("[utf-8]: receive, error = ", e);
       }
     };
 
@@ -77,7 +70,7 @@ const Topic2 = () => {
   return (
     <>
       <Head>
-        <title>Topic2</title>
+        <title>Spectrum</title>
       </Head>
       <DashboardLayout>
         <Box
@@ -88,10 +81,16 @@ const Topic2 = () => {
           }}
         >
           <Container>
-            <Card sx={{ minWidth: 275 }}>
+            <Card sx={{ minWidth: 1800 }}>
               <CardContent>
-                <Typography variant="h4">Topic2</Typography>
-                <br />
+                <div id="chart" />
+
+                <canvas
+                  id="myCanvas"
+                  width="1600"
+                  height="600"
+                  style={{ border: "1px solid black" }}
+                ></canvas>
               </CardContent>
             </Card>
           </Container>
@@ -101,4 +100,4 @@ const Topic2 = () => {
   );
 };
 
-export default Topic2;
+export default SpectrumPb;

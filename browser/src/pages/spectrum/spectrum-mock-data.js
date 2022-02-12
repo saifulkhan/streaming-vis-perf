@@ -1,6 +1,6 @@
-export const mockData = {
+export const mockSpectrumData = {
     "timestamp": "2022-02-09 15:36:49",
-    "channels": [...Array(100).keys()],
+    "channels": [...Array(10000).keys()],
     "xMin": 0,
     "xMax": 9999,
     "yMin": 1,
@@ -30012,3 +30012,4 @@ export const mockData = {
         0.4000000059604645
     ]
 }
+ 

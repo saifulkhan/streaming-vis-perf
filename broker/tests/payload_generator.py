@@ -2,6 +2,7 @@ import random
 import json
 from datetime import datetime
 import sys
+import numpy as np
 
 sys.path.append("..")
 
@@ -10,32 +11,30 @@ from server.models.spectrum_pb2 import Spectrum
 
 x_min = 0
 x_max = 0
-y_min = 1
-y_max = 20
+y_min = 0
+y_max = 10
 channels = []
 power = []
 sd_u = []
 sd_l = []
 
-step = 10
+step = 2
 
 
-def generate_spectrum_pb(num_data):
+def generate_spectrum_pb(num_channels: int):
     """
     Generate UTF-8 payload of spectrum plot
     """
-    x_max = num_data
 
-    for channel in range(x_max):
-        channels.append(channel)
-        power.append(random.randrange(y_min, y_max - 1, step))
-        sd_u.append(0.4)
-        sd_l.append(0.2)
+    channels = list(range(num_channels))
+    power = list(np.round(np.absolute(np.sin(np.random.rand(num_channels))), 2) * 10)
+    sd_u = list(np.round(np.absolute(np.sin(np.random.rand(num_channels))), 2))
+    sd_l = list(np.round(np.absolute(np.sin(np.random.rand(num_channels))), 2))
 
     payload_pb = Spectrum(
         timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         x_min=x_min,
-        x_max=x_max,
+        x_max=num_channels,
         y_min=y_min,
         y_max=y_max,
         channels=channels,
@@ -48,22 +47,21 @@ def generate_spectrum_pb(num_data):
     return payload_ser, sys.getsizeof(payload_ser)
 
 
-def generate_spectrum_utf(num_data):
+def generate_spectrum_utf(num_channels: int):
     """
     Generate UTF-8 payload of spectrum plot
     Returns payload and its size
     """
 
-    for channel in range(x_max):
-        channels.append(channel)
-        power.append(random.randrange(y_min, y_max - 1, step))
-        sd_u.append(0.4)
-        sd_l.append(0.2)
+    channels = list(range(num_channels))
+    power = list(np.round(np.absolute(np.sin(np.random.rand(num_channels))), 2) * 10)
+    sd_u = list(np.round(np.absolute(np.sin(np.random.rand(num_channels))), 2))
+    sd_l = list(np.round(np.absolute(np.sin(np.random.rand(num_channels))), 2))
 
     payload_text = {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "x_min": x_min,
-        "x_max": x_max,
+        "x_max": num_channels,
         "y_min": y_min,
         "y_max": y_max,
         "channels": channels,

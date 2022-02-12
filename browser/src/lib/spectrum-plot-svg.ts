@@ -8,7 +8,7 @@ height = height - margin.top - margin.bottom;
 const xLabel = "Frequency channels";
 const yLabel = "Power (in dB)";
 
-export class SpectrumPlot {
+export class SpectrumPlotSvg {
   svg: any;
   xScale: any;
   yScale: any;
@@ -117,5 +117,3 @@ export class SpectrumPlot {
       .remove();
   }
 }
-
-export default SpectrumPlot;

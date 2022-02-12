@@ -11,20 +11,34 @@ export async function processUserProto(data) {
 }
 
 let perf;
-export async function processSpectrumProto(data) {
+export async function decodeSpectrumProto(data) {
   performance.mark("deserialise-start");
+
   const buffer = await data.arrayBuffer();
   const bytes = new Uint8Array(buffer);
   const decoded = Spectrum.decode(bytes);
+  // console.log("decodeSpectrumProto: spectrum = ", decoded);
 
-  console.log("processSpectrumProto: spectrum = ", decoded);
   performance.mark("deserialise-end");
   performance.measure("deserialise", "deserialise-start", "deserialise-end");
   var measures = performance.getEntriesByName("deserialise");
-  // var measure = measures[0];
-  // console.log("deserialise time (ms) = ", measures);
   perf = measures.map((d) => d.duration);
-  console.log(perf);
+  console.log("decodeSpectrumProto: decoding time = ", perf);
+
+  return decoded;
+}
+
+export function decodeSpectrumUtf(data) {
+  performance.mark("deserialise-start");
+
+  const decoded = JSON.parse(data);
+  // console.log("decodeSpectrumUtf: spectrum = ", decoded);
+
+  performance.mark("deserialise-end");
+  performance.measure("deserialise", "deserialise-start", "deserialise-end");
+  var measures = performance.getEntriesByName("deserialise");
+  perf = measures.map((d) => d.duration);
+  console.log("decodeSpectrumUtf: decoding time = ", perf);
 
   return decoded;
 }
