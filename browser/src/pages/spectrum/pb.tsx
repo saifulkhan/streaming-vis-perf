@@ -3,17 +3,31 @@ import { Box } from "@mui/system";
 import Head from "next/head";
 import React, { ReactElement, useEffect } from "react";
 import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
-import SpectrumPlot from "src/lib/SpectrumPlot";
+import { SpectrumPlotCanvas } from "src/lib/spectrum-plot-canvas";
+import SpectrumPlot from "src/lib/spectrum-plot-svg";
 import { processSpectrumProto } from "src/utils/process";
 import { mockData } from "./mock-data";
+import { data1 } from "./mock-data-2";
 
 const wsUrl = "ws://localhost:8002/consumer/spectrum-pb";
 
 const SpectrumPb = () => {
   useEffect(() => {
     // plot
-    const spectrumPlot = new SpectrumPlot("#chart");
+    // const spectrumPlot = new SpectrumPlot("#chart");
     // spectrumPlot.draw(mockData);
+
+    const spectrumPlotCanvas = new SpectrumPlotCanvas({
+      canvasId: "myCanvas",
+      minX: 0,
+      minY: 0,
+      maxX: 100,
+      maxY: 20,
+      unitsPerTickX: 10,
+      unitsPerTickY: 2,
+    });
+    spectrumPlotCanvas.drawLine(mockData);
+    spectrumPlotCanvas.drawArea(mockData);
 
     // socket
     const ws = new WebSocket(wsUrl);
@@ -40,7 +54,7 @@ const SpectrumPb = () => {
         } else if (data instanceof Blob) {
           console.log("[spectrum-pb]: received, type = Blob, data = ", data);
           processSpectrumProto(data).then((spectrum: any) => {
-            window.requestAnimationFrame(() => spectrumPlot.draw(spectrum));
+            //  window.requestAnimationFrame(() => spectrumPlot.draw(spectrum));
           });
         } else {
           console.log("[spectrum-pb]: received, type = text, data = ", data);
@@ -72,6 +86,13 @@ const SpectrumPb = () => {
             <Card sx={{ minWidth: 1800 }}>
               <CardContent>
                 <div id="chart" />
+
+                <canvas
+                  id="myCanvas"
+                  width="1200"
+                  height="600"
+                  style={{ border: "1px solid black;" }}
+                ></canvas>
               </CardContent>
             </Card>
           </Container>

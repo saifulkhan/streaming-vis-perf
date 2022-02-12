@@ -5,8 +5,8 @@ let height = 600;
 const margin = { top: 10, right: 10, bottom: 40, left: 50 };
 width = width - margin.left - margin.right;
 height = height - margin.top - margin.bottom;
-const xLabel = "frequency channels";
-const yLabel = "power (in dB)";
+const xLabel = "Frequency channels";
+const yLabel = "Power (in dB)";
 
 export class SpectrumPlot {
   svg: any;
@@ -116,23 +116,6 @@ export class SpectrumPlot {
       .attr("height", 0)
       .remove();
   }
-
-  // useEffect(() => {
-  //   draw(props.width, props.height, props.data);
-  //   // eslint-disable-next-line react/destructuring-assignment
-  // }, [props.data]);
-
-  // return (
-  //   <div className="chart">
-  //     <svg ref={ref} />
-  //   </div>
-  // );
 }
-
-// SpectrumPlot.propTypes = {
-//   width: PropTypes.number.isRequired,
-//   height: PropTypes.number.isRequired,
-//   data: PropTypes.any.isRequired,
-// };
 
 export default SpectrumPlot;
