@@ -144,17 +144,17 @@ $root.Spectrum = (function() {
         if (message.timestamp != null && Object.hasOwnProperty.call(message, "timestamp"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.timestamp);
         if (message.xMin != null && Object.hasOwnProperty.call(message, "xMin"))
-            writer.uint32(/* id 2, wireType 0 =*/16).int32(message.xMin);
+            writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.xMin);
         if (message.xMax != null && Object.hasOwnProperty.call(message, "xMax"))
-            writer.uint32(/* id 3, wireType 0 =*/24).int32(message.xMax);
+            writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.xMax);
         if (message.yMin != null && Object.hasOwnProperty.call(message, "yMin"))
-            writer.uint32(/* id 4, wireType 0 =*/32).int32(message.yMin);
+            writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.yMin);
         if (message.yMax != null && Object.hasOwnProperty.call(message, "yMax"))
-            writer.uint32(/* id 5, wireType 0 =*/40).int32(message.yMax);
+            writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.yMax);
         if (message.channels != null && message.channels.length) {
             writer.uint32(/* id 6, wireType 2 =*/50).fork();
             for (var i = 0; i < message.channels.length; ++i)
-                writer.int32(message.channels[i]);
+                writer.uint32(message.channels[i]);
             writer.ldelim();
         }
         if (message.power != null && message.power.length) {
@@ -213,16 +213,16 @@ $root.Spectrum = (function() {
                 message.timestamp = reader.string();
                 break;
             case 2:
-                message.xMin = reader.int32();
+                message.xMin = reader.uint32();
                 break;
             case 3:
-                message.xMax = reader.int32();
+                message.xMax = reader.uint32();
                 break;
             case 4:
-                message.yMin = reader.int32();
+                message.yMin = reader.uint32();
                 break;
             case 5:
-                message.yMax = reader.int32();
+                message.yMax = reader.uint32();
                 break;
             case 6:
                 if (!(message.channels && message.channels.length))
@@ -230,9 +230,9 @@ $root.Spectrum = (function() {
                 if ((tag & 7) === 2) {
                     var end2 = reader.uint32() + reader.pos;
                     while (reader.pos < end2)
-                        message.channels.push(reader.int32());
+                        message.channels.push(reader.uint32());
                 } else
-                    message.channels.push(reader.int32());
+                    message.channels.push(reader.uint32());
                 break;
             case 7:
                 if (!(message.power && message.power.length))
@@ -360,19 +360,19 @@ $root.Spectrum = (function() {
         if (object.timestamp != null)
             message.timestamp = String(object.timestamp);
         if (object.xMin != null)
-            message.xMin = object.xMin | 0;
+            message.xMin = object.xMin >>> 0;
         if (object.xMax != null)
-            message.xMax = object.xMax | 0;
+            message.xMax = object.xMax >>> 0;
         if (object.yMin != null)
-            message.yMin = object.yMin | 0;
+            message.yMin = object.yMin >>> 0;
         if (object.yMax != null)
-            message.yMax = object.yMax | 0;
+            message.yMax = object.yMax >>> 0;
         if (object.channels) {
             if (!Array.isArray(object.channels))
                 throw TypeError(".Spectrum.channels: array expected");
             message.channels = [];
             for (var i = 0; i < object.channels.length; ++i)
-                message.channels[i] = object.channels[i] | 0;
+                message.channels[i] = object.channels[i] >>> 0;
         }
         if (object.power) {
             if (!Array.isArray(object.power))
