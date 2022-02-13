@@ -22,7 +22,6 @@ const SpectrumPb = () => {
       unitsPerTickX: 1000,
       unitsPerTickY: 2,
     });
-
     // spectrumPlotCanvas.draw(mockSpectrumData);
 
     // socket
@@ -48,11 +47,14 @@ const SpectrumPb = () => {
           // prettier-ignore
           console.log("[protobus]: received, type = ArrayBuffer, data = ", data);
         } else if (data instanceof Blob) {
-          console.log("[protobus]: received, type = Blob, data = ", data);
           decodeSpectrumProto(data).then((spectrum: any) => {
-            window.requestAnimationFrame(() =>
-              spectrumPlotCanvas.draw(spectrum),
-            );
+            // prettier-ignore
+            console.log("[protobus]: received, type = Blob, spectrum = ", spectrum);
+
+            // window.requestAnimationFrame(() =>
+            //   spectrumPlotCanvas.draw(spectrum)
+            // );
+            spectrumPlotCanvas.draw(spectrum);
           });
         } else {
           console.log("[protobus]: received, type = text, data = ", data);

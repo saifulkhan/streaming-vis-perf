@@ -14,34 +14,33 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11spectrogram.proto\"\x9d\x01\n\x0cSpectrograms\x12/\n\x0cspectrograms\x18\x01 \x03(\x0b\x32\x19.Spectrograms.Spectrogram\x1a\\\n\x0bSpectrogram\x12\x11\n\ttimestamp\x18\x01 \x01(\t\x12\x10\n\x08\x62\x61seline\x18\x02 \x01(\t\x12\x14\n\x0cpolarization\x18\x03 \x01(\t\x12\x12\n\x06phases\x18\x04 \x03(\rB\x02\x10\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11spectrogram.proto\"[\n\x0bSpectrogram\x12\x11\n\ttimestamp\x18\x01 \x01(\t\x12\x10\n\x08\x62\x61seline\x18\x02 \x01(\t\x12\x14\n\x0cpolarization\x18\x03 \x01(\t\x12\x11\n\x05phase\x18\x04 \x03(\x05\x42\x02\x10\x01\"1\n\x0cSpectrograms\x12!\n\x0bspectrogram\x18\x01 \x03(\x0b\x32\x0c.Spectrogramb\x06proto3')
 
 
 
+_SPECTROGRAM = DESCRIPTOR.message_types_by_name['Spectrogram']
 _SPECTROGRAMS = DESCRIPTOR.message_types_by_name['Spectrograms']
-_SPECTROGRAMS_SPECTROGRAM = _SPECTROGRAMS.nested_types_by_name['Spectrogram']
-Spectrograms = _reflection.GeneratedProtocolMessageType('Spectrograms', (_message.Message,), {
+Spectrogram = _reflection.GeneratedProtocolMessageType('Spectrogram', (_message.Message,), {
+  'DESCRIPTOR' : _SPECTROGRAM,
+  '__module__' : 'spectrogram_pb2'
+  # @@protoc_insertion_point(class_scope:Spectrogram)
+  })
+_sym_db.RegisterMessage(Spectrogram)
 
-  'Spectrogram' : _reflection.GeneratedProtocolMessageType('Spectrogram', (_message.Message,), {
-    'DESCRIPTOR' : _SPECTROGRAMS_SPECTROGRAM,
-    '__module__' : 'spectrogram_pb2'
-    # @@protoc_insertion_point(class_scope:Spectrograms.Spectrogram)
-    })
-  ,
+Spectrograms = _reflection.GeneratedProtocolMessageType('Spectrograms', (_message.Message,), {
   'DESCRIPTOR' : _SPECTROGRAMS,
   '__module__' : 'spectrogram_pb2'
   # @@protoc_insertion_point(class_scope:Spectrograms)
   })
 _sym_db.RegisterMessage(Spectrograms)
-_sym_db.RegisterMessage(Spectrograms.Spectrogram)
 
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _SPECTROGRAMS_SPECTROGRAM.fields_by_name['phases']._options = None
-  _SPECTROGRAMS_SPECTROGRAM.fields_by_name['phases']._serialized_options = b'\020\001'
-  _SPECTROGRAMS._serialized_start=22
-  _SPECTROGRAMS._serialized_end=179
-  _SPECTROGRAMS_SPECTROGRAM._serialized_start=87
-  _SPECTROGRAMS_SPECTROGRAM._serialized_end=179
+  _SPECTROGRAM.fields_by_name['phase']._options = None
+  _SPECTROGRAM.fields_by_name['phase']._serialized_options = b'\020\001'
+  _SPECTROGRAM._serialized_start=21
+  _SPECTROGRAM._serialized_end=112
+  _SPECTROGRAMS._serialized_start=114
+  _SPECTROGRAMS._serialized_end=163
 # @@protoc_insertion_point(module_scope)

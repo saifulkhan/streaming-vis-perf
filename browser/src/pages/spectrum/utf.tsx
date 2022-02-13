@@ -53,8 +53,9 @@ const SpectrumPb = () => {
           // console.log("[utf-8]: received, type = text, data = ", data);
           data = decodeSpectrumUtf(data);
           if (data && data?.channels?.length > 0 && data?.power.length > 0) {
-            console.log("[utf-8]: received, type = text, data = ", data);
-            window.requestAnimationFrame(() => spectrumPlotCanvas.draw(data));
+            // console.log("[utf-8]: received, type = text, data = ", data);
+            // window.requestAnimationFrame(() => spectrumPlotCanvas.draw(data));
+            spectrumPlotCanvas.draw(data);
           }
         }
       } catch (e) {

@@ -1,12 +1,13 @@
+
 syntax = "proto3";
 
+message Spectrogram {
+    string timestamp = 1;
+    string baseline = 2;
+    string polarization = 3;
+    repeated int32 phase = 4 [packed=true];
+}
+
 message Spectrograms {
-    message Spectrogram {
-        string timestamp = 1;
-        string baseline = 2;
-        string polarization = 3;
-        repeated uint32 phases = 4 [packed=true];
-    }
-    
-    repeated Spectrogram spectrograms = 1;
+    repeated Spectrogram spectrogram = 1;
 }

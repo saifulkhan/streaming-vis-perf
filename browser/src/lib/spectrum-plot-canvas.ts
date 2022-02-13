@@ -60,10 +60,12 @@ export class SpectrumPlotCanvas {
   draw(data: any) {
     this.clear();
 
-    this.xMin = data?.xMin || data?.x_min;
-    this.yMin = data?.yMin || data?.y_min;
-    this.xMax = data?.xMax || data?.x_max;
-    this.yMax = data?.yMax || data?.y_max;
+    this.xMin = data.xMin !== undefined ? data.xMin : data.x_min;
+    this.yMin = data.yMin !== undefined ? data.yMin : data.y_min;
+    this.xMax = data.xMax !== undefined ? data.xMax : data.x_max;
+    this.yMax = data.yMax !== undefined ? data.yMax : data.y_max;
+
+    console.log("SpectrumPlotCanvas:draw:", data, this.xMin);
 
     this.rangeX = this.xMax - this.xMin;
     this.rangeY = this.yMax - this.yMin;
