@@ -2,7 +2,11 @@ import * as topojson from "topojson";
 import * as d3 from "d3";
 import $ from "jquery";
 import axios from "axios";
-import { createPath, getParsedData, getPointAtLength } from "./data-processing";
+import {
+  createPath,
+  getParsedData,
+  getPointAtLength,
+} from "./data-processing_";
 
 export function draw() {
   const svg = d3.select("#chart").select("svg"); // d3.select("svg");

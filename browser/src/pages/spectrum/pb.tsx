@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
 import { SpectrumPlotCanvas } from "src/lib/spectrum-plot-canvas";
 import { SpectrumPlotSvg } from "src/lib/spectrum-plot-svg";
-import { decodeSpectrumProto } from "src/utils/process";
+import { decodeSpectrumProto } from "src/lib/data-processing";
 import { mockSpectrumData } from "./spectrum-mock-data";
 
 const wsUrl = "ws://localhost:8002/consumer/spectrum-pb";
@@ -49,12 +49,10 @@ const SpectrumPb = () => {
         } else if (data instanceof Blob) {
           decodeSpectrumProto(data).then((spectrum: any) => {
             // prettier-ignore
-            console.log("[protobus]: received, type = Blob, spectrum = ", spectrum);
-
-            // window.requestAnimationFrame(() =>
-            //   spectrumPlotCanvas.draw(spectrum)
-            // );
-            spectrumPlotCanvas.draw(spectrum);
+            // console.log("[protobus]: received, type = Blob, spectrum = ", spectrum);
+            window.requestAnimationFrame(() =>
+              spectrumPlotCanvas.draw(spectrum)
+            );
           });
         } else {
           console.log("[protobus]: received, type = text, data = ", data);

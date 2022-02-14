@@ -16,23 +16,26 @@ Prerequisite
 - Python 3.8+,
 - FastAPI
 
+Setup a Python virtual environment and install the dependencies:
+
 ```bash
-## setup a python virtual environment and install the dependencies.
 pip install virtualenv
 virtualenv venv
 
 source ./venv/bin/activate
-
 pip install -r requirements.txt
 ```
 
-Start the server
+Set the environment variables in the `.env` file:
 
 ```bash
-## set the configuration variables, e.g, the broker address
 export BROKER_INSTANCE=localhost:9092
+```
 
-uvicorn server.main:app --reload-include app --port 8002 --host 0.0.0.0
+Start the server:
+
+```bash
+source ./venv/bin/activate
 uvicorn server.main:app --reload --port 8002 --host 0.0.0.0
 ```
 
@@ -43,23 +46,6 @@ uvicorn server.main:app --reload --port 8002 --host 0.0.0.0
 ```
 
 ## ProtoBuf Commands
-
-Protocol buffer compiler installation [doc](https://grpc.io/docs/protoc-installation).
-
-```bash
-# general syntax
-protoc -I=./app/models --python_out=./app/models ./app/models/user.proto
-
-cd messages
-
-# spectrum
-protoc -I=. --python_out=. ./spectrum.proto
-mv spectrum_pb2.py ../broker/server/models/
-
-# spectrogram
-protoc -I=. --python_out=. ./spectrogram.proto
-mv spectrogram_pb2.py ../broker/server/models/
-```
 
 ## Experimental Code for ProtoBuf Serialisation and Deserialisation in Kafaka
 

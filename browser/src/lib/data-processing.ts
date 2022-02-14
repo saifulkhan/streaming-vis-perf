@@ -10,7 +10,6 @@ export async function processUserProto(data) {
   return decoded;
 }
 
-let perf;
 export async function decodeSpectrumProto(data) {
   performance.mark("deserialise-start");
 
@@ -21,9 +20,9 @@ export async function decodeSpectrumProto(data) {
 
   performance.mark("deserialise-end");
   performance.measure("deserialise", "deserialise-start", "deserialise-end");
-  var measures = performance.getEntriesByName("deserialise");
-  perf = measures.map((d) => d.duration);
-  console.log("decodeSpectrumProto: decoding time = ", perf);
+
+  // prettier-ignore
+  console.log("decodeSpectrumProto: decoding time = ", performance.getEntriesByName("deserialise").map((d) => d.duration));
 
   return decoded;
 }
@@ -36,9 +35,8 @@ export function decodeSpectrumUtf(data) {
 
   performance.mark("deserialise-end");
   performance.measure("deserialise", "deserialise-start", "deserialise-end");
-  var measures = performance.getEntriesByName("deserialise");
-  perf = measures.map((d) => d.duration);
-  console.log("decodeSpectrumUtf: decoding time = ", perf);
+  // prettier-ignore
+  console.log("decodeSpectrumUtf: decoding time = ", performance.getEntriesByName("deserialise").map((d) => d.duration));
 
   return decoded;
 }

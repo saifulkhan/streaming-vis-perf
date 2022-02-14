@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
 import { SpectrumPlotCanvas } from "src/lib/spectrum-plot-canvas";
 import { SpectrumPlotSvg } from "src/lib/spectrum-plot-svg";
-import { decodeSpectrumUtf } from "src/utils/process";
+import { decodeSpectrumUtf } from "src/lib/data-processing";
 import { mockSpectrumData } from "./spectrum-mock-data";
 
 const wsUrl = "ws://localhost:8002/consumer/spectrum-utf";
@@ -54,8 +54,7 @@ const SpectrumPb = () => {
           data = decodeSpectrumUtf(data);
           if (data && data?.channels?.length > 0 && data?.power.length > 0) {
             // console.log("[utf-8]: received, type = text, data = ", data);
-            // window.requestAnimationFrame(() => spectrumPlotCanvas.draw(data));
-            spectrumPlotCanvas.draw(data);
+            window.requestAnimationFrame(() => spectrumPlotCanvas.draw(data));
           }
         }
       } catch (e) {

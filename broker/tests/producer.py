@@ -16,6 +16,6 @@ async def produce(payload, topic):
 
     await aioproducer.start()
     res = await aioproducer.send_and_wait(topic, payload)
-    print(f"produce: sent, response = {res}")
+    # print(f"produce: sent, response = {res}")
 
     return

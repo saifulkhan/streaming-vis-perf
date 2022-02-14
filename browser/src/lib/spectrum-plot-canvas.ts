@@ -50,11 +50,8 @@ export class SpectrumPlotCanvas {
   }
 
   clear() {
-    console.log("SpectrumPlotCanvas:clear:");
-
-    // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    // console.log("SpectrumPlotCanvas:clear:");
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    // this.ctx.save();
   }
 
   draw(data: any) {
@@ -65,7 +62,7 @@ export class SpectrumPlotCanvas {
     this.xMax = data.xMax !== undefined ? data.xMax : data.x_max;
     this.yMax = data.yMax !== undefined ? data.yMax : data.y_max;
 
-    console.log("SpectrumPlotCanvas:draw:", data, this.xMin);
+    // console.log("SpectrumPlotCanvas:draw:", data, this.xMin);
 
     this.rangeX = this.xMax - this.xMin;
     this.rangeY = this.yMax - this.yMin;

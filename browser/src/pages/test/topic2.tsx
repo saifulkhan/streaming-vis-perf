@@ -4,7 +4,7 @@ import Head from "next/head";
 import React, { ReactElement, useEffect } from "react";
 import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
 
-import { processUserProto } from "src/utils/process";
+import { processUserProto } from "src/lib/data-processing";
 
 const wsUrl = "ws://localhost:8002/consumer/topic2";
 
