@@ -62,31 +62,9 @@ See [Next.js docs → Environment Variables](https://nextjs.org/docs/basic-featu
 
 1.  Navigate to http://localhost:3000 in your browser.
 
+### ProtoBuf message
+
 ## References
 
 - Bootstrapped with [Next.js](https://github.com/vercel/next.js)
 - Using [React MUI dashboard style](https://mui.com)
-
-### ProtoBuf message
-
-Install ProtoBuf JS, see [doc](https://www.npmjs.com/package/protobufjs).
-
-```bash
-npm install protobufjs -g
-```
-
-Generate
-
-```bash
-cd messages
-
-# spectrum
-rm spectrum.js
-rm spectrum.d.ts
-rm ../browser/src/types/spectrum.d.ts
-rm ../browser/src/models/spectrum.js
-pbjs -t static-module -w commonjs -o spectrum.js spectrum.proto
-pbts -o spectrum.d.ts spectrum.js
-mv spectrum.js ../browser/src/models/spectrum.js
-mv spectrum.d.ts ../browser/src/types/spectrum.d.ts
-```

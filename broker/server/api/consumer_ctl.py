@@ -12,8 +12,6 @@ from server.models.model import ConsumerResponse
 from server.core.config import BROKER_INSTANCE
 from server.core.config import PROJECT_NAME
 
-# logger = logging.getLogger(__name__)
-
 consumer_ctl = APIRouter()
 
 
@@ -45,26 +43,6 @@ class WebsocketConsumer(WebSocketEndpoint):
 
         await self.consumer.start()
 
-        # try:
-        #     async for msg in self.consumer_ctl:
-        #         print(
-        #             "{}:{:d}:{:d}: key={} value={} timestamp_ms={}".format(
-        #                 msg.topic,
-        #                 msg.partition,
-        #                 msg.offset,
-        #                 msg.key,
-        #                 msg.value,
-        #                 msg.timestamp,
-        #             )
-        #         )
-        #         print(f"type of msg = {type(msg)}")
-        #         # response = ConsumerResponse(topic=topicname, **json.loads(msg))
-        #         await websocket.send_bytes(msg.value)
-
-        # finally:
-        #     logger.info("consumer_ctl: connected")
-        #     await self.consumer.stop()
-
         self.consumer_task = asyncio.create_task(
             self.send_consumer_message(websocket=websocket, topicname=topicname)
         )
@@ -83,44 +61,23 @@ class WebsocketConsumer(WebSocketEndpoint):
     async def send_consumer_message(self, websocket: WebSocket, topicname: str) -> None:
         logger.info(f"consumer_ctl:send_consumer_message:")
 
-        # async def consume(consumer, topicname):
-        #     async for msg in consumer:
-        #         return msg.value.decode()
-
         while True:
-
-            # text / json
-            # data = await consume(self.consumer, topicname)
-            # # logger.info(f"consumer_ctl: data = {data}, {json.loads(data)}")
-            # logger.info(f"consumer_ctl:send_consumer_message: data = {True}")
-            # # TODO
-            # # response = ConsumerResponse(topic=topicname, **json.loads(data))
-            # # response = SpectrumDataResponse(topic=topicname, **json.loads(data))
-            # # logger.info("response = %s", response)
-
-            # # await websocket.send_text(f"{response.json()}")
-            # # res = {'data': response.json()}
-            # # logger.info("res = %s", res")
-            # # await websocket.send_json(res)
-
-            # await websocket.send_json(json.loads(data))
-
             try:
                 async for msg in self.consumer:
-                    logger.info(
-                        f"consumer_ctl:send_consumer_message: topic = {msg.topic}, {msg.partition}, {msg.offset}, {msg.key}, {msg.timestamp}"
-                    )
-                    logger.info(
-                        f"consumer_ctl:send_consumer_message: type = {type(msg.value)}, size = {sys.getsizeof(msg.value)}"
-                    )
+                    # logger.info(
+                    #     f"consumer_ctl:send_consumer_message: topic = {msg.topic}, {msg.partition}, {msg.offset}, {msg.key}, {msg.timestamp}"
+                    # )
+                    # logger.info(
+                    #     f"consumer_ctl:send_consumer_message: type = {type(msg.value)}, size = {sys.getsizeof(msg.value)}"
+                    # )
                     # logger.debug(f"consumer_ctl:send_consumer_message: value = {msg.value}")
 
-                    if "pb" in msg.topic:
+                    if "protobuf" in msg.topic:
                         await websocket.send_bytes(msg.value)
-                    elif "utf" in msg.topic:
+                    elif "json" in msg.topic:
                         await websocket.send_json(json.loads(msg.value))
                     else:
-                        logger.error()
+                        logger.error("send_consumer_message")
             finally:
                 logger.info("consumer_ctl: connected")
                 await self.consumer.stop()

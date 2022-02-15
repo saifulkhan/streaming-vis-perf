@@ -4,12 +4,13 @@ from datetime import datetime
 import sys
 import numpy as np
 
+sys.path.append("..")
+from server.models.spectrum_pb2 import Spectrum
+from server.models.spectrogram_pb2 import Spectrograms, Spectrogram
+
 #
 # Spectrogram
 #
-
-sys.path.append("..")
-from server.models.spectrum_pb2 import Spectrum
 
 x_min = 0
 x_max = 0
@@ -80,10 +81,8 @@ def generate_spectrum_utf(num_channels: int):
 # Spectrogram
 #
 
-from server.models.spectrogram_pb2 import Spectrograms, Spectrogram
 
-
-def generate_spectrogram_pb(num_channels: int):
+def generate_spectrogram_protobuf(num_channels: int):
     """
     Generate ProtoBuf payload
     Returns payload and its size

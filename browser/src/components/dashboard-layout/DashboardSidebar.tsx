@@ -29,12 +29,12 @@ const sections = [
         children: [
           {
             title: "ProtoBus",
-            path: "/spectrum/pb",
+            path: "/page/?vistype=spectrum&protocol=protobuf",
             icon: <LooksOneIcon fontSize="small" />,
           },
           {
             title: "UTF-8",
-            path: "/spectrum/utf",
+            path: "/page/?vistype=spectrum&protocol=json",
             icon: <LooksTwoIcon fontSize="small" />,
           },
         ],
@@ -51,12 +51,12 @@ const sections = [
         children: [
           {
             title: "ProtoBus",
-            path: "/spectrogram/pb",
+            path: "/page/?vistype=spectrogram&protocol=protobuf",
             icon: <LooksOneIcon fontSize="small" />,
           },
           {
             title: "UTF-8",
-            path: "/spectrogram/utf",
+            path: "/page/?vistype=spectrogram&protocol=json",
             icon: <LooksTwoIcon fontSize="small" />,
           },
         ],
@@ -73,12 +73,12 @@ const sections = [
         children: [
           {
             title: "ProtoBus",
-            path: "/windmap/pb",
+            path: "/page/?vistype=windmap&protocol=protobuf",
             icon: <LooksOneIcon fontSize="small" />,
           },
           {
             title: "UTF-8",
-            path: "/windmap/utf",
+            path: "/page/?vistype=windmap&protocol=json",
             icon: <LooksTwoIcon fontSize="small" />,
           },
         ],

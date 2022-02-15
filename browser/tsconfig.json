@@ -18,6 +18,11 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["src", "src/pages/.tsx", "src/types/**/*"],
+  "include": [
+    "src",
+    "src/pages/.tsx",
+    "src/types/**/*",
+    "public/static/mock/spectrum-mock-data.js"
+  ],
   "exclude": ["node_modules"]
 }
