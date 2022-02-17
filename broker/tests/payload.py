@@ -24,7 +24,7 @@ sd_l = []
 step = 2
 
 
-def generate_spectrum_pb(num_channels: int):
+def generate_spectrum_protobuf(num_channels: int):
     """
     Generate UTF-8 payload of spectrum plot
     """
@@ -50,7 +50,7 @@ def generate_spectrum_pb(num_channels: int):
     return payload_ser, sys.getsizeof(payload_ser)
 
 
-def generate_spectrum_utf(num_channels: int):
+def generate_spectrum_json(num_channels: int):
     """
     Generate UTF-8 payload of spectrum plot
     Returns payload and its size
@@ -75,6 +75,72 @@ def generate_spectrum_utf(num_channels: int):
 
     payload_ser = json.dumps(payload_text).encode("utf-8")
     return payload_ser, sys.getsizeof(payload_ser)
+
+
+def spectrum_protobuf_to_df(
+    channels=[],
+    protobuf_payload_size=[],
+    utf_payload_size=[],
+):
+    """ """
+    _df = []
+
+    for idx, channel in enumerate(channels):
+        if len(protobuf_payload_size) > 0:
+            d1 = {
+                "channel": channel,
+                "time": protobuf_payload_size[idx],
+                "encoding": "ProtoBuf",
+            }
+            _df.append(d1)
+
+        if len(utf_payload_size) > 0:
+            d2 = {
+                "channel": channel,
+                "time": utf_payload_size[idx],
+                "encoding": "JSON (utf-8)",
+            }
+            _df.append(d2)
+
+    df = pd.DataFrame(_df)
+    return df
+
+
+def spectrum_json_to_df(
+    num_iter=0,
+    channels=[],
+    protobuf_decoding_time=[],
+    utf_decoding_time=[],
+):
+    """ """
+    idx = 0
+    _df = []
+
+    for channel in channels:
+        for itr in range(num_iter):
+
+            if len(protobuf_decoding_time) > 0:
+                d1 = {
+                    "channel": channel,
+                    "itr": itr,
+                    "time": protobuf_decoding_time[idx],
+                    "encoding": "ProtoBuf",
+                }
+                _df.append(d1)
+
+            if len(utf_decoding_time) > 0:
+                d2 = {
+                    "channel": channel,
+                    "itr": itr,
+                    "time": utf_decoding_time[idx],
+                    "encoding": "JSON (utf-8)",
+                }
+                _df.append(d2)
+
+            idx += 1
+
+    df = pd.DataFrame(_df)
+    return df
 
 
 #
