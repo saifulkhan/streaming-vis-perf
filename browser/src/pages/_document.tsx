@@ -26,10 +26,6 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
           />
-
-          <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2" />
-          <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0" />
-          <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0" />
         </Head>
         <body>
           <div id="page-transition" />
