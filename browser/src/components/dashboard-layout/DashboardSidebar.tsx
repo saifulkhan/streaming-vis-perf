@@ -20,68 +20,47 @@ interface DashboardSidebarProps {
 
 const sections = [
   {
-    title: "",
+    title: "SPECTRUM",
     items: [
       {
-        title: "Spectrum Plot",
-        path: "",
-        icon: <ShowChartIcon fontSize="large" />,
-        children: [
-          {
-            title: "ProtoBus",
-            path: "/page/?vistype=spectrum&protocol=protobuf",
-            icon: <LooksOneIcon fontSize="small" />,
-          },
-          {
-            title: "UTF-8",
-            path: "/page/?vistype=spectrum&protocol=json",
-            icon: <LooksTwoIcon fontSize="small" />,
-          },
-        ],
+        title: "ProtoBus",
+        path: "/spectrum/?protocol=protobuf",
+        icon: <LooksOneIcon fontSize="small" />,
+      },
+      {
+        title: "JSON",
+        path: "/spectrum/?&protocol=json",
+        icon: <LooksTwoIcon fontSize="small" />,
       },
     ],
   },
   {
-    title: "",
+    title: "SPECTROGRAM",
     items: [
       {
-        title: "Spectrogram",
-        path: "",
-        icon: <WaterfallChartIcon fontSize="large" />,
-        children: [
-          {
-            title: "ProtoBus",
-            path: "/page/?vistype=spectrogram&protocol=protobuf",
-            icon: <LooksOneIcon fontSize="small" />,
-          },
-          {
-            title: "UTF-8",
-            path: "/page/?vistype=spectrogram&protocol=json",
-            icon: <LooksTwoIcon fontSize="small" />,
-          },
-        ],
+        title: "ProtoBus",
+        path: "/spectrogram/?protocol=protobuf",
+        icon: <LooksOneIcon fontSize="small" />,
+      },
+      {
+        title: "JSON",
+        path: "/spectrogram/?&protocol=json",
+        icon: <LooksTwoIcon fontSize="small" />,
       },
     ],
   },
   {
-    title: "",
+    title: "WIND MAP",
     items: [
       {
-        title: "Windmap",
-        path: "",
-        icon: <AirIcon fontSize="large" />,
-        children: [
-          {
-            title: "ProtoBus",
-            path: "/page/?vistype=windmap&protocol=protobuf",
-            icon: <LooksOneIcon fontSize="small" />,
-          },
-          {
-            title: "UTF-8",
-            path: "/page/?vistype=windmap&protocol=json",
-            icon: <LooksTwoIcon fontSize="small" />,
-          },
-        ],
+        title: "ProtoBus",
+        path: "/windmap/?protocol=protobuf",
+        icon: <LooksOneIcon fontSize="small" />,
+      },
+      {
+        title: "JSON",
+        path: "/windmap/?&protocol=json",
+        icon: <LooksTwoIcon fontSize="small" />,
       },
     ],
   },
@@ -130,10 +109,10 @@ const DashboardSidebar: FC<DashboardSidebarProps> = ({
 
             <Box sx={{ ml: 2 }}>
               <Typography color="primary" variant="h5">
-                streaming vis
+                VIS Performance
               </Typography>
               <Typography color="primary" alignItems="center" variant="caption">
-                performance of streaming data vis
+                streaming data vis performance
               </Typography>
             </Box>
           </Box>

@@ -1,58 +1,57 @@
-import {
-  Avatar,
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, CardHeader, Container } from "@mui/material";
 import { Box } from "@mui/system";
 import Head from "next/head";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
-import { protobufDecoderFactory, jsonDecoder } from "src/lib/decoder";
-import { visFunctionFactory } from "src/lib/vis-function-factory";
+import { decodeJson, decodeSpectrum } from "src/lib/decoder";
+import { SpectrumPlotCanvas } from "src/lib/spectrum-plot-canvas";
 
-const VisTemplate = () => {
-  // const [visType, setVisType] = useState("");
+const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/spectrogram-`;
+
+const SpectrogramPage = () => {
   const [socketStatus, setSocketStatus] = useState("disconnected");
-
   const router = useRouter();
-  const vistype =
-    typeof router.query.vistype === "string" ? router.query.vistype : undefined;
   const protocol =
     typeof router.query.protocol === "string"
       ? router.query.protocol
       : undefined;
 
   const connectWebSocket = useCallback(async () => {
-    if (!vistype || !protocol) {
+    if (!protocol) {
       return;
     }
 
-    const wsApi = `${process.env.NEXT_PUBLIC_WS_API}/${vistype}-${protocol}`;
+    // SVG
+    // spectrumPlot = new SpectrumPlotSvg("#chart");
+    // spectrumPlot.draw(mockSpectrumData);
 
+    // Canvas
+    // const spectrumPlot = new SpectrumPlotCanvas({
+    //   canvasId: "myCanvas",
+    //   unitsPerTickX: 1000,
+    //   unitsPerTickY: 2,
+    // });
+    // spectrumPlot.draw(mockSpectrumData);
+
+    const wsApi = `${WS_API}${protocol}`;
     // prettier-ignore
-    console.log(`VisTemplate: vistype = ${vistype}, protocol = ${protocol}, wsUrl = ${wsApi}`);
-    const visFunction = visFunctionFactory(vistype, false);
-    const protobufDecoder = protobufDecoderFactory(vistype, protocol);
+    console.log(`SpectrogramPage: protocol = ${protocol}, wsApi = ${wsApi}`);
 
     // socket
     const ws = new WebSocket(wsApi);
 
     ws.onerror = function (e) {
-      console.error("VisTemplate: ws onerror, error = ", e);
+      console.error("SpectrogramPage: ws onerror, error = ", e);
     };
 
     ws.onclose = function () {
-      console.log("VisTemplate: ws onclose");
+      console.log("SpectrogramPage: ws onclose");
     };
 
     ws.onopen = function () {
-      console.log("VisTemplate: ws onopen");
+      console.log("SpectrogramPage: ws onopen");
       // ws.send("status: ws open");
     };
 
@@ -62,31 +61,31 @@ const VisTemplate = () => {
       try {
         if (data instanceof ArrayBuffer) {
           // prettier-ignore
-          console.log("VisTemplate: received, type = ArrayBuffer, data = ", data);
+          console.log("SpectrogramPage: received, type = ArrayBuffer, data = ", data);
         } else if (data instanceof Blob) {
-          protobufDecoder(data).then((decoded: any) => {
+          decodeSpectrum(data).then((decoded: any) => {
             // prettier-ignore
-            console.log("VisTemplate: received type = Blob, decoded = ", decoded);
-            window.requestAnimationFrame(() => visFunction?.draw(decoded));
+            console.log("SpectrogramPage: received type = Blob, decoded = ", decoded);
+            // window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
           });
         } else {
-          const decoded = jsonDecoder(data);
+          const decoded = decodeJson(data);
           if (decoded && decoded.status) {
             setSocketStatus(decoded.status);
           } else {
-            // console.log("VisTemplate: received type = text, decoded = ", decoded);
-            window.requestAnimationFrame(() => visFunction?.draw(decoded));
+            // console.log("SpectrogramPage: received type = text, decoded = ", decoded);
+            // window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
           }
         }
       } catch (e) {
-        console.error("VisTemplate: received, decoding error = ", e);
+        console.error("SpectrogramPage: received, decoding error = ", e);
       }
     };
 
     return () => {
       ws.close();
     };
-  }, [vistype, protocol]);
+  }, [protocol]);
 
   useEffect(() => {
     connectWebSocket();
@@ -108,8 +107,10 @@ const VisTemplate = () => {
           <Container>
             <Card sx={{ minWidth: 1800 }}>
               <CardHeader
-                title={vistype?.toUpperCase() + " [" + protocol + "]"}
-                subheader={socketStatus}
+                title="SPECTROGRAM"
+                subheader={
+                  "socket: " + socketStatus + ", serialization:" + protocol
+                }
               />
 
               <CardContent>
@@ -130,4 +131,4 @@ const VisTemplate = () => {
   );
 };
 
-export default VisTemplate;
+export default SpectrogramPage;
