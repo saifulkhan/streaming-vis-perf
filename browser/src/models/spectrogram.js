@@ -17,7 +17,7 @@ $root.Spectrogram = (function() {
      * @interface ISpectrogram
      * @property {string|null} [timestamp] Spectrogram timestamp
      * @property {string|null} [baseline] Spectrogram baseline
-     * @property {string|null} [polarization] Spectrogram polarization
+     * @property {string|null} [polarisation] Spectrogram polarisation
      * @property {Array.<number>|null} [phase] Spectrogram phase
      */
 
@@ -54,12 +54,12 @@ $root.Spectrogram = (function() {
     Spectrogram.prototype.baseline = "";
 
     /**
-     * Spectrogram polarization.
-     * @member {string} polarization
+     * Spectrogram polarisation.
+     * @member {string} polarisation
      * @memberof Spectrogram
      * @instance
      */
-    Spectrogram.prototype.polarization = "";
+    Spectrogram.prototype.polarisation = "";
 
     /**
      * Spectrogram phase.
@@ -97,8 +97,8 @@ $root.Spectrogram = (function() {
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.timestamp);
         if (message.baseline != null && Object.hasOwnProperty.call(message, "baseline"))
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.baseline);
-        if (message.polarization != null && Object.hasOwnProperty.call(message, "polarization"))
-            writer.uint32(/* id 3, wireType 2 =*/26).string(message.polarization);
+        if (message.polarisation != null && Object.hasOwnProperty.call(message, "polarisation"))
+            writer.uint32(/* id 3, wireType 2 =*/26).string(message.polarisation);
         if (message.phase != null && message.phase.length) {
             writer.uint32(/* id 4, wireType 2 =*/34).fork();
             for (var i = 0; i < message.phase.length; ++i)
@@ -146,7 +146,7 @@ $root.Spectrogram = (function() {
                 message.baseline = reader.string();
                 break;
             case 3:
-                message.polarization = reader.string();
+                message.polarisation = reader.string();
                 break;
             case 4:
                 if (!(message.phase && message.phase.length))
@@ -199,9 +199,9 @@ $root.Spectrogram = (function() {
         if (message.baseline != null && message.hasOwnProperty("baseline"))
             if (!$util.isString(message.baseline))
                 return "baseline: string expected";
-        if (message.polarization != null && message.hasOwnProperty("polarization"))
-            if (!$util.isString(message.polarization))
-                return "polarization: string expected";
+        if (message.polarisation != null && message.hasOwnProperty("polarisation"))
+            if (!$util.isString(message.polarisation))
+                return "polarisation: string expected";
         if (message.phase != null && message.hasOwnProperty("phase")) {
             if (!Array.isArray(message.phase))
                 return "phase: array expected";
@@ -228,8 +228,8 @@ $root.Spectrogram = (function() {
             message.timestamp = String(object.timestamp);
         if (object.baseline != null)
             message.baseline = String(object.baseline);
-        if (object.polarization != null)
-            message.polarization = String(object.polarization);
+        if (object.polarisation != null)
+            message.polarisation = String(object.polarisation);
         if (object.phase) {
             if (!Array.isArray(object.phase))
                 throw TypeError(".Spectrogram.phase: array expected");
@@ -258,14 +258,14 @@ $root.Spectrogram = (function() {
         if (options.defaults) {
             object.timestamp = "";
             object.baseline = "";
-            object.polarization = "";
+            object.polarisation = "";
         }
         if (message.timestamp != null && message.hasOwnProperty("timestamp"))
             object.timestamp = message.timestamp;
         if (message.baseline != null && message.hasOwnProperty("baseline"))
             object.baseline = message.baseline;
-        if (message.polarization != null && message.hasOwnProperty("polarization"))
-            object.polarization = message.polarization;
+        if (message.polarisation != null && message.hasOwnProperty("polarisation"))
+            object.polarisation = message.polarisation;
         if (message.phase && message.phase.length) {
             object.phase = [];
             for (var j = 0; j < message.phase.length; ++j)

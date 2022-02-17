@@ -4,7 +4,7 @@ syntax = "proto3";
 message Spectrogram {
     string timestamp = 1;
     string baseline = 2;
-    string polarization = 3;
+    string polarisation = 3;
     repeated int32 phase = 4 [packed=true];
 }
 

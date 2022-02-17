@@ -8,8 +8,8 @@ export interface ISpectrogram {
     /** Spectrogram baseline */
     baseline?: (string|null);
 
-    /** Spectrogram polarization */
-    polarization?: (string|null);
+    /** Spectrogram polarisation */
+    polarisation?: (string|null);
 
     /** Spectrogram phase */
     phase?: (number[]|null);
@@ -30,8 +30,8 @@ export class Spectrogram implements ISpectrogram {
     /** Spectrogram baseline. */
     public baseline: string;
 
-    /** Spectrogram polarization. */
-    public polarization: string;
+    /** Spectrogram polarisation. */
+    public polarisation: string;
 
     /** Spectrogram phase. */
     public phase: number[];

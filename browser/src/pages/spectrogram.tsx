@@ -5,8 +5,13 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
-import { decodeJson, decodeSpectrum } from "src/lib/decoder";
-import { SpectrumPlotCanvas } from "src/lib/spectrum-plot-canvas";
+import { decodeJson, decodeSpectrogram } from "src/lib/decoder";
+import { SpectrogramPlot } from "src/lib/spectrogram-plot";
+import {
+  spectrogramMockData,
+  spectrogramsMockData,
+} from "public/static/mock/spectrogram-mock-data";
+import SpectrogramPlotTable from "src/lib/spectrogram-plot-table";
 
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/spectrogram-`;
 
@@ -23,17 +28,13 @@ const SpectrogramPage = () => {
       return;
     }
 
-    // SVG
-    // spectrumPlot = new SpectrumPlotSvg("#chart");
-    // spectrumPlot.draw(mockSpectrumData);
+    // Test Spectrogram Plot
+    // const spectrogramPlot = new SpectrogramPlot("divId");
+    // spectrogramPlot.draw(spectrogramMockData.phase);
 
-    // Canvas
-    // const spectrumPlot = new SpectrumPlotCanvas({
-    //   canvasId: "myCanvas",
-    //   unitsPerTickX: 1000,
-    //   unitsPerTickY: 2,
-    // });
-    // spectrumPlot.draw(mockSpectrumData);
+    // Test Spectrogram Plot Table
+    const spectrogramPlot = new SpectrogramPlotTable("divId");
+    spectrogramPlot.draw(spectrogramsMockData.spectrogram);
 
     const wsApi = `${WS_API}${protocol}`;
     // prettier-ignore
@@ -63,7 +64,7 @@ const SpectrogramPage = () => {
           // prettier-ignore
           console.log("SpectrogramPage: received, type = ArrayBuffer, data = ", data);
         } else if (data instanceof Blob) {
-          decodeSpectrum(data).then((decoded: any) => {
+          decodeSpectrogram(data).then((decoded: any) => {
             // prettier-ignore
             console.log("SpectrogramPage: received type = Blob, decoded = ", decoded);
             // window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
@@ -114,14 +115,15 @@ const SpectrogramPage = () => {
               />
 
               <CardContent>
-                <div id="chart" />
+                <div id="divId" />
 
-                <canvas
-                  id="myCanvas"
+                {/* <canvas
+                  id="canvasId"
                   width="1600"
                   height="600"
                   style={{ border: "1px solid black" }}
-                ></canvas>
+                ></canvas> 
+                */}
               </CardContent>
             </Card>
           </Container>
