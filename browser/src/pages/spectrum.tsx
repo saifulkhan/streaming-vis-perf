@@ -127,7 +127,7 @@ const SpectrumPage = () => {
             id="canvasId"
             width="2300"
             height="1200"
-            style={{ border: "1px solid black" }}
+            style={{ border: "2px solid steelblue", backgroundColor: "white" }}
           ></canvas>
         </Box>
       </DashboardLayout>

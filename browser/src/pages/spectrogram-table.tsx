@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, Container } from "@mui/material";
+import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Head from "next/head";
 import { useCallback, useEffect, useState } from "react";
@@ -6,11 +6,7 @@ import { useRouter } from "next/router";
 
 import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
 import { decodeJson, decodeSpectrogram } from "src/lib/decoder";
-import { SpectrogramPlot } from "src/lib/spectrogram-plot";
-import {
-  spectrogramMockData,
-  spectrogramsMockData,
-} from "public/static/mock/spectrogram-mock-data";
+import { spectrogramsMockData } from "public/static/mock/spectrogram-mock-data";
 import SpectrogramPlotTable from "src/lib/spectrogram-plot-table";
 
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/spectrogram-`;
@@ -30,9 +26,6 @@ const SpectrogramTable = () => {
 
     const spectrogramPlotTable = new SpectrogramPlotTable("divId");
     spectrogramPlotTable.draw(spectrogramsMockData.spectrogram);
-
-    // const spectrogramPlot = new SpectrogramPlot("canvasId");
-    // spectrogramPlot.draw(spectrogramsMockData.spectrogram[0].phase);
 
     const wsApi = `${WS_API}${protocol}`;
     // prettier-ignore
@@ -116,6 +109,12 @@ const SpectrogramTable = () => {
             right: 0,
           }}
         >
+          <Typography variant="caption" display="block" gutterBottom>
+            {"spectrogram (table) >> socket: " +
+              socketStatus +
+              ", serialisation:" +
+              protocol}
+          </Typography>
           <div id="divId" />
         </Box>
       </DashboardLayout>

@@ -149,19 +149,30 @@ def to_df_spectrum_decoding_stat(
 #
 
 
+def baseline_polarization(num_spectrograms: int):
+    """
+    Generate baseline and polarization, e.g., [("0", "XY"), ("1", "XY"), ...]
+    """
+    base_pol = []
+    for i in range(num_spectrograms):
+        base_pol.append((str(i), random.choice(["XX", "YY", "XY", "YX"])))
+    return base_pol
+
+
 def spectrogram_protobus(num_spectrograms: int, num_channels: int):
     """
     Generate ProtoBuf payload
     Returns payload and its size
     """
+    base_pol = baseline_polarization(num_spectrograms)
 
     _spectrograms = Spectrograms()
 
     for i in range(num_spectrograms):
         spec = _spectrograms.spectrogram.add()
         spec.timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        spec.baseline = "00"
-        spec.polarisation = "XX"
+        spec.baseline = base_pol[i][0]
+        spec.polarisation = base_pol[i][1]
         spec.phase[:] = list(np.random.randint(0, 361, num_channels, dtype=np.int16))
 
     ser = _spectrograms.SerializeToString()
@@ -177,13 +188,13 @@ def spectrogram_json(num_spectrograms: int, num_channels: int):
     _spectrograms = {"spectrogram": []}
 
     for i in range(num_spectrograms):
-        phase = list(np.random.randint(0, 360, num_channels, dtype=np.int16).tolist())
-
         spec = {
             "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "baseline": "00",
-            "polarisation": "XX",
-            "phase": phase,  # list(np.round(np.random.randint(0, 361, num_channels))),
+            "baseline": str(i),
+            "polarisation": random.choice(["XX", "YY", "XY", "YX"]),
+            "phase": list(
+                np.random.randint(0, 360, num_channels, dtype=np.int16).tolist()
+            ),
         }
         _spectrograms["spectrogram"].append(spec)
 

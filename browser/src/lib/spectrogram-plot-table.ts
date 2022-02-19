@@ -1,11 +1,14 @@
 import * as d3 from "d3";
 import * as _ from "lodash";
-import styled from "@emotion/styled";
-
 import { SpectrogramPlot } from "./spectrogram-plot";
 
+const WIDTH = 2300;
+const HEIGHT = 1200;
+const CELL_HEIGHT = 300;
+const CELL_GAP = 10;
+
 class SpectrogramPlotTable {
-  phaseDisplayId;
+  divId;
   table;
   cells;
   colNames;
@@ -14,8 +17,8 @@ class SpectrogramPlotTable {
   numCols;
   data;
 
-  constructor(id) {
-    this.phaseDisplayId = id;
+  constructor(divId) {
+    this.divId = divId;
   }
 
   draw(data) {
@@ -27,12 +30,12 @@ class SpectrogramPlotTable {
       // || !_.isEqual(this.colNames, polarisation)
       // ||!_.isEqual(this.rowNames, baseline)
     ) {
-      const [baseline, polarisation] = data.map((d) => [
-        d.baseline,
-        d.polarisation,
-      ]);
-      this.colNames = polarisation;
-      this.rowNames = baseline;
+      // const [baseline, polarisation] = data.map((d) => [
+      //   d.baseline,
+      //   d.polarisation,
+      // ]);
+      // this.colNames = polarisation;
+      // this.rowNames = baseline;
       this.numCols = this.colNames.length;
       this.numRows = this.rowNames.length;
 
@@ -59,13 +62,13 @@ class SpectrogramPlotTable {
   }
 
   drawTable() {
-    // remove existing table
-    d3.select("#" + this.phaseDisplayId)
+    // clear/remove existing table
+    d3.select("#" + this.divId)
       .selectAll("table")
       .remove();
 
     const table = d3
-      .select("#" + this.phaseDisplayId)
+      .select("#" + this.divId)
       .append("table")
       .style("class", "table");
 

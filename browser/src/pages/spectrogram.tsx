@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
-  Typography,
-} from "@mui/material";
+import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Head from "next/head";
 import { useCallback, useEffect, useState } from "react";
@@ -16,6 +10,8 @@ import { SpectrogramPlot, WaterfallDirection } from "src/lib/spectrogram-plot";
 import { spectrogramsMockData } from "public/static/mock/spectrogram-mock-data";
 
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/spectrogram-`;
+const WIDTH = 2300,
+  HEIGHT = 1200;
 
 const SpectrogramPage = () => {
   const [socketStatus, setSocketStatus] = useState("disconnected");
@@ -30,7 +26,10 @@ const SpectrogramPage = () => {
       return;
     }
 
-    const spectrogramPlot = new SpectrogramPlot("canvasId");
+    const spectrogramPlot = new SpectrogramPlot(
+      "canvasId",
+      WaterfallDirection.TOP_TO_BOTTOM,
+    );
     // Test with mock data
     // for (let d of spectrogramsMockData.spectrogram) {
     //   spectrogramPlot.draw(d.phase);
@@ -120,9 +119,9 @@ const SpectrogramPage = () => {
 
           <canvas
             id="canvasId"
-            width="2300"
-            height="1200"
-            style={{ border: "1px solid black" }}
+            width={WIDTH}
+            height={HEIGHT}
+            style={{ border: "2px solid steelblue", backgroundColor: "white" }}
           ></canvas>
         </Box>
       </DashboardLayout>
