@@ -1,4 +1,10 @@
-import { Card, CardContent, CardHeader, Container } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import Head from "next/head";
 import { useCallback, useEffect, useState } from "react";
@@ -30,11 +36,12 @@ const SpectrumPage = () => {
 
     // Canvas
     const spectrumPlot = new SpectrumPlotCanvas({
-      canvasId: "myCanvas",
+      canvasId: "canvasId",
       unitsPerTickX: 1000,
       unitsPerTickY: 2,
     });
-    spectrumPlot.draw(mockSpectrumData);
+    // Test with mock data
+    // spectrumPlot.draw(mockSpectrumData);
 
     const wsApi = `${WS_API}${protocol}`;
     // prettier-ignore
@@ -95,37 +102,33 @@ const SpectrumPage = () => {
   return (
     <>
       <Head>
-        <title>Spectrum</title>
+        <title>Spectrumtitle="SPECTRUM" subheader=</title>
       </Head>
       <DashboardLayout>
         <Box
           sx={{
-            backgroundColor: "background.default",
-            minHeight: "100%",
-            py: 8,
+            position: "fixed",
+            overflow: "visible",
+            bottom: 0,
+            left: { xs: 0, md: 280 },
+            top: 60,
+            right: 0,
           }}
         >
-          <Container>
-            <Card sx={{ minWidth: 1800 }}>
-              <CardHeader
-                title="SPECTRUM"
-                subheader={
-                  "socket: " + socketStatus + ", serialization:" + protocol
-                }
-              />
+          <Typography variant="caption" display="block" gutterBottom>
+            {"spectrum plot >> socket: " +
+              socketStatus +
+              ", serialisation:" +
+              protocol}
+          </Typography>
+          <div id="chart" />
 
-              <CardContent>
-                <div id="chart" />
-
-                <canvas
-                  id="myCanvas"
-                  width="1600"
-                  height="600"
-                  style={{ border: "1px solid black" }}
-                ></canvas>
-              </CardContent>
-            </Card>
-          </Container>
+          <canvas
+            id="canvasId"
+            width="2300"
+            height="1200"
+            style={{ border: "1px solid black" }}
+          ></canvas>
         </Box>
       </DashboardLayout>
     </>

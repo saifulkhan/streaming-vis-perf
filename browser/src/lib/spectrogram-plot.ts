@@ -1,54 +1,78 @@
 const PHASE_NORM_FACTOR = 360;
+const PAD = 10;
+
+export const enum WaterfallDirection {
+  TOP_TO_BOTTOM = "top-to-bottom",
+  LEFT_TO_RIGHT = "left-to-right",
+}
 
 export class SpectrogramPlot {
+  direction: WaterfallDirection;
   canvas;
-  context;
+  ctx;
   width: number;
   height: number;
   len: number = 0;
   h: number;
+  w: number;
   x: number;
+  y: number;
   init: boolean;
 
   data = [];
 
-  constructor(id) {
-    this.canvas = document.getElementById(id);
-    this.context = this.canvas.getContext("2d");
+  constructor(canvasId, direction = WaterfallDirection.TOP_TO_BOTTOM) {
+    this.canvas = document.getElementById(canvasId);
+    this.ctx = this.canvas.getContext("2d");
     this.width = this.canvas.width;
     this.height = this.canvas.height;
+
+    this.direction = direction;
   }
 
   draw(data) {
     if (!this.init) {
-      this.context.fillStyle = "hsl(0, 0%, 100%)";
-      this.context.fillRect(0, 0, this.width, this.height);
-      this.x = this.width - 1;
+      this.ctx.fillStyle = "hsl(0, 0%, 100%)";
+      this.ctx.fillRect(0, 0, this.width, this.height);
+
+      if (this.direction === WaterfallDirection.TOP_TO_BOTTOM) {
+        this.y = 0;
+      } else {
+        this.x = this.width - 1;
+      }
 
       this.init = true;
     }
 
     if (this.len !== data.length) {
       this.len = data.length;
-      this.h = this.height / this.len;
+
+      if (this.direction === WaterfallDirection.TOP_TO_BOTTOM) {
+        this.w = this.width / this.len;
+      } else {
+        this.h = this.height / this.len;
+      }
     }
 
     this.data = data;
-    // console.log("SpectrogramPlot:draw: data = ", this.data);
+    //console.log("SpectrogramPlot:draw: data = ", this.data);
 
     // window.requestAnimationFrame(this.loop.bind(this));
     this.loop();
   }
 
   loop() {
-    const imgData = this.context.getImageData(
-      1,
-      0,
-      this.width - 1,
-      this.height,
-    );
-    this.context.fillRect(0, 0, this.width, this.height);
-    this.context.putImageData(imgData, 0, 0);
+    if (this.direction === WaterfallDirection.TOP_TO_BOTTOM) {
+      // prettier-ignore
+      const imgData = this.ctx.getImageData(0, 0, this.width, this.height - 1);
+      this.ctx.fillRect(0, 0, this.width, this.height);
+      this.ctx.putImageData(imgData, 0, 1);
+    } else {
+      // prettier-ignore
+      const imgData = this.ctx.getImageData(1, 0, this.width - 1, this.height);
+      this.ctx.fillRect(0, 0, this.width, this.height);
+      this.ctx.putImageData(imgData, 0, 0);
+    }
 
     // console.log("SpectrogramPlot:loop: data = ", this.data);
 
@@ -61,13 +85,19 @@ export class SpectrogramPlot {
       // prettier-ignore
       // console.log(`rat = ${rat}, hue = ${hue}, sat = ${sat}, lit = ${lit}`);
       // prettier-ignore
-      // console.log(`SpectrogramPlot:loop: width = ${this.width}, height = ${this.height}, h = ${this.h}`);
+      // console.log(`SpectrogramPlot:loop: h = ${this.h}, w = ${this.w}, x = ${this.x}, y = ${this.y}`);
 
-      this.context.beginPath();
-      this.context.strokeStyle = `hsl(${hue}, ${sat}, ${lit})`;
-      this.context.moveTo(this.x, this.height - i * this.h);
-      this.context.lineTo(this.x, this.height - (i * this.h + this.h));
-      this.context.stroke();
+      this.ctx.beginPath();
+      this.ctx.strokeStyle = `hsl(${hue}, ${sat}, ${lit})`;
+
+      if (this.direction === WaterfallDirection.TOP_TO_BOTTOM) {
+        this.ctx.moveTo(0 + i * this.w, this.y);
+        this.ctx.lineTo(0 + (i * this.w + this.w), this.y);
+      } else {
+        this.ctx.moveTo(this.x, this.height - i * this.h);
+        this.ctx.lineTo(this.x, this.height - (i * this.h + this.h));
+      }
+      this.ctx.stroke();
     }
   }
 }

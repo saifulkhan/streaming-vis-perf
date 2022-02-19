@@ -13,8 +13,11 @@ export async function decodeSpectrum(
   log &&
     performance.measure("deserialise", "deserialise-start", "deserialise-end");
 
-  // prettier-ignore
-  console.log("decodeSpectrum: decoding time = ", performance.getEntriesByName("deserialise").map((d) => d.duration));
+  log &&
+    console.log(
+      "decodeSpectrum: decoding time = ",
+      performance.getEntriesByName("deserialise").map((d) => d.duration),
+    );
   return decoded;
 }
 
@@ -27,8 +30,11 @@ export async function decodeSpectrogram(data: any, log: boolean = false) {
   log &&
     performance.measure("deserialise", "deserialise-start", "deserialise-end");
 
-  // prettier-ignore
-  log && console.log("decodeSpectrogram: decoding time = ", performance.getEntriesByName("deserialise").map((d) => d.duration));
+  log &&
+    console.log(
+      "decodeSpectrogram: decoding time = ",
+      performance.getEntriesByName("deserialise").map((d) => d.duration),
+    );
   return decoded;
 }
 
@@ -39,7 +45,10 @@ export function decodeJson(data: any, log: boolean = false) {
   log &&
     performance.measure("deserialise", "deserialise-start", "deserialise-end");
 
-  // prettier-ignore
-  log && console.log("jsonDecoder: decoding time = ", performance.getEntriesByName("deserialise").map((d) => d.duration));
+  log &&
+    console.log(
+      "jsonDecoder: decoding time = ",
+      performance.getEntriesByName("deserialise").map((d) => d.duration),
+    );
   return decoded;
 }

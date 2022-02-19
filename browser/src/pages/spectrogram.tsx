@@ -1,4 +1,10 @@
-import { Card, CardContent, CardHeader, Container } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import Head from "next/head";
 import { useCallback, useEffect, useState } from "react";
@@ -6,7 +12,7 @@ import { useRouter } from "next/router";
 
 import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
 import { decodeJson, decodeSpectrogram } from "src/lib/decoder";
-import { SpectrogramPlot } from "src/lib/spectrogram-plot";
+import { SpectrogramPlot, WaterfallDirection } from "src/lib/spectrogram-plot";
 import { spectrogramsMockData } from "public/static/mock/spectrogram-mock-data";
 
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/spectrogram-`;
@@ -25,10 +31,10 @@ const SpectrogramPage = () => {
     }
 
     const spectrogramPlot = new SpectrogramPlot("canvasId");
-    // Mock test
-    for (let d of spectrogramsMockData.spectrogram) {
-      spectrogramPlot.draw(d.phase);
-    }
+    // Test with mock data
+    // for (let d of spectrogramsMockData.spectrogram) {
+    //   spectrogramPlot.draw(d.phase);
+    // }
 
     const wsApi = `${WS_API}${protocol}`;
     // prettier-ignore
@@ -105,6 +111,13 @@ const SpectrogramPage = () => {
             right: 0,
           }}
         >
+          <Typography variant="caption" display="block" gutterBottom>
+            {"Spectrogram plot >> socket: " +
+              socketStatus +
+              ", serialisation:" +
+              protocol}
+          </Typography>
+
           <canvas
             id="canvasId"
             width="2300"

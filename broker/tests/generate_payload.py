@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 import sys
 import numpy as np
+import pandas as pd
 
 sys.path.append("..")
 from server.models.spectrum_pb2 import Spectrum
@@ -77,7 +78,7 @@ def spectrum_json(num_channels: int):
     return payload_ser, sys.getsizeof(payload_ser)
 
 
-def spectrum_protobuf_to_df(
+def to_df_spectrum_size_stat(
     channels=[],
     protobuf_payload_size=[],
     utf_payload_size=[],
@@ -106,7 +107,7 @@ def spectrum_protobuf_to_df(
     return df
 
 
-def spectrum_json_to_df(
+def to_df_spectrum_decoding_stat(
     num_iter=0,
     channels=[],
     protobuf_decoding_time=[],
