@@ -24,7 +24,7 @@ sd_l = []
 step = 2
 
 
-def generate_spectrum_protobuf(num_channels: int):
+def spectrum_protobuf(num_channels: int):
     """
     Generate UTF-8 payload of spectrum plot
     """
@@ -50,7 +50,7 @@ def generate_spectrum_protobuf(num_channels: int):
     return payload_ser, sys.getsizeof(payload_ser)
 
 
-def generate_spectrum_json(num_channels: int):
+def spectrum_json(num_channels: int):
     """
     Generate UTF-8 payload of spectrum plot
     Returns payload and its size
@@ -148,7 +148,7 @@ def spectrum_json_to_df(
 #
 
 
-def generate_spectrogram_protobuf(num_channels: int):
+def spectrogram_protobus(num_spectrograms: int, num_channels: int):
     """
     Generate ProtoBuf payload
     Returns payload and its size
@@ -156,44 +156,35 @@ def generate_spectrogram_protobuf(num_channels: int):
 
     _spectrograms = Spectrograms()
 
-    for i in range(4):
+    for i in range(num_spectrograms):
         spec = _spectrograms.spectrogram.add()
         spec.timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         spec.baseline = "00"
-        spec.polarization = "XX"
-        spec.phase[:] = list(np.random.randint(0, 361, num_channels))
+        spec.polarisation = "XX"
+        spec.phase[:] = list(np.random.randint(0, 361, num_channels, dtype=np.int16))
 
-    # print("generate_pb: ", _spectrograms)
-
-    payload_ser = _spectrograms.SerializeToString()
-    return payload_ser, sys.getsizeof(payload_ser)
+    ser = _spectrograms.SerializeToString()
+    return ser, sys.getsizeof(ser)
 
 
-def generate_spectrogram_utf(num_channels: int):
+def spectrogram_json(num_spectrograms: int, num_channels: int):
     """
     Generate UTF-8 payload
     Returns payload and its size
     """
 
-    for i in range(4):
-        pass
+    _spectrograms = {"spectrogram": []}
 
-    channels = list(range(num_channels))
-    power = list(np.round(np.absolute(np.sin(np.random.rand(num_channels))), 2) * 10)
-    sd_u = list(np.round(np.absolute(np.sin(np.random.rand(num_channels))), 2))
-    sd_l = list(np.round(np.absolute(np.sin(np.random.rand(num_channels))), 2))
+    for i in range(num_spectrograms):
+        phase = list(np.random.randint(0, 360, num_channels, dtype=np.int16).tolist())
 
-    payload_text = {
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "x_min": x_min,
-        "x_max": num_channels,
-        "y_min": y_min,
-        "y_max": y_max,
-        "channels": channels,
-        "power": power,
-        "sd_l": sd_l,
-        "sd_u": sd_u,
-    }
+        spec = {
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "baseline": "00",
+            "polarisation": "XX",
+            "phase": phase,  # list(np.round(np.random.randint(0, 361, num_channels))),
+        }
+        _spectrograms["spectrogram"].append(spec)
 
-    payload_ser = json.dumps(payload_text).encode("utf-8")
-    return payload_ser, sys.getsizeof(payload_ser)
+    ser = json.dumps(_spectrograms).encode("utf-8")
+    return ser, sys.getsizeof(ser)

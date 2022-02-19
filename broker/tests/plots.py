@@ -148,3 +148,9 @@ def plot_deserialisation_time(y, x=[]):
     ax.boxplot(y, labels=x)
 
     plt.show()
+
+
+def heatmap(df, vmin=None, vmax=None):
+    # Change fonts
+    # https://programmer.group/python-seaborn-visualization-some-tips-for-personalizing-graphics.html
+    sns.heatmap(df, cmap="vlag", vmin=vmin, vmax=vmax)

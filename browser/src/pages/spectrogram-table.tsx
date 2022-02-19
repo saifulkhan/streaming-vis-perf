@@ -7,11 +7,15 @@ import { useRouter } from "next/router";
 import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
 import { decodeJson, decodeSpectrogram } from "src/lib/decoder";
 import { SpectrogramPlot } from "src/lib/spectrogram-plot";
-import { spectrogramsMockData } from "public/static/mock/spectrogram-mock-data";
+import {
+  spectrogramMockData,
+  spectrogramsMockData,
+} from "public/static/mock/spectrogram-mock-data";
+import SpectrogramPlotTable from "src/lib/spectrogram-plot-table";
 
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/spectrogram-`;
 
-const SpectrogramPage = () => {
+const SpectrogramTable = () => {
   const [socketStatus, setSocketStatus] = useState("disconnected");
   const router = useRouter();
   const protocol =
@@ -24,11 +28,11 @@ const SpectrogramPage = () => {
       return;
     }
 
-    const spectrogramPlot = new SpectrogramPlot("canvasId");
-    // Mock test
-    for (let d of spectrogramsMockData.spectrogram) {
-      spectrogramPlot.draw(d.phase);
-    }
+    const spectrogramPlotTable = new SpectrogramPlotTable("divId");
+    spectrogramPlotTable.draw(spectrogramsMockData.spectrogram);
+
+    // const spectrogramPlot = new SpectrogramPlot("canvasId");
+    // spectrogramPlot.draw(spectrogramsMockData.spectrogram[0].phase);
 
     const wsApi = `${WS_API}${protocol}`;
     // prettier-ignore
@@ -60,11 +64,18 @@ const SpectrogramPage = () => {
         } else if (data instanceof Blob) {
           decodeSpectrogram(data).then((decoded: any) => {
             // prettier-ignore
-            // console.log("SpectrogramPage: received type = Blob, decoded = ", decoded);
+            console.log("SpectrogramPage: received type = Blob, decoded = ", decoded);
+            //
+            // single spectrogram plot
+            //
             window.requestAnimationFrame(() => {
-              // single spectrogram plot
-              spectrogramPlot.draw(decoded.spectrogram[0].phase);
+              // spectrogramPlot.draw(decoded.spectrogram[0].phase),
+              // spectrogramPlotTable.draw(decoded.spectrogram),
             });
+
+            //
+            // spectrogram plot table
+            //
           });
         } else {
           const decoded = decodeJson(data);
@@ -92,7 +103,7 @@ const SpectrogramPage = () => {
   return (
     <>
       <Head>
-        <title>Spectrogram</title>
+        <title>Spectrogram Table</title>
       </Head>
       <DashboardLayout>
         <Box
@@ -105,16 +116,11 @@ const SpectrogramPage = () => {
             right: 0,
           }}
         >
-          <canvas
-            id="canvasId"
-            width="2300"
-            height="1200"
-            style={{ border: "1px solid black" }}
-          ></canvas>
+          <div id="divId" />
         </Box>
       </DashboardLayout>
     </>
   );
 };
 
-export default SpectrogramPage;
+export default SpectrogramTable;

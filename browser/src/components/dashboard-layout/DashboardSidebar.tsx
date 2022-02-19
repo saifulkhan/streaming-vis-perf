@@ -4,11 +4,7 @@ import { useRouter } from "next/router";
 import { Box, Divider, Drawer, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import ShowChartIcon from "@mui/icons-material/ShowChart";
-import LooksOneIcon from "@mui/icons-material/LooksOne";
-import LooksTwoIcon from "@mui/icons-material/LooksTwo";
-import AirIcon from "@mui/icons-material/Air";
-import WaterfallChartIcon from "@mui/icons-material/WaterfallChart";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Logo from "src/components/Logo";
 import NavSection from "src/components/dashboard-layout/NavSection";
 import Scrollbar from "src/components/Scrollbar";
@@ -25,12 +21,12 @@ const sections = [
       {
         title: "ProtoBus",
         path: "/spectrum/?protocol=protobuf",
-        icon: <LooksOneIcon fontSize="small" />,
+        icon: <NavigateNextIcon fontSize="small" />,
       },
       {
         title: "JSON",
         path: "/spectrum/?&protocol=json",
-        icon: <LooksTwoIcon fontSize="small" />,
+        icon: <NavigateNextIcon fontSize="small" />,
       },
     ],
   },
@@ -40,12 +36,17 @@ const sections = [
       {
         title: "ProtoBus",
         path: "/spectrogram/?protocol=protobuf",
-        icon: <LooksOneIcon fontSize="small" />,
+        icon: <NavigateNextIcon fontSize="small" />,
       },
       {
         title: "JSON",
         path: "/spectrogram/?&protocol=json",
-        icon: <LooksTwoIcon fontSize="small" />,
+        icon: <NavigateNextIcon fontSize="small" />,
+      },
+      {
+        title: "ProtoBus (Table)",
+        path: "/spectrogram-table/?protocol=protobuf",
+        icon: <NavigateNextIcon fontSize="small" />,
       },
     ],
   },
@@ -55,12 +56,12 @@ const sections = [
       {
         title: "ProtoBus",
         path: "/windmap/?protocol=protobuf",
-        icon: <LooksOneIcon fontSize="small" />,
+        icon: <NavigateNextIcon fontSize="small" />,
       },
       {
         title: "JSON",
         path: "/windmap/?&protocol=json",
-        icon: <LooksTwoIcon fontSize="small" />,
+        icon: <NavigateNextIcon fontSize="small" />,
       },
     ],
   },
