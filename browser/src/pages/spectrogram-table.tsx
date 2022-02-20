@@ -25,7 +25,7 @@ const SpectrogramTable = () => {
     }
 
     const spectrogramPlotTable = new SpectrogramPlotTable("divId");
-    spectrogramPlotTable.draw(spectrogramsMockData.spectrogram);
+    // spectrogramPlotTable.draw(spectrogramsMockData.spectrogram);
 
     const wsApi = `${WS_API}${protocol}`;
     // prettier-ignore
@@ -58,17 +58,10 @@ const SpectrogramTable = () => {
           decodeSpectrogram(data).then((decoded: any) => {
             // prettier-ignore
             console.log("SpectrogramPage: received type = Blob, decoded = ", decoded);
-            //
-            // single spectrogram plot
-            //
-            window.requestAnimationFrame(() => {
-              // spectrogramPlot.draw(decoded.spectrogram[0].phase),
-              // spectrogramPlotTable.draw(decoded.spectrogram),
-            });
 
-            //
-            // spectrogram plot table
-            //
+            window.requestAnimationFrame(() => {
+              spectrogramPlotTable.draw(decoded.spectrogram);
+            });
           });
         } else {
           const decoded = decodeJson(data);
