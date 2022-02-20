@@ -151,7 +151,8 @@ def to_df_spectrum_decoding_stat(
 
 def baseline_polarization(num_spectrograms: int):
     """
-    Generate baseline and polarization, e.g., [("0", "XY"), ("1", "XY"), ...]
+    Generate an array of baseline and polarization values,
+    e.g., [("0", "XY"), ("1", "XY"), ...]
     """
     base_pol = []
     for i in range(num_spectrograms):

@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
-  Typography,
-} from "@mui/material";
+import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Head from "next/head";
 import { useCallback, useEffect, useState } from "react";
@@ -15,6 +9,8 @@ import { decodeJson, decodeSpectrum } from "src/lib/decoder";
 import { SpectrumPlotCanvas } from "src/lib/spectrum-plot-canvas";
 import { mockSpectrumData } from "public/static/mock/spectrum-mock-data";
 
+const WIDTH = 600;
+const HEIGHT = 300;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/spectrum-`;
 
 const SpectrumPage = () => {
@@ -31,7 +27,7 @@ const SpectrumPage = () => {
     }
 
     // SVG
-    // spectrumPlot = new SpectrumPlotSvg("#chart");
+    // spectrumPlot = new SpectrumPlotSvg("#divId");
     // spectrumPlot.draw(mockSpectrumData);
 
     // Canvas
@@ -41,7 +37,7 @@ const SpectrumPage = () => {
       unitsPerTickY: 2,
     });
     // Test with mock data
-    // spectrumPlot.draw(mockSpectrumData);
+    spectrumPlot.draw(mockSpectrumData);
 
     const wsApi = `${WS_API}${protocol}`;
     // prettier-ignore
@@ -116,18 +112,18 @@ const SpectrumPage = () => {
           }}
         >
           <Typography variant="caption" display="block" gutterBottom>
-            {"spectrum plot >> socket: " +
+            {"SPECTRUM: Socket: " +
               socketStatus +
-              ", serialisation:" +
+              ", Serialisation:" +
               protocol}
           </Typography>
-          <div id="chart" />
+          <div id="divId" />
 
           <canvas
             id="canvasId"
-            width="2300"
-            height="1200"
-            style={{ border: "2px solid steelblue", backgroundColor: "white" }}
+            width={WIDTH}
+            height={HEIGHT}
+            style={{ outline: "gray 1px solid", backgroundColor: "white" }}
           ></canvas>
         </Box>
       </DashboardLayout>

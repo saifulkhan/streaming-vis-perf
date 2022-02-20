@@ -19,7 +19,7 @@ const sections = [
     title: "SPECTRUM",
     items: [
       {
-        title: "ProtoBus",
+        title: "ProtoBuf",
         path: "/spectrum/?protocol=protobuf",
         icon: <NavigateNextIcon fontSize="small" />,
       },
@@ -34,7 +34,7 @@ const sections = [
     title: "SPECTROGRAM",
     items: [
       {
-        title: "ProtoBus",
+        title: "ProtoBuf",
         path: "/spectrogram/?protocol=protobuf",
         icon: <NavigateNextIcon fontSize="small" />,
       },
@@ -43,9 +43,19 @@ const sections = [
         path: "/spectrogram/?&protocol=json",
         icon: <NavigateNextIcon fontSize="small" />,
       },
+    ],
+  },
+  {
+    title: "SPECTROGRAM - TABLE",
+    items: [
       {
-        title: "ProtoBus (Table)",
+        title: "ProtoBuf",
         path: "/spectrogram-table/?protocol=protobuf",
+        icon: <NavigateNextIcon fontSize="small" />,
+      },
+      {
+        title: "JSON",
+        path: "/spectrogram-table/?protocol=json",
         icon: <NavigateNextIcon fontSize="small" />,
       },
     ],
@@ -54,7 +64,7 @@ const sections = [
     title: "WIND MAP",
     items: [
       {
-        title: "ProtoBus",
+        title: "ProtoBuf",
         path: "/windmap/?protocol=protobuf",
         icon: <NavigateNextIcon fontSize="small" />,
       },

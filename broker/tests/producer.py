@@ -1,7 +1,7 @@
 from aiokafka import AIOKafkaProducer
 
 BROKER_INSTANCE = "localhost:9092"
-MAX_REQ_SIZE = 30 * 1024 * 1024  # 30 MB
+MAX_REQ_SIZE = 35 * 1024 * 1024  # 30 MB
 
 
 async def produce(payload, topic):
