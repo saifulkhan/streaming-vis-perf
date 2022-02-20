@@ -111,9 +111,9 @@ const SpectrogramPage = () => {
           }}
         >
           <Typography variant="caption" display="block" gutterBottom>
-            {"Spectrogram plot >> socket: " +
+            {"SPECTROGRAM PLOT: Socket: " +
               socketStatus +
-              ", serialisation:" +
+              ", Serialisation:" +
               protocol}
           </Typography>
 
@@ -121,7 +121,11 @@ const SpectrogramPage = () => {
             id="canvasId"
             width={WIDTH}
             height={HEIGHT}
-            style={{ border: "2px solid steelblue", backgroundColor: "white" }}
+            style={{
+              outline: "gray 1px solid",
+              // border: "2px solid steelblue",
+              backgroundColor: "white",
+            }}
           ></canvas>
         </Box>
       </DashboardLayout>

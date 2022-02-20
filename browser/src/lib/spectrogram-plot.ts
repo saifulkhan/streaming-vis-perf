@@ -27,6 +27,8 @@ export class SpectrogramPlot {
     this.width = this.canvas.width;
     this.height = this.canvas.height;
 
+    console.log("SpectrogramPlot:constructor:", this.width, this.height);
+
     this.direction = direction;
   }
 

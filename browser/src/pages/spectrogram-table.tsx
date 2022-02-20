@@ -103,9 +103,9 @@ const SpectrogramTable = () => {
           }}
         >
           <Typography variant="caption" display="block" gutterBottom>
-            {"spectrogram (table) >> socket: " +
+            {"SPECTROGRAM (TABLE): Socket: " +
               socketStatus +
-              ", serialisation:" +
+              ", Serialisation:" +
               protocol}
           </Typography>
           <div id="divId" />

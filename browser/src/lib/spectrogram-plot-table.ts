@@ -2,10 +2,10 @@ import * as d3 from "d3";
 import * as _ from "lodash";
 import { SpectrogramPlot } from "./spectrogram-plot";
 
-const WIDTH = 2300;
-const HEIGHT = 1200;
+const TABLE_WIDTH = 2300;
+const TABLE_HEIGHT = 1200;
 const CELL_HEIGHT = 100;
-const CELL_WIDTH = 300;
+const CELL_WIDTH = 200;
 const CELL_GAP = 5;
 
 interface Cell {
@@ -34,7 +34,7 @@ class SpectrogramPlotTable {
 
     if (!this.table || this.len !== data.length) {
       this.len = data.length;
-      this.numCols = Math.floor(WIDTH / (CELL_WIDTH + CELL_GAP));
+      this.numCols = Math.floor(TABLE_WIDTH / (CELL_WIDTH + CELL_GAP));
       this.numRows = Math.ceil(this.len / this.numCols) || 1;
       // console.log(this.numCols, this.numRows);
 
@@ -113,7 +113,9 @@ class SpectrogramPlotTable {
         const id = this.getId(d?.metadata);
         if (id) return id;
       })
-      .attr("style", "canvas");
+      .attr("style", "canvas")
+      .attr("width", CELL_WIDTH)
+      .attr("height", CELL_HEIGHT);
 
     return;
   }
