@@ -23,7 +23,7 @@ import { SettingsProvider } from "src/contexts/SettingsContext";
 const clientSideEmotionCache = createEmotionCache();
 
 // Import all the css files created for d3 charts/
-// import "src/lib/css/windmap-svg.css";
+import "src/lib/css/spectrogram-plot-table.css";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;

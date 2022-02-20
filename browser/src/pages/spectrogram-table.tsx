@@ -25,7 +25,7 @@ const SpectrogramTable = () => {
     }
 
     const spectrogramPlotTable = new SpectrogramPlotTable("divId");
-    // spectrogramPlotTable.draw(spectrogramsMockData.spectrogram);
+    spectrogramPlotTable.draw(spectrogramsMockData.spectrogram);
 
     const wsApi = `${WS_API}${protocol}`;
     // prettier-ignore

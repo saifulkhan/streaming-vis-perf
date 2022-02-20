@@ -19,6 +19,18 @@ export const spectrogramsMockData = {
             polarisation: "YY",
             phase: Array.from({length: 30}, () => Math.floor(Math.random() * 360))
         },
+        { 
+            timestamp: "2022-02-09 15:36:49",
+            baseline: "3",
+            polarisation: "YX",
+            phase: Array.from({length: 30}, () => Math.floor(Math.random() * 360))
+        },
+        { 
+            timestamp: "2022-02-09 15:36:49",
+            baseline: "4",
+            polarisation: "XX",
+            phase: Array.from({length: 30}, () => Math.floor(Math.random() * 360))
+        },
 
     ]
 }
