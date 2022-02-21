@@ -55,15 +55,15 @@ const SpectrogramTable = () => {
           // prettier-ignore
           console.log("SpectrogramPage: received, type = ArrayBuffer, data = ", data);
         } else if (data instanceof Blob) {
-          decodeSpectrogram(data, true).then((decoded: any) => {
+          decodeSpectrogram(data).then((decoded: any) => {
             // prettier-ignore
             // console.log("SpectrogramPage: received type = Blob, decoded = ", decoded);
             window.requestAnimationFrame(() => {
-              //   spectrogramPlotTable.draw(decoded.spectrogram);
+              spectrogramPlotTable.draw(decoded.spectrogram);
             });
           });
         } else {
-          const decoded = decodeJson(data, true);
+          const decoded = decodeJson(data);
           // prettier-ignore
           // console.log( "SpectrogramPage: received type = string, decoded = ", decoded, );
           if (decoded && decoded.status) {
