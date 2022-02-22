@@ -1,5 +1,4 @@
 import type { FC, ReactNode } from "react";
-// import { matchPath } from 'react-router-dom';
 import { matchPath } from "src/utils/matchPath";
 
 import { List, ListSubheader, ListProps } from "@mui/material";
@@ -58,13 +57,10 @@ const reduceChildRoutes = ({
 }: X): Array<JSX.Element> => {
   const key = `${item.title}-${depth}`;
 
-  // console.debug("NavSection:reduceChildRoutes: item.path=", item.path, ", pathname=", pathname);
   const exactMatch = matchPath(item.path, pathname).matches;
-  // console.log("NavSection:reduceChildRoutes: exactMatch=", exactMatch, ', children = ', item.children)
 
   if (item.children) {
     const partialMatch = matchPath(item.path, pathname).matches;
-    // console.log("NavSection:reduceChildRoutes: partialMatch=", partialMatch);
 
     acc.push(
       <NavItem
