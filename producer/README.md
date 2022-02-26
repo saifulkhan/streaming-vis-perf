@@ -1,6 +1,8 @@
-# About
+# Producer
 
-## Getting Started
+Produce different payloads, stream the payloads via message broker to the browser.
+
+## Getting Started Locally
 
 Start the message broker
 

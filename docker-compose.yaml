@@ -205,6 +205,8 @@ services:
     build:
       context: ./producer/
       dockerfile: Dockerfile
+      args:
+        - BROKER_INSTANCE=broker:29092
     environment:
       BROKER_INSTANCE: "broker:29092"
     # restart: always

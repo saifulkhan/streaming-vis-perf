@@ -8,6 +8,9 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 COPY . .
 
+ARG BROKER_INSTANCE
+ENV BROKER_INSTANCE=$BROKER_INSTANCE
+
 # dependencies
 RUN set -eux \
     && pip install --upgrade pip setuptools wheel \

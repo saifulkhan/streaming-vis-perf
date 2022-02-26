@@ -1,8 +1,8 @@
-# About
+# Visualisations
 
-VIS Benchmark.
+implement and benchmark performance of different visualizations.
 
-## Getting Started
+## Getting Started Locally
 
 ### Prerequisites
 
@@ -61,8 +61,6 @@ See [Next.js docs → Environment Variables](https://nextjs.org/docs/basic-featu
     ```
 
 1.  Navigate to http://localhost:3000 in your browser.
-
-### ProtoBuf message
 
 ## References
 
