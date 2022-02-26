@@ -199,7 +199,7 @@ services:
     depends_on:
       - broker
     ports:
-      - 8001:8001
+      - 4000:4000
     hostname: producer
     container_name: producer
     build:
@@ -209,7 +209,7 @@ services:
       BROKER_INSTANCE: "broker:29092"
     # restart: always
     volumes:
-      - ./producer/:/usr/src/producer
+      - ./producer/:/app
 
   visualisation:
     # depends_on:
@@ -219,9 +219,16 @@ services:
     build:
       context: ./visualisation/
       dockerfile: Dockerfile
+      args:
+        - PRODUCER_INSTANCE=ws://localhost:4000/consumer
+    ports:
+      - 3000:3000
+    command: ["yarn", "dev"]
     environment:
-      PRODUCER_INSTANCE: "ws://localhost:8002/consumer"
+      - NODE_ENV=development
     stdin_open: true # docker run -i
     tty: true # docker run -t
     volumes:
-      - ./visualisation/:/usr/src/visualisation
+      - ./visualisation/:/app
+      - /app/node_modules
+      - /app/.next

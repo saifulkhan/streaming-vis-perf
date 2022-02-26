@@ -1,13 +1,3 @@
-*
-!/out/
-!/nginx.conf
-.next/
-.dockerignore
-.editorconfig
-.env
-.gitignore
-Dockerfile
-Makefile
-README.md
+.git
+*Dockerfile*
 node_modules
-version
