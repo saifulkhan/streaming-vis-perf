@@ -1,7 +1,6 @@
 {
   "private": true,
   "scripts": {
-    "_prepare": "husky install",
     "build": "next build && next export",
     "dev": "next dev",
     "fix:eslint": "next lint --fix",
