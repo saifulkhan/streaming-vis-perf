@@ -59,8 +59,8 @@ export class SpectrogramPlot {
     this.data = data;
     //console.log("SpectrogramPlot:draw: data = ", this.data);
 
-    // window.requestAnimationFrame(this.loop.bind(this));
-    this.loop();
+    window.requestAnimationFrame(this.loop.bind(this));
+    //this.loop();
   }
 
   loop() {
