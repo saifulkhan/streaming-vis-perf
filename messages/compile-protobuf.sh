@@ -8,11 +8,11 @@
 
 # spectrum
 protoc -I=. --python_out=. ./spectrum.proto
-mv spectrum_pb2.py ../broker/server/models/
+mv spectrum_pb2.py ../producer/server/models/
 
 # spectrogram
 protoc -I=. --python_out=. ./spectrogram.proto
-mv spectrogram_pb2.py ../broker/server/models/
+mv spectrogram_pb2.py ../producer/server/models/
 
 
 #
@@ -23,11 +23,11 @@ mv spectrogram_pb2.py ../broker/server/models/
 # spectrum
 pbjs -t static-module -w commonjs -o spectrum.js spectrum.proto
 pbts -o spectrum.d.ts spectrum.js
-mv spectrum.js ../browser/src/models/
-mv spectrum.d.ts ../browser/src/types/
+mv spectrum.js ../visualisation/src/models/
+mv spectrum.d.ts ../visualisation/src/types/
 
 # spectrogram
 pbjs -t static-module -w commonjs -o spectrogram.js spectrogram.proto
 pbts -o spectrogram.d.ts spectrogram.js
-mv spectrogram.js ../browser/src/models/
-mv spectrogram.d.ts ../browser/src/types/
+mv spectrogram.js ../visualisation/src/models/
+mv spectrogram.d.ts ../visualisation/src/types/

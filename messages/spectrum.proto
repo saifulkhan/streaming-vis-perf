@@ -2,11 +2,11 @@ syntax = "proto3";
 
 message Spectrum {
     string timestamp = 1;
-    uint32 x_min = 2;
-    uint32 x_max = 3;
-    uint32 y_min =  4;
-    uint32 y_max = 5;
-    repeated uint32 channels = 6 [packed=true];
+    float x_min = 2;
+    float x_max = 3;
+    float y_min =  4;
+    float y_max = 5;
+    repeated float channels = 6 [packed=true];
     repeated float power = 7 [packed=true];
     repeated float sd_l = 8 [packed=true];
     repeated float sd_u = 9 [packed=true];
