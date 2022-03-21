@@ -20,12 +20,27 @@ const sections = [
     items: [
       {
         title: "ProtoBuf",
-        path: "/spectrum/?protocol=protobuf",
+        path: "/plot/spectrum/?protocol=protobuf",
         icon: <NavigateNextIcon fontSize="small" />,
       },
       {
         title: "JSON",
-        path: "/spectrum/?&protocol=json",
+        path: "/plot/spectrum/?&protocol=json",
+        icon: <NavigateNextIcon fontSize="small" />,
+      },
+    ],
+  },
+  {
+    title: "SPECTROGRAMS",
+    items: [
+      {
+        title: "ProtoBuf",
+        path: "/plot/spectrograms/?protocol=protobuf",
+        icon: <NavigateNextIcon fontSize="small" />,
+      },
+      {
+        title: "JSON",
+        path: "/plot/spectrograms/?&protocol=json",
         icon: <NavigateNextIcon fontSize="small" />,
       },
     ],
@@ -35,27 +50,12 @@ const sections = [
     items: [
       {
         title: "ProtoBuf",
-        path: "/spectrogram/?protocol=protobuf",
+        path: "/plot/spectrogram/?idx=1&protocol=protobuf",
         icon: <NavigateNextIcon fontSize="small" />,
       },
       {
         title: "JSON",
-        path: "/spectrogram/?&protocol=json",
-        icon: <NavigateNextIcon fontSize="small" />,
-      },
-    ],
-  },
-  {
-    title: "SPECTROGRAM - TABLE",
-    items: [
-      {
-        title: "ProtoBuf",
-        path: "/spectrogram-table/?protocol=protobuf",
-        icon: <NavigateNextIcon fontSize="small" />,
-      },
-      {
-        title: "JSON",
-        path: "/spectrogram-table/?protocol=json",
+        path: "/plot/spectrogram/?idx=1&protocol=json",
         icon: <NavigateNextIcon fontSize="small" />,
       },
     ],
@@ -65,12 +65,12 @@ const sections = [
     items: [
       {
         title: "ProtoBuf",
-        path: "/windmap/?protocol=protobuf",
+        path: "/plot/windmap/?protocol=protobuf",
         icon: <NavigateNextIcon fontSize="small" />,
       },
       {
         title: "JSON",
-        path: "/windmap/?&protocol=json",
+        path: "/plot/windmap/?&protocol=json",
         icon: <NavigateNextIcon fontSize="small" />,
       },
     ],

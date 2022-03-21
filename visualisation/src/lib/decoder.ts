@@ -1,5 +1,5 @@
-import { Spectrograms } from "src/models/spectrogram";
-import { Spectrum } from "src/models/spectrum";
+import { Spectrograms } from "src/models/protobuf/spectrogram";
+import { Spectrum } from "src/models/protobuf/spectrum";
 
 export async function decodeSpectrum(
   data: any,
@@ -10,14 +10,10 @@ export async function decodeSpectrum(
   const bytes = new Uint8Array(buffer);
   const decoded = Spectrum.decode(bytes);
   log && performance.mark("deserialise-end");
-  log &&
-    performance.measure("deserialise", "deserialise-start", "deserialise-end");
-
-  log &&
-    console.log(
-      "decodeSpectrum: decoding time = ",
-      performance.getEntriesByName("deserialise").map((d) => d.duration),
-    );
+  // prettier-ignore
+  log && performance.measure("deserialise", "deserialise-start", "deserialise-end");
+  // prettier-ignore
+  log && console.log( "decodeSpectrum: decoding time = ", performance.getEntriesByName("deserialise").map((d) => d.duration));
   return decoded;
 }
 
@@ -27,14 +23,10 @@ export async function decodeSpectrogram(data: any, log: boolean = false) {
   const bytes = new Uint8Array(buffer);
   const decoded = Spectrograms.decode(bytes);
   log && performance.mark("deserialise-end");
-  log &&
-    performance.measure("deserialise", "deserialise-start", "deserialise-end");
-
-  log &&
-    console.log(
-      "decodeSpectrogram: decoding time = ",
-      performance.getEntriesByName("deserialise").map((d) => d.duration),
-    );
+  // prettier-ignore
+  log && performance.measure("deserialise", "deserialise-start", "deserialise-end");
+  // prettier-ignore
+  log && console.log( "decodeSpectrogram: decoding time = ", performance.getEntriesByName("deserialise").map((d) => d.duration) );
   return decoded;
 }
 
@@ -42,13 +34,9 @@ export function decodeJson(data: any, log: boolean = false) {
   log && performance.mark("deserialise-start");
   const decoded = JSON.parse(data);
   log && performance.mark("deserialise-end");
-  log &&
-    performance.measure("deserialise", "deserialise-start", "deserialise-end");
-
-  log &&
-    console.log(
-      "jsonDecoder: decoding time = ",
-      performance.getEntriesByName("deserialise").map((d) => d.duration),
-    );
+  // prettier-ignore
+  log && performance.measure("deserialise", "deserialise-start", "deserialise-end");
+  // prettier-ignore
+  log && console.log( "jsonDecoder: decoding time = ", performance.getEntriesByName("deserialise").map((d) => d.duration), );
   return decoded;
 }

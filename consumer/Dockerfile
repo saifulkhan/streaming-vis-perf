@@ -16,3 +16,5 @@ RUN set -eux \
     && pip install --upgrade pip setuptools wheel \
     && pip install -r requirements.txt \
     && rm -rf /root/.cache/pip
+
+CMD ["uvicorn", "server.main:app", "--reload", "--host", "0.0.0.0", "--port", "8002"]

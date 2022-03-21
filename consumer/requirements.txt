@@ -1,0 +1,9 @@
+aiokafka
+fastapi
+pydantic
+starlette
+loguru
+uvicorn[standard]
+protobuf
+jupyter
+black

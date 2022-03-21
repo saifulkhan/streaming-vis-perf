@@ -195,42 +195,56 @@ services:
       KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
       KAFKA_REST_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
 
-  producer:
+  consumer:
     depends_on:
       - broker
     ports:
-      - 4000:4000
-    hostname: producer
-    container_name: producer
+      - 8002:8002
+    hostname: consumer
+    container_name: consumer
     build:
-      context: ./producer/
+      context: ./consumer/
       dockerfile: Dockerfile
-      args:
-        - BROKER_INSTANCE=broker:29092
-    environment:
-      BROKER_INSTANCE: "broker:29092"
-    # restart: always
     volumes:
-      - ./producer/:/app
+      - ./consumer/:/app
+    env_file:
+      - ./consumer/.env
 
-  visualisation:
-    # depends_on:
-    #   - producer
-    hostname: visualisation
-    container_name: visualisation
-    build:
-      context: ./visualisation/
-      dockerfile: Dockerfile
-      args:
-        - PRODUCER_INSTANCE=ws://localhost:4000/consumer
-    ports:
-      - 3000:3000
-    command: ["yarn", "dev"]
-    environment:
-      - NODE_ENV=development
-    stdin_open: true # docker run -i
-    tty: true # docker run -t
-    volumes:
-      - ./visualisation/:/app
-      - /app/node_modules
-      - /app/.next
+  # producer:
+  #   depends_on:
+  #     - broker
+  #   hostname: producer
+  #   container_name: producer
+  #   build:
+  #     context: ./producer/
+  #     dockerfile: Dockerfile
+  #     args:
+  #       - BROKER_INSTANCE=broker:29092
+  #   environment:
+  #     BROKER_INSTANCE: "broker:29092"
+  #   volumes:
+  #     - ./producer/:/app
+  #   env_file:
+  #     - ./producer/.env
+
+  # visualisation:
+  #   hostname: visualisation
+  #   container_name: visualisation
+  #   build:
+  #     context: ./visualisation/
+  #     dockerfile: Dockerfile
+  #     args:
+  #       - PRODUCER_INSTANCE=ws://localhost:4000/consumer
+  #   ports:
+  #     - 3000:3000
+  #   command: ["yarn", "dev"]
+  #   environment:
+  #     - NODE_ENV=development
+  #   stdin_open: true # docker run -i
+  #   tty: true # docker run -t
+  #   volumes:
+  #     - ./visualisation/:/app
+  #     - /app/node_modules
+  #     - /app/.next
+  #   env_file:
+  #     - ./visualisation/.env
