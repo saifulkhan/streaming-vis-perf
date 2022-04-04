@@ -5,8 +5,12 @@ import asyncio
 import numpy as np
 from casacore.tables import table, tablecolumn
 
-import src.payload_generator as payload_generator
-from src.producer import Producer
+import sys
+
+sys.path.append("../")
+
+import libs.ms_payload_generator as ms_payload_generator
+from libs.producer import Producer
 from models.protocol import Protocol
 from models.message_topic import MessageTopic
 
@@ -107,13 +111,13 @@ async def ms_to_qa(ms, interval=None):
             sample_time = times[t * num_baselines]
 
             # Generate spectrum plot and send to queues
-            payload1 = payload_generator.spectrum_plot(
+            payload1 = ms_payload_generator.spectrum_plot(
                 data_sample, antenna1, antenna2, frequency, AVG_CHAN_SPECTRUM
             )
             await producer.produce(payload1, topic_spectrum)
 
             # Generate spectrograms and send to queues
-            payload2 = payload_generator.spectrograms(
+            payload2 = ms_payload_generator.spectrograms(
                 data_sample, baseline, frequency, polarisation, AVG_CHAN_SPECTROGRAM
             )
             await producer.produce(payload2, topic_spectrograms)

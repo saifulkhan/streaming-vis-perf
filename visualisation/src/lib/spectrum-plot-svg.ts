@@ -3,7 +3,7 @@ import * as d3 from "d3";
 export class SpectrumPlotSvg {
   width: number;
   height: number;
-  margin = { top: 10, right: 40, bottom: 60, left: 50 };
+  margin = { top: 10, right: 10, bottom: 60, left: 50 };
 
   svg: any;
   xLabel: string = "Frequency channels (MHz)";

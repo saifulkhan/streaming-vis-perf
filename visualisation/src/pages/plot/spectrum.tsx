@@ -23,7 +23,7 @@ import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
 import { SpectrumPlotSvg } from "src/lib/spectrum-plot-svg";
 
 const WIDTH = 1200;
-const HEIGHT = 600;
+const HEIGHT = 300;
 const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
 
 const SpectrumPage = () => {
@@ -134,7 +134,7 @@ const SpectrumPage = () => {
           <Container>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Card sx={{ minWidth: WIDTH }}>
+                <Card sx={{ minWidth: WIDTH + 60 }}>
                   <CardHeader
                     action={
                       <IconButton aria-label="settings">

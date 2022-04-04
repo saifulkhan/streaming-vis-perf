@@ -26,7 +26,7 @@ const WIDTH = 1200;
 const HEIGHT = 600;
 const CELL_WIDTH = 150;
 const CELL_HEIGHT = 75;
-const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
+const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 
 const SpectrogramTable = () => {
   const theme = useTheme();

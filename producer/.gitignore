@@ -285,4 +285,8 @@ output.log.*
 
 .DS_Store
 
+
+# comment the ms data
+data/* 
+
 # End of .gitignore
