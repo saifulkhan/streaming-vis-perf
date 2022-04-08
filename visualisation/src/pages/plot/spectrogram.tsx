@@ -22,7 +22,7 @@ import { SpectrogramPlot } from "src/lib/spectrogram-plot";
 import { decodeJson, decodeSpectrogram } from "src/lib/decoder";
 import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
 
-const WIDTH = 1200;
+const WIDTH = 2000;
 const HEIGHT = 600;
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 
@@ -116,7 +116,7 @@ const SpectrogramPage = () => {
         <title>Spectrogram</title>
       </Head>
       <DashboardLayout>
-        <Box
+        {/* <Box
           sx={{
             position: "fixed",
             overflow: "visible",
@@ -125,43 +125,43 @@ const SpectrogramPage = () => {
             top: 60,
             right: 0,
           }}
-        >
-          <Container>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Card sx={{ minWidth: WIDTH + 100 }}>
-                  <CardHeader
-                    action={
-                      <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
-                    avatar={
-                      <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
-                        <WaterfallChartIcon />
-                      </Avatar>
-                    }
-                    title="Spectrogram"
-                    subheader={`Socket: ${socketStatus}, Serialisation: ${protocol}`}
-                  />
+        > */}
+        {/* <Container>
+          <Grid container spacing={3}>
+            <Grid item xs={12}> */}
+        <Card sx={{ minWidth: WIDTH + 100 }}>
+          <CardHeader
+            action={
+              <IconButton aria-label="settings">
+                <MoreVertIcon />
+              </IconButton>
+            }
+            avatar={
+              <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
+                <WaterfallChartIcon />
+              </Avatar>
+            }
+            title="Spectrogram"
+            subheader={`Socket: ${socketStatus}, Serialisation: ${protocol}`}
+          />
 
-                  <CardContent sx={{ pt: "8px" }}>
-                    <canvas
-                      id="canvasId"
-                      width={WIDTH}
-                      height={HEIGHT}
-                      style={{
-                        outline: "gray 1px solid",
-                        // border: "2px solid steelblue",
-                        backgroundColor: "white",
-                      }}
-                    ></canvas>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
+          <CardContent sx={{ pt: "8px" }}>
+            <canvas
+              id="canvasId"
+              width={WIDTH}
+              height={HEIGHT}
+              style={{
+                outline: "gray 1px solid",
+                // border: "2px solid steelblue",
+                backgroundColor: "white",
+              }}
+            ></canvas>
+          </CardContent>
+        </Card>
+        {/* </Grid>
+          </Grid>
+        </Container> */}
+        {/* </Box> */}
       </DashboardLayout>
     </>
   );

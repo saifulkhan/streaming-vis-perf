@@ -22,7 +22,7 @@ import SpectrogramPlotTable from "src/lib/spectrogram-plot-table";
 import { decodeJson, decodeSpectrogram } from "src/lib/decoder";
 import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
 
-const WIDTH = 1200;
+const WIDTH = 2200;
 const HEIGHT = 600;
 const CELL_WIDTH = 150;
 const CELL_HEIGHT = 75;
@@ -123,52 +123,52 @@ const SpectrogramTable = () => {
         <title>Phase Spectrograms</title>
       </Head>
       <DashboardLayout>
-        <Box
+        {/* <Box
           sx={{
             position: "fixed",
             overflow: "visible",
             bottom: 0,
-            left: { xs: 0, md: 280 },
+            left: { xs: 0, md: 0 },
             top: 60,
             right: 0,
           }}
-        >
-          <Container>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Card sx={{ minWidth: WIDTH }}>
-                  <CardHeader
-                    action={
-                      <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
-                    avatar={
-                      <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
-                        <WaterfallChartIcon />
-                      </Avatar>
-                    }
-                    title="Spectrograms"
-                    subheader={`Socket: ${socketStatus}, Serialisation: ${protocol}`}
-                  />
+        > */}
+        {/* <Container>
+          <Grid container spacing={3}>
+            <Grid item xs={12}> */}
+        <Card sx={{ minWidth: WIDTH }}>
+          <CardHeader
+            action={
+              <IconButton aria-label="settings">
+                <MoreVertIcon />
+              </IconButton>
+            }
+            avatar={
+              <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
+                <WaterfallChartIcon />
+              </Avatar>
+            }
+            title="Spectrograms"
+            subheader={`Socket: ${socketStatus}, Serialisation: ${protocol}`}
+          />
 
-                  <CardContent sx={{ pt: "8px" }}>
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      Click on the baseline and polarisation label to see a
-                      detailed spectrogram
-                    </Typography>
+          <CardContent sx={{ pt: "8px" }}>
+            <Typography
+              sx={{ fontSize: 14 }}
+              color="text.secondary"
+              gutterBottom
+            >
+              Click on the baseline and polarisation label to see a detailed
+              spectrogram
+            </Typography>
 
-                    <div id="divId" />
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
+            <div id="divId" />
+          </CardContent>
+        </Card>
+        {/* </Grid>
+          </Grid>
+        </Container> */}
+        {/* </Box> */}
       </DashboardLayout>
     </>
   );

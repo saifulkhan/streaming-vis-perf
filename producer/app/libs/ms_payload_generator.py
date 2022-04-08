@@ -91,9 +91,9 @@ def spectrograms(data, baseline, frequency, polarisation, chan_avg=50):
 
     _spectrograms = Spectrograms()
 
-    num_baselines = 20  # len(baseline)
+    num_baselines = 60  # len(baseline)
 
-    for b in range(60, 99, 2):
+    for b in range(60, 1 + num_baselines, 1):
         for p in range(len(polarisation)):
             spec = _spectrograms.spectrogram.add()
             spec.timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
