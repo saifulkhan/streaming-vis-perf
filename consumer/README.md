@@ -12,6 +12,11 @@ BROKER_INSTANCE=broker:29092
 
 The project `./consumer` folder is mounted to the `/app` folder of the `consumer` container.
 
+```
+docker exec -it consumer bash
+
+```
+
 ## Getting Started Locally
 
 Start the consumer API server

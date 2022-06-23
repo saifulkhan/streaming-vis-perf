@@ -88,7 +88,7 @@ const SpectrumPage = () => {
         } else if (data instanceof Blob) {
           decodeSpectrum(data).then((decoded: any) => {
             // prettier-ignore
-            // console.log("SpectrumPage: received type = Blob, decoded = ", decoded);
+            console.log("SpectrumPage: received type = Blob, decoded = ", decoded);
             window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
           });
         } else {
@@ -97,7 +97,7 @@ const SpectrumPage = () => {
             setSocketStatus(decoded.status);
           } else {
             // prettier-ignore
-            // console.log("SpectrumPage: received type = text, decoded = ", decoded);
+            console.log("SpectrumPage: received type = text, decoded = ", decoded);
             window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
           }
         }

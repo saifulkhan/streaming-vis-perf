@@ -46,15 +46,14 @@ Command to rebuild the images
 docker-compose up -d --no-deps --build
 ```
 
-## Visualisations
+## Produce Data and Visualise
+
+Please see the `visualisation/README` and `producer/README`.
+
 
 Open `localhost:3000` to access the UI and attach to the `producer` container to generate experimental data for the visualisations. For more information check the READMEs inside each folder.
 
-## Produce data
-
-## Manually start- producer, consumer, and visualisation services
-
-Please see the README files inside each folder.
+Produce data
 
 # Code Architecture
 

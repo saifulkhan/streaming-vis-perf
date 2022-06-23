@@ -2,7 +2,7 @@
 
 Produce different payloads, stream the payloads via message broker to the browser.
 
-## Container
+## Container (N/A)
 
 Set the environment variables in the `.env` file:
 
@@ -39,101 +39,57 @@ pip install -r requirements.txt
 
 ```
 
-## ProtoBuf Commands
 
-############################################################################
 
-# Metric Generator
 
-# Getting Started
-
-## Option-1: Using Container
-
-The docker container's working/source directory `/usr/src/metric-generator` is mapped/mounted to the host's `./metric-generator` folder. Therefore, attaching a VSCode editor to the `metric-generator` container is a convenient way to develop and debug.
-
-## Option-2: Start Locally
-
-This is not recommended. The instructions below are to develop and debug in the host machine.
+Go to the scripts location folder
 
 ```bash
-# create a virtual environment and install dependencies
-pip install virtualenv
-virtualenv venv
-source ./venv/bin/activate
-pip install -r requirements.txt
-
-# The python-casacore installation in virtualenv may give C++ library related error. Using conda environment for installing casacore may solve the issue.
-conda create --name metric-generator python=3.8
-conda activate metric-generator
-
-conda install -c conda-forge python-casacore
-conda install -c conda-forge loguru
-conda install -c conda-forge plotly
-conda install -c conda-forge starlette
-conda install -c conda-forge requests
-
-# update the broker API in the .env file
-BROKER_INSTANCE=localhost:9092
+ cd app/metric-generator
 ```
 
-# Generate Metrics
-
-SSH to the container:
+Generate synthetic power spectrum protobuf payload
 
 ```bash
-docker exec -it metric-generator bash
+python mock_protobuf_spectrum.py
 ```
 
-## Mock Data
+We can see the power spectrum plot in: http://localhost:3000/plot/spectrum?protocol=protobuf
 
-This is particularly helpful during development and debugging. The following scripts create random spectrum plot and spectrogram data, and send to the message broker.
-
-```
-python mock_spectrum.py
-python mock_spectrograms.py
-```
-
-## Measurementset Data
-
-Create spectrum plot and spectrogram data from a measurement set, and send to the message broker.
+Generate synthetic spectrogram protobuf payload
 
 ```bash
-python ms_to_qa.py <.ms>
-
-# example
-python ms_to_qa.py ./data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms
+python mock_protobuf_spectrograms.py
 ```
 
-For the RFI debugging we aggregate date from two measurement sets (a) visibility data with flags, for example,
+We can see the spectrograms in: http://localhost:3000/plot/spectrograms?protocol=protobuf and and a spectrogram in: http://localhost:3000/plot/spectrogram?idx=1&protocol=protobuf
+
+#### Measurementset
+
+We can read measurementset, generate protobuf payloads. Command to read measurementset and generate metrics
 
 ```bash
-python ms_to_rfi.py <measurement-set with visibility and flags> <measurement-set of RFI>
-
-# example
-python ms_to_rfi.py ./data/rfi/20_sources_with_screen/aa0.5_ms.MS ./data/rfi/aa05_low_rfi_84chans.ms
+python ms_protobuf_payloads.py <measurement_set.ms>
 ```
 
-## ska-sdp-cbf-emulator Integration
-
-> Note. This integration was not tested recently.
-
-Read payloads from plasma, create spectrum plot data, and send to the message broker
+Fpr example, we mounted some large volume of data data from the Meerkat telescope in our `data` folder
 
 ```bash
-# create plasma store
-plasma_store -m 1000000000 -s /tmp/plasma &
-
-# convert plasma payload to spectrumplot and send to the message broker
-python plasma_to_spectrumplt.py "/tmp/plasma"
-
-# start receiver
-cd data
-emu-recv -c ./50000ch.conf
-
-# send data
-cd data
-emu-send -c ./50000ch.conf ./50000ch-model.ms
+python ms_protobuf_payloads.py ../../data/1643124898_sdp_l0.ms
 ```
+
+The visualizations can be accessed from:
+http://localhost:3000/plot/spectrum?protocol=protobuf,
+http://localhost:3000/plot/spectrograms?protocol=protobuf, and
+http://localhost:3000/plot/spectrogram?idx=1&protocol=protobuf
+
+### Notebooks for generating benchmarks
+
+```bash
+TODO
+```
+
+
 
 ## Data Structures
 
@@ -172,22 +128,4 @@ Spectrograms {
 
 See the file `rand_phase_display_data.py` as an example.
 
-## Download Measurementset
-
-We used measurement set [PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms](https://console.cloud.google.com/storage/browser/ska1-simulation-data/simulations/psi_simulations_SP-1158/low/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms;tab=objects?prefix=&forceOnObjectsSortingFiltering=false) to test the spectrogram. Example commands to download measurement sets from GCP:
-
-```bash
-# using gsutil tool
-gsutil -m cp -r <src> <dst>
-
-# create & download in the metrics-generator/data folder
-cd metrics-generator
-mkdir ./data
-
-# example 1
-gsutil -m cp -r "gs://ska1-simulation-data/ska1-low/psi_test/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms" ./data/
-
-# example 2
-gsutil -m cp -r "gs://ska1-simulation-data/simulations/psi_simulations_SP-1158/low/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms" ./data/
-
-```
+ 

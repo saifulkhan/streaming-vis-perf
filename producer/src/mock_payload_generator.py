@@ -4,8 +4,8 @@ from datetime import datetime
 import sys
 import numpy as np
 
-from models.protobuf.spectrum_pb2 import Spectrum
-from models.protobuf.spectrogram_pb2 import Spectrograms, Spectrogram
+from protobuf.spectrum_pb2 import Spectrum
+from protobuf.spectrogram_pb2 import Spectrograms, Spectrogram
 
 #
 # Spectrogram

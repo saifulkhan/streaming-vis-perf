@@ -4,7 +4,7 @@ import os
 from starlette.config import Config
 
 
-config = Config(".env")
+config = Config("../env")
 
 PROJECT_NAME: str = config("PROJECT_NAME", default="streaming-vis-perf")
 BROKER_INSTANCE = os.environ.get("BROKER_INSTANCE", "localhost:9092")
