@@ -50,12 +50,12 @@ const sections = [
     items: [
       {
         title: "ProtoBuf",
-        path: "/plot/spectrogram/?idx=1&protocol=protobuf",
+        path: "/plot/spectrogram/?idx=0&protocol=protobuf",
         icon: <NavigateNextIcon fontSize="small" />,
       },
       {
         title: "JSON",
-        path: "/plot/spectrogram/?idx=1&protocol=json",
+        path: "/plot/spectrogram/?idx=0&protocol=json",
         icon: <NavigateNextIcon fontSize="small" />,
       },
     ],

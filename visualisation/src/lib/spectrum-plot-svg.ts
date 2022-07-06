@@ -45,7 +45,7 @@ export class SpectrumPlotSvg {
 
     this.drawAxis();
     this.drawLine(data);
-    this.drawConfidenceIntervals(data);
+    // this.drawConfidenceIntervals(data);
 
     this.svg
       .exit()

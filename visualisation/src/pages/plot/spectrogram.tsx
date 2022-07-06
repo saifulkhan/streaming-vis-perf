@@ -24,7 +24,7 @@ import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
 
 const WIDTH = 2000;
 const HEIGHT = 600;
-const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
+const MESSAGE_TOPIC = MessageTopic.SPECTROGRAM;
 
 const SpectrogramPage = () => {
   const theme = useTheme();
@@ -81,7 +81,7 @@ const SpectrogramPage = () => {
         } else if (data instanceof Blob) {
           decodeSpectrogram(data).then((decoded: any) => {
             // prettier-ignore
-            // console.log("SpectrogramPage: received type = Blob, decoded = ", decoded);
+            // console.log("SpectrogramPage: received type = Blob, decoded = ", decoded.spectrogram, ", idx = ", idx);
             window.requestAnimationFrame(() => {
               // single spectrogram plot
               spectrogramPlot.draw(decoded.spectrogram[idx].phase);

@@ -24,8 +24,8 @@ class Producer:
         topic: topic of the message broker
         """
         res = await self.aioproducer.send_and_wait(topic, payload)
-        # print(f"produce: sent, response = {res}")
-        return
+        return res
 
     async def stop(self):
         await self.aioproducer.stop()
+        print(f"Producer:stop: BROKER_INSTANCE = {config.BROKER_INSTANCE}")
