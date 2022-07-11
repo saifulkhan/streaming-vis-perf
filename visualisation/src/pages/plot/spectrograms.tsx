@@ -22,10 +22,10 @@ import SpectrogramPlotTable from "src/lib/spectrogram-plot-table";
 import { decodeJson, decodeSpectrogram } from "src/lib/decoder";
 import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
 
-const WIDTH = 2200;
-const HEIGHT = 600;
-const CELL_WIDTH = 150;
-const CELL_HEIGHT = 75;
+const WIDTH = 2400;
+const HEIGHT = 1200;
+const CELL_WIDTH = 200;
+const CELL_HEIGHT = 120;
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 
 const SpectrogramTable = () => {
