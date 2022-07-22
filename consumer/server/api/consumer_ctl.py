@@ -64,7 +64,8 @@ class WebsocketConsumer(WebSocketEndpoint):
         while True:
             try:
                 async for msg in self.consumer:
-                    # logger.info(f"consumer_ctl:send_consumer_message: topic = {msg.topic}, {msg.partition}, {msg.offset}, {msg.key}, {msg.timestamp}")
+                    # logger.info(f"consumer_ctl:send_consumer_message: topic = {msg.topic}")    
+                    # logger.info(f"consumer_ctl:send_consumer_message: {msg.partition}, {msg.offset}, {msg.key}, {msg.timestamp}")
                     # logger.info(f"consumer_ctl:send_consumer_message: type = {type(msg.value)}, size = {sys.getsizeof(msg.value)}")
                     # logger.debug(f"consumer_ctl:send_consumer_message: value = {msg.value}")
 

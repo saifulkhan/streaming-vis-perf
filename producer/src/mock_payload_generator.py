@@ -92,7 +92,7 @@ def baseline_polarization(num_spectrograms: int):
     return base_pol
 
 
-def spectrogram_protobus(num_spectrograms: int, num_channels: int):
+def spectrogram_protobuf(num_spectrograms: int, num_channels: int):
     """
     Generate ProtoBuf payload
     Returns payload and its size

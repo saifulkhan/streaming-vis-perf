@@ -1,10 +1,7 @@
 import { Spectrograms } from "src/models/protobuf/spectrogram";
 import { Spectrum } from "src/models/protobuf/spectrum";
 
-export async function decodeSpectrum(
-  data: any,
-  log: boolean = false,
-): Promise<any> {
+export async function decodeSpectrum(data: any, log = false): Promise<any> {
   log && performance.mark("deserialise-start");
   const buffer = await data.arrayBuffer();
   const bytes = new Uint8Array(buffer);
@@ -17,7 +14,7 @@ export async function decodeSpectrum(
   return decoded;
 }
 
-export async function decodeSpectrogram(data: any, log: boolean = false) {
+export async function decodeSpectrogram(data: any, log = false) {
   log && performance.mark("deserialise-start");
   const buffer = await data.arrayBuffer();
   const bytes = new Uint8Array(buffer);
@@ -30,7 +27,7 @@ export async function decodeSpectrogram(data: any, log: boolean = false) {
   return decoded;
 }
 
-export function decodeJson(data: any, log: boolean = false) {
+export function decodeJson(data: any, log = false) {
   log && performance.mark("deserialise-start");
   const decoded = JSON.parse(data);
   log && performance.mark("deserialise-end");
