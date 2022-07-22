@@ -12,9 +12,12 @@ BROKER_INSTANCE=broker:29092
 
 The project `./consumer` folder is mounted to the `/app` folder of the `consumer` container.
 
-```
+```bash
+# open shell of container
 docker exec -it consumer bash
 
+# check log of the container
+docker container logs  consumer -f
 ```
 
 ## Getting Started Locally
