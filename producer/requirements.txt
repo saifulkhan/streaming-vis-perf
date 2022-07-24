@@ -11,6 +11,5 @@ matplotlib
 seaborn
 jupyter
 numpy
-python-casacore
 pandas
 black
