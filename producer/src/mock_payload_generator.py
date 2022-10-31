@@ -1,6 +1,7 @@
 import random
 import json
 from datetime import datetime
+import time
 import sys
 import numpy as np
 
@@ -34,7 +35,7 @@ def spectrum_protobuf(num_channels: int):
     sd_l = list(np.round(np.absolute(np.sin(np.random.rand(num_channels))), 2))
 
     payload_pb = Spectrum(
-        timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        timestamp=round(time.time() * 1000),
         x_min=x_min,
         x_max=num_channels,
         y_min=y_min,
@@ -61,7 +62,7 @@ def spectrum_json(num_channels: int):
     sd_l = list(np.round(np.absolute(np.sin(np.random.rand(num_channels))), 2))
 
     payload_text = {
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "timestamp": round(time.time() * 1000),
         "x_min": x_min,
         "x_max": num_channels,
         "y_min": y_min,
@@ -102,8 +103,10 @@ def spectrogram_protobuf(num_spectrograms: int, num_channels: int):
     _spectrograms = Spectrograms()
 
     for i in range(num_spectrograms):
+        _spectrograms.timestamp = round(time.time() * 1000)
+        
         spec = _spectrograms.spectrogram.add()
-        spec.timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        spec.timestamp = round(time.time() * 1000)
         spec.baseline = base_pol[i][0]
         spec.polarisation = base_pol[i][1]
         spec.phase[:] = list(np.random.randint(0, 361, num_channels, dtype=np.int16))
@@ -118,11 +121,14 @@ def spectrogram_json(num_spectrograms: int, num_channels: int):
     Returns payload and its size
     """
 
-    _spectrograms = {"spectrogram": []}
+    _spectrograms = {
+        "timestamp": round(time.time() * 1000),
+        "spectrogram": []
+    }
 
     for i in range(num_spectrograms):
         spec = {
-            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "timestamp": round(time.time() * 1000),
             "baseline": str(i),
             "polarisation": random.choice(["XX", "YY", "XY", "YX"]),
             "phase": list(

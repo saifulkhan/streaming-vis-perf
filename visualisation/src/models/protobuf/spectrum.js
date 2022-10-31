@@ -15,7 +15,7 @@ $root.Spectrum = (function() {
      * Properties of a Spectrum.
      * @exports ISpectrum
      * @interface ISpectrum
-     * @property {string|null} [timestamp] Spectrum timestamp
+     * @property {number|Long|null} [timestamp] Spectrum timestamp
      * @property {number|null} [xMin] Spectrum xMin
      * @property {number|null} [xMax] Spectrum xMax
      * @property {number|null} [yMin] Spectrum yMin
@@ -47,11 +47,11 @@ $root.Spectrum = (function() {
 
     /**
      * Spectrum timestamp.
-     * @member {string} timestamp
+     * @member {number|Long} timestamp
      * @memberof Spectrum
      * @instance
      */
-    Spectrum.prototype.timestamp = "";
+    Spectrum.prototype.timestamp = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
 
     /**
      * Spectrum xMin.
@@ -142,7 +142,7 @@ $root.Spectrum = (function() {
         if (!writer)
             writer = $Writer.create();
         if (message.timestamp != null && Object.hasOwnProperty.call(message, "timestamp"))
-            writer.uint32(/* id 1, wireType 2 =*/10).string(message.timestamp);
+            writer.uint32(/* id 1, wireType 0 =*/8).int64(message.timestamp);
         if (message.xMin != null && Object.hasOwnProperty.call(message, "xMin"))
             writer.uint32(/* id 2, wireType 5 =*/21).float(message.xMin);
         if (message.xMax != null && Object.hasOwnProperty.call(message, "xMax"))
@@ -209,61 +209,70 @@ $root.Spectrum = (function() {
         while (reader.pos < end) {
             var tag = reader.uint32();
             switch (tag >>> 3) {
-            case 1:
-                message.timestamp = reader.string();
-                break;
-            case 2:
-                message.xMin = reader.float();
-                break;
-            case 3:
-                message.xMax = reader.float();
-                break;
-            case 4:
-                message.yMin = reader.float();
-                break;
-            case 5:
-                message.yMax = reader.float();
-                break;
-            case 6:
-                if (!(message.channels && message.channels.length))
-                    message.channels = [];
-                if ((tag & 7) === 2) {
-                    var end2 = reader.uint32() + reader.pos;
-                    while (reader.pos < end2)
+            case 1: {
+                    message.timestamp = reader.int64();
+                    break;
+                }
+            case 2: {
+                    message.xMin = reader.float();
+                    break;
+                }
+            case 3: {
+                    message.xMax = reader.float();
+                    break;
+                }
+            case 4: {
+                    message.yMin = reader.float();
+                    break;
+                }
+            case 5: {
+                    message.yMax = reader.float();
+                    break;
+                }
+            case 6: {
+                    if (!(message.channels && message.channels.length))
+                        message.channels = [];
+                    if ((tag & 7) === 2) {
+                        var end2 = reader.uint32() + reader.pos;
+                        while (reader.pos < end2)
+                            message.channels.push(reader.float());
+                    } else
                         message.channels.push(reader.float());
-                } else
-                    message.channels.push(reader.float());
-                break;
-            case 7:
-                if (!(message.power && message.power.length))
-                    message.power = [];
-                if ((tag & 7) === 2) {
-                    var end2 = reader.uint32() + reader.pos;
-                    while (reader.pos < end2)
+                    break;
+                }
+            case 7: {
+                    if (!(message.power && message.power.length))
+                        message.power = [];
+                    if ((tag & 7) === 2) {
+                        var end2 = reader.uint32() + reader.pos;
+                        while (reader.pos < end2)
+                            message.power.push(reader.float());
+                    } else
                         message.power.push(reader.float());
-                } else
-                    message.power.push(reader.float());
-                break;
-            case 8:
-                if (!(message.sdL && message.sdL.length))
-                    message.sdL = [];
-                if ((tag & 7) === 2) {
-                    var end2 = reader.uint32() + reader.pos;
-                    while (reader.pos < end2)
+                    break;
+                }
+            case 8: {
+                    if (!(message.sdL && message.sdL.length))
+                        message.sdL = [];
+                    if ((tag & 7) === 2) {
+                        var end2 = reader.uint32() + reader.pos;
+                        while (reader.pos < end2)
+                            message.sdL.push(reader.float());
+                    } else
                         message.sdL.push(reader.float());
-                } else
-                    message.sdL.push(reader.float());
-                break;
-            case 9:
-                if (!(message.sdU && message.sdU.length))
-                    message.sdU = [];
-                if ((tag & 7) === 2) {
-                    var end2 = reader.uint32() + reader.pos;
-                    while (reader.pos < end2)
+                    break;
+                }
+            case 9: {
+                    if (!(message.sdU && message.sdU.length))
+                        message.sdU = [];
+                    if ((tag & 7) === 2) {
+                        var end2 = reader.uint32() + reader.pos;
+                        while (reader.pos < end2)
+                            message.sdU.push(reader.float());
+                    } else
                         message.sdU.push(reader.float());
-                } else
-                    message.sdU.push(reader.float());
-                break;
+                    break;
+                }
             default:
                 reader.skipType(tag & 7);
                 break;
@@ -300,8 +309,8 @@ $root.Spectrum = (function() {
         if (typeof message !== "object" || message === null)
             return "object expected";
         if (message.timestamp != null && message.hasOwnProperty("timestamp"))
-            if (!$util.isString(message.timestamp))
-                return "timestamp: string expected";
+            if (!$util.isInteger(message.timestamp) && !(message.timestamp && $util.isInteger(message.timestamp.low) && $util.isInteger(message.timestamp.high)))
+                return "timestamp: integer|Long expected";
         if (message.xMin != null && message.hasOwnProperty("xMin"))
             if (typeof message.xMin !== "number")
                 return "xMin: number expected";
@@ -358,7 +367,14 @@ $root.Spectrum = (function() {
             return object;
         var message = new $root.Spectrum();
         if (object.timestamp != null)
-            message.timestamp = String(object.timestamp);
+            if ($util.Long)
+                (message.timestamp = $util.Long.fromValue(object.timestamp)).unsigned = false;
+            else if (typeof object.timestamp === "string")
+                message.timestamp = parseInt(object.timestamp, 10);
+            else if (typeof object.timestamp === "number")
+                message.timestamp = object.timestamp;
+            else if (typeof object.timestamp === "object")
+                message.timestamp = new $util.LongBits(object.timestamp.low >>> 0, object.timestamp.high >>> 0).toNumber();
         if (object.xMin != null)
             message.xMin = Number(object.xMin);
         if (object.xMax != null)
@@ -418,14 +434,21 @@ $root.Spectrum = (function() {
             object.sdU = [];
         }
         if (options.defaults) {
-            object.timestamp = "";
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, false);
+                object.timestamp = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.timestamp = options.longs === String ? "0" : 0;
             object.xMin = 0;
             object.xMax = 0;
             object.yMin = 0;
             object.yMax = 0;
         }
         if (message.timestamp != null && message.hasOwnProperty("timestamp"))
-            object.timestamp = message.timestamp;
+            if (typeof message.timestamp === "number")
+                object.timestamp = options.longs === String ? String(message.timestamp) : message.timestamp;
+            else
+                object.timestamp = options.longs === String ? $util.Long.prototype.toString.call(message.timestamp) : options.longs === Number ? new $util.LongBits(message.timestamp.low >>> 0, message.timestamp.high >>> 0).toNumber() : message.timestamp;
         if (message.xMin != null && message.hasOwnProperty("xMin"))
             object.xMin = options.json && !isFinite(message.xMin) ? String(message.xMin) : message.xMin;
         if (message.xMax != null && message.hasOwnProperty("xMax"))
@@ -466,6 +489,21 @@ $root.Spectrum = (function() {
      */
     Spectrum.prototype.toJSON = function toJSON() {
         return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * Gets the default type url for Spectrum
+     * @function getTypeUrl
+     * @memberof Spectrum
+     * @static
+     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns {string} The default type url
+     */
+    Spectrum.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        if (typeUrlPrefix === undefined) {
+            typeUrlPrefix = "type.googleapis.com";
+        }
+        return typeUrlPrefix + "/Spectrum";
     };
 
     return Spectrum;

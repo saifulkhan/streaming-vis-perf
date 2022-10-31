@@ -1,10 +1,10 @@
-# Visualisations
+# About
 
-implement and benchmark performance of different visualizations.
+Interface for implementing and benchmarking performance of different visualizations.
 
 ## Getting Started Locally
 
-### Prerequisites
+Prerequisites
 
 Please make sure you have [Node.js](https://nodejs.org) (LTS version) and [Yarn](https://www.npmjs.com/package/yarn) (`npm install --global yarn`).
 
@@ -16,7 +16,7 @@ yarn --version
 ## should output ≥ 1.22
 ```
 
-### Start Development Instance
+Start development instance:
 
 Install the dependencies.
 
@@ -33,34 +33,6 @@ yarn dev
 While the web server is running, you can open [http://localhost:3000](http://localhost:3000) in your browser to view the app.
 To stop the server, press `CTRL+C` in the terminal.
 
----
-
-If you want to use local API endpoints instead of the default remote ones, create a new file called `.env.local` with contents:
-
-```ini
-
-```
-
-The URLs may differ from the examples above depending on your server settings.
-
-Note that you need to restart the server (`yarn dev`) for the changes to take effect.
-See [Next.js docs → Environment Variables](https://nextjs.org/docs/basic-features/environment-variables) for more info.
-
-## Local production build
-
-1.  Build the app
-
-    ```sh
-    yarn build
-    ```
-
-1.  Make sure that port 3000 is not used and launch a simple HTTP server for the just-created `out` directory.
-
-    ```sh
-    npx serve out
-    ```
-
-1.  Navigate to http://localhost:3000 in your browser.
 
 ## References
 

@@ -82,7 +82,7 @@ const SpectrogramTable = () => {
           // prettier-ignore
           console.log("SpectrogramsPage: received, type = ArrayBuffer, data = ", data);
         } else if (data instanceof Blob) {
-          decodeSpectrogram(data).then((decoded: any) => {
+          decodeSpectrogram(data, true).then((decoded: any) => {
             // prettier-ignore
             // console.log("SpectrogramsPage: received type = Blob, decoded = ", decoded);
             window.requestAnimationFrame(() => {
@@ -90,7 +90,7 @@ const SpectrogramTable = () => {
             });
           });
         } else {
-          const decoded = decodeJson(data);
+          const decoded = decodeJson(data, true);
           // prettier-ignore
           // console.log( "SpectrogramsPage: received type = string, decoded = ", decoded, );
           if (decoded && decoded.status) {

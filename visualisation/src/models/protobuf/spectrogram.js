@@ -15,7 +15,7 @@ $root.Spectrogram = (function() {
      * Properties of a Spectrogram.
      * @exports ISpectrogram
      * @interface ISpectrogram
-     * @property {string|null} [timestamp] Spectrogram timestamp
+     * @property {number|Long|null} [timestamp] Spectrogram timestamp
      * @property {string|null} [baseline] Spectrogram baseline
      * @property {string|null} [polarisation] Spectrogram polarisation
      * @property {Array.<number>|null} [phase] Spectrogram phase
@@ -39,11 +39,11 @@ $root.Spectrogram = (function() {
 
     /**
      * Spectrogram timestamp.
-     * @member {string} timestamp
+     * @member {number|Long} timestamp
      * @memberof Spectrogram
      * @instance
      */
-    Spectrogram.prototype.timestamp = "";
+    Spectrogram.prototype.timestamp = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
 
     /**
      * Spectrogram baseline.
@@ -94,7 +94,7 @@ $root.Spectrogram = (function() {
         if (!writer)
             writer = $Writer.create();
         if (message.timestamp != null && Object.hasOwnProperty.call(message, "timestamp"))
-            writer.uint32(/* id 1, wireType 2 =*/10).string(message.timestamp);
+            writer.uint32(/* id 1, wireType 0 =*/8).int64(message.timestamp);
         if (message.baseline != null && Object.hasOwnProperty.call(message, "baseline"))
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.baseline);
         if (message.polarisation != null && Object.hasOwnProperty.call(message, "polarisation"))
@@ -139,25 +139,29 @@ $root.Spectrogram = (function() {
         while (reader.pos < end) {
             var tag = reader.uint32();
             switch (tag >>> 3) {
-            case 1:
-                message.timestamp = reader.string();
-                break;
-            case 2:
-                message.baseline = reader.string();
-                break;
-            case 3:
-                message.polarisation = reader.string();
-                break;
-            case 4:
-                if (!(message.phase && message.phase.length))
-                    message.phase = [];
-                if ((tag & 7) === 2) {
-                    var end2 = reader.uint32() + reader.pos;
-                    while (reader.pos < end2)
+            case 1: {
+                    message.timestamp = reader.int64();
+                    break;
+                }
+            case 2: {
+                    message.baseline = reader.string();
+                    break;
+                }
+            case 3: {
+                    message.polarisation = reader.string();
+                    break;
+                }
+            case 4: {
+                    if (!(message.phase && message.phase.length))
+                        message.phase = [];
+                    if ((tag & 7) === 2) {
+                        var end2 = reader.uint32() + reader.pos;
+                        while (reader.pos < end2)
+                            message.phase.push(reader.int32());
+                    } else
                         message.phase.push(reader.int32());
-                } else
-                    message.phase.push(reader.int32());
-                break;
+                    break;
+                }
             default:
                 reader.skipType(tag & 7);
                 break;
@@ -194,8 +198,8 @@ $root.Spectrogram = (function() {
         if (typeof message !== "object" || message === null)
             return "object expected";
         if (message.timestamp != null && message.hasOwnProperty("timestamp"))
-            if (!$util.isString(message.timestamp))
-                return "timestamp: string expected";
+            if (!$util.isInteger(message.timestamp) && !(message.timestamp && $util.isInteger(message.timestamp.low) && $util.isInteger(message.timestamp.high)))
+                return "timestamp: integer|Long expected";
         if (message.baseline != null && message.hasOwnProperty("baseline"))
             if (!$util.isString(message.baseline))
                 return "baseline: string expected";
@@ -225,7 +229,14 @@ $root.Spectrogram = (function() {
             return object;
         var message = new $root.Spectrogram();
         if (object.timestamp != null)
-            message.timestamp = String(object.timestamp);
+            if ($util.Long)
+                (message.timestamp = $util.Long.fromValue(object.timestamp)).unsigned = false;
+            else if (typeof object.timestamp === "string")
+                message.timestamp = parseInt(object.timestamp, 10);
+            else if (typeof object.timestamp === "number")
+                message.timestamp = object.timestamp;
+            else if (typeof object.timestamp === "object")
+                message.timestamp = new $util.LongBits(object.timestamp.low >>> 0, object.timestamp.high >>> 0).toNumber();
         if (object.baseline != null)
             message.baseline = String(object.baseline);
         if (object.polarisation != null)
@@ -256,12 +267,19 @@ $root.Spectrogram = (function() {
         if (options.arrays || options.defaults)
             object.phase = [];
         if (options.defaults) {
-            object.timestamp = "";
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, false);
+                object.timestamp = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.timestamp = options.longs === String ? "0" : 0;
             object.baseline = "";
             object.polarisation = "";
         }
         if (message.timestamp != null && message.hasOwnProperty("timestamp"))
-            object.timestamp = message.timestamp;
+            if (typeof message.timestamp === "number")
+                object.timestamp = options.longs === String ? String(message.timestamp) : message.timestamp;
+            else
+                object.timestamp = options.longs === String ? $util.Long.prototype.toString.call(message.timestamp) : options.longs === Number ? new $util.LongBits(message.timestamp.low >>> 0, message.timestamp.high >>> 0).toNumber() : message.timestamp;
         if (message.baseline != null && message.hasOwnProperty("baseline"))
             object.baseline = message.baseline;
         if (message.polarisation != null && message.hasOwnProperty("polarisation"))
@@ -285,6 +303,21 @@ $root.Spectrogram = (function() {
         return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
     };
 
+    /**
+     * Gets the default type url for Spectrogram
+     * @function getTypeUrl
+     * @memberof Spectrogram
+     * @static
+     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns {string} The default type url
+     */
+    Spectrogram.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        if (typeUrlPrefix === undefined) {
+            typeUrlPrefix = "type.googleapis.com";
+        }
+        return typeUrlPrefix + "/Spectrogram";
+    };
+
     return Spectrogram;
 })();
 
@@ -294,6 +327,7 @@ $root.Spectrograms = (function() {
      * Properties of a Spectrograms.
      * @exports ISpectrograms
      * @interface ISpectrograms
+     * @property {number|Long|null} [timestamp] Spectrograms timestamp
      * @property {Array.<ISpectrogram>|null} [spectrogram] Spectrograms spectrogram
      */
 
@@ -312,6 +346,14 @@ $root.Spectrograms = (function() {
                 if (properties[keys[i]] != null)
                     this[keys[i]] = properties[keys[i]];
     }
+
+    /**
+     * Spectrograms timestamp.
+     * @member {number|Long} timestamp
+     * @memberof Spectrograms
+     * @instance
+     */
+    Spectrograms.prototype.timestamp = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
 
     /**
      * Spectrograms spectrogram.
@@ -345,9 +387,11 @@ $root.Spectrograms = (function() {
     Spectrograms.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
+        if (message.timestamp != null && Object.hasOwnProperty.call(message, "timestamp"))
+            writer.uint32(/* id 1, wireType 0 =*/8).int64(message.timestamp);
         if (message.spectrogram != null && message.spectrogram.length)
             for (var i = 0; i < message.spectrogram.length; ++i)
-                $root.Spectrogram.encode(message.spectrogram[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                $root.Spectrogram.encode(message.spectrogram[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
         return writer;
     };
 
@@ -382,11 +426,16 @@ $root.Spectrograms = (function() {
         while (reader.pos < end) {
             var tag = reader.uint32();
             switch (tag >>> 3) {
-            case 1:
-                if (!(message.spectrogram && message.spectrogram.length))
-                    message.spectrogram = [];
-                message.spectrogram.push($root.Spectrogram.decode(reader, reader.uint32()));
-                break;
+            case 1: {
+                    message.timestamp = reader.int64();
+                    break;
+                }
+            case 2: {
+                    if (!(message.spectrogram && message.spectrogram.length))
+                        message.spectrogram = [];
+                    message.spectrogram.push($root.Spectrogram.decode(reader, reader.uint32()));
+                    break;
+                }
             default:
                 reader.skipType(tag & 7);
                 break;
@@ -422,6 +471,9 @@ $root.Spectrograms = (function() {
     Spectrograms.verify = function verify(message) {
         if (typeof message !== "object" || message === null)
             return "object expected";
+        if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+            if (!$util.isInteger(message.timestamp) && !(message.timestamp && $util.isInteger(message.timestamp.low) && $util.isInteger(message.timestamp.high)))
+                return "timestamp: integer|Long expected";
         if (message.spectrogram != null && message.hasOwnProperty("spectrogram")) {
             if (!Array.isArray(message.spectrogram))
                 return "spectrogram: array expected";
@@ -446,6 +498,15 @@ $root.Spectrograms = (function() {
         if (object instanceof $root.Spectrograms)
             return object;
         var message = new $root.Spectrograms();
+        if (object.timestamp != null)
+            if ($util.Long)
+                (message.timestamp = $util.Long.fromValue(object.timestamp)).unsigned = false;
+            else if (typeof object.timestamp === "string")
+                message.timestamp = parseInt(object.timestamp, 10);
+            else if (typeof object.timestamp === "number")
+                message.timestamp = object.timestamp;
+            else if (typeof object.timestamp === "object")
+                message.timestamp = new $util.LongBits(object.timestamp.low >>> 0, object.timestamp.high >>> 0).toNumber();
         if (object.spectrogram) {
             if (!Array.isArray(object.spectrogram))
                 throw TypeError(".Spectrograms.spectrogram: array expected");
@@ -474,6 +535,17 @@ $root.Spectrograms = (function() {
         var object = {};
         if (options.arrays || options.defaults)
             object.spectrogram = [];
+        if (options.defaults)
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, false);
+                object.timestamp = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.timestamp = options.longs === String ? "0" : 0;
+        if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+            if (typeof message.timestamp === "number")
+                object.timestamp = options.longs === String ? String(message.timestamp) : message.timestamp;
+            else
+                object.timestamp = options.longs === String ? $util.Long.prototype.toString.call(message.timestamp) : options.longs === Number ? new $util.LongBits(message.timestamp.low >>> 0, message.timestamp.high >>> 0).toNumber() : message.timestamp;
         if (message.spectrogram && message.spectrogram.length) {
             object.spectrogram = [];
             for (var j = 0; j < message.spectrogram.length; ++j)
@@ -491,6 +563,21 @@ $root.Spectrograms = (function() {
      */
     Spectrograms.prototype.toJSON = function toJSON() {
         return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * Gets the default type url for Spectrograms
+     * @function getTypeUrl
+     * @memberof Spectrograms
+     * @static
+     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns {string} The default type url
+     */
+    Spectrograms.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        if (typeUrlPrefix === undefined) {
+            typeUrlPrefix = "type.googleapis.com";
+        }
+        return typeUrlPrefix + "/Spectrograms";
     };
 
     return Spectrograms;

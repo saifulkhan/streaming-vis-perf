@@ -5,11 +5,13 @@ pydantic
 starlette
 loguru
 pyarrow
-protobuf
+protobuf==3.20.*
 six
 matplotlib
 seaborn
 jupyter
+jupyterlab
+notebook
 numpy
 pandas
 black

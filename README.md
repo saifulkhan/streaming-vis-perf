@@ -1,4 +1,13 @@
-# Scalable Streaming Data VIS and Benchmarks
+# About
+
+Streaming data visualization and benchmarks. This is developed as part of initial protoype and evaluation of SKA's data visualization system. The production version of the code is at the SKA project repository: 
+
+1. https://gitlab.com/ska-telescope/sdp/ska-sdp-qa-metric-generator
+2. https://gitlab.com/ska-telescope/sdp/ska-sdp-qa-data-api
+3. https://gitlab.com/ska-telescope/sdp/ska-sdp-qa-display
+
+
+# Getting Started
 
 ## Start the services
 
@@ -50,11 +59,8 @@ docker-compose up -d --no-deps --build
 
 Please see the `visualisation/README` and `producer/README`.
 
-
-Open `localhost:3000` to access the UI and attach to the `producer` container to generate experimental data for the visualisations. For more information check the READMEs inside each folder.
-
-Produce data
-
 # Code Architecture
 
 ![alt text](./achitecture-code.png "Code architecture")
+
+# References

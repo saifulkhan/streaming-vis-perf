@@ -31,21 +31,6 @@ const sections = [
     ],
   },
   {
-    title: "SPECTROGRAMS",
-    items: [
-      {
-        title: "ProtoBuf",
-        path: "/plot/spectrograms/?protocol=protobuf",
-        icon: <NavigateNextIcon fontSize="small" />,
-      },
-      {
-        title: "JSON",
-        path: "/plot/spectrograms/?&protocol=json",
-        icon: <NavigateNextIcon fontSize="small" />,
-      },
-    ],
-  },
-  {
     title: "SPECTROGRAM",
     items: [
       {
@@ -61,16 +46,16 @@ const sections = [
     ],
   },
   {
-    title: "WIND MAP",
+    title: "SPECTROGRAMS",
     items: [
       {
         title: "ProtoBuf",
-        path: "/plot/windmap/?protocol=protobuf",
+        path: "/plot/spectrograms/?protocol=protobuf",
         icon: <NavigateNextIcon fontSize="small" />,
       },
       {
         title: "JSON",
-        path: "/plot/windmap/?&protocol=json",
+        path: "/plot/spectrograms/?&protocol=json",
         icon: <NavigateNextIcon fontSize="small" />,
       },
     ],

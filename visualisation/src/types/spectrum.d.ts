@@ -1,9 +1,10 @@
 import * as $protobuf from "protobufjs";
+import Long = require("long");
 /** Properties of a Spectrum. */
 export interface ISpectrum {
 
     /** Spectrum timestamp */
-    timestamp?: (string|null);
+    timestamp?: (number|Long|null);
 
     /** Spectrum xMin */
     xMin?: (number|null);
@@ -40,7 +41,7 @@ export class Spectrum implements ISpectrum {
     constructor(properties?: ISpectrum);
 
     /** Spectrum timestamp. */
-    public timestamp: string;
+    public timestamp: (number|Long);
 
     /** Spectrum xMin. */
     public xMin: number;
@@ -135,4 +136,11 @@ export class Spectrum implements ISpectrum {
      * @returns JSON object
      */
     public toJSON(): { [k: string]: any };
+
+    /**
+     * Gets the default type url for Spectrum
+     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns The default type url
+     */
+    public static getTypeUrl(typeUrlPrefix?: string): string;
 }

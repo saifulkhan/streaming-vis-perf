@@ -71,8 +71,6 @@ const SpectrogramPage = () => {
       // ws.send("status: ws open");
     };
 
-    const logOnlyDecodeTime = false;
-
     ws.onmessage = function (msg) {
       const data = msg?.data;
 
@@ -81,25 +79,26 @@ const SpectrogramPage = () => {
           // prettier-ignore
           console.log("SpectrogramPage: received, type = ArrayBuffer, data = ", data);
         } else if (data instanceof Blob) {
-          decodeSpectrogram(data, logOnlyDecodeTime).then((decoded: any) => {
+          decodeSpectrogram(data, true).then((decoded: any) => {
             // prettier-ignore
             // console.log("SpectrogramPage: received type = Blob, decoded = ", decoded.spectrogram, ", idx = ", idx);
-
-            if (!logOnlyDecodeTime) {
-              window.requestAnimationFrame(() => {
+            
+            window.requestAnimationFrame(() => {
                 // single spectrogram plot
                 spectrogramPlot.draw(decoded.spectrogram[idx].phase);
-              });
-            }
+            });
           });
         } else {
-          const decoded = decodeJson(data, logOnlyDecodeTime);
+          const decoded = decodeJson(data, true);
 
           if (decoded && decoded.status) {
             setSocketStatus(decoded.status);
           } else {
             // console.log("SpectrogramPage: received type = text, decoded = ", decoded);
-            // window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
+            window.requestAnimationFrame(() => {
+              // single spectrogram plot
+              spectrogramPlot.draw(decoded.spectrogram[idx].phase);
+            });
           }
         }
       } catch (e) {

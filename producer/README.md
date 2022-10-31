@@ -1,14 +1,6 @@
-# Producer
+# About
 
 Produce different payloads, stream the payloads via message broker to the browser.
-
-## Container (N/A)
-
-Set the environment variables in the `.env` file:
-
-```bash
- BROKER_INSTANCE=broker:29092
-```
 
 ## Getting Started Locally
 
@@ -26,106 +18,46 @@ export BROKER_INSTANCE=localhost:9092
 Setup a Python virtual environment and install the dependencies:
 
 ```bash
-pip install virtualenv
-virtualenv venv
-
+python -m venv venv
 source ./venv/bin/activate
+
 pip install -r requirements.txt
 ```
 
-## Scripts and Notebooks for Generating and Plotting Benchmarks
+## Genrate Data
 
-```bash
+### Notebooks for Generating Data
 
-```
+The following notebooks are used for generatinga and analysing performance of three plots:
+
+1. `src/spectrum_benchmark.ipynb`
+2. `src/spectrogram_benchmark.ipynb`
+3. `src/spectrograms_benchmark.ipynb`
 
 
+If we start the visualization interface, we can see the plots in: http://localhost:3000
 
+### Measurement Set
 
-Go to the scripts location folder
-
-```bash
- cd app/metric-generator
-```
-
-Generate synthetic power spectrum protobuf payload
-
-```bash
-python mock_protobuf_spectrum.py
-```
-
-We can see the power spectrum plot in: http://localhost:3000/plot/spectrum?protocol=protobuf
-
-Generate synthetic spectrogram protobuf payload
-
-```bash
-python mock_protobuf_spectrograms.py
-```
-
-We can see the spectrograms in: http://localhost:3000/plot/spectrograms?protocol=protobuf and and a spectrogram in: http://localhost:3000/plot/spectrogram?idx=1&protocol=protobuf
-
-#### Measurementset
-
-We can read measurementset, generate protobuf payloads. Command to read measurementset and generate metrics
+We can also read measurement sets, generate (ProtoBuf) payloads, the command to read measurementset and generate metrics:
 
 ```bash
 python ms_protobuf_payloads.py <measurement_set.ms>
 ```
 
-Fpr example, we mounted some large volume of data data from the Meerkat telescope in our `data` folder
+For example, we mounted some large volume of data data from the Meerkat telescope in our `data` folder
 
 ```bash
 python ms_protobuf_payloads.py ../../data/1643124898_sdp_l0.ms
 ```
 
-The visualizations can be accessed from:
-http://localhost:3000/plot/spectrum?protocol=protobuf,
-http://localhost:3000/plot/spectrograms?protocol=protobuf, and
-http://localhost:3000/plot/spectrogram?idx=1&protocol=protobuf
+# ProtoBuf Messages
 
-### Notebooks for generating benchmarks
+Install ProtoBuf compiler, see [installation]( https://grpc.io/docs/protoc-installation), and install JavaScript see [doc](https://www.npmjs.com/package/protobufjs).
+
+Run the shell script to compile, generate, and save Python and JavaScript definition of the ProtoBuf messages used in this project.
 
 ```bash
-TODO
+cd messages
+sh -x ./compile-protobuf.sh
 ```
-
-
-
-## Data Structures
-
-The data structure written below is in human readable format, find the files in `metric-generator/models` for details.
-
-Line plot for spectrum display:
-
-```sh
-Spectrum {
-    timestamp: String,
-    x_min: int,
-    x_max: int,
-    y_min: int,
-    y_max: int,
-    channels: int[],
-    power: float[],
-    sd_l: float[],
-    sd_u: float[],
-}
-```
-
-Waterfall of spectrograms for phase display:
-
-```sh
-Spectrogram {
-    timestamp: String,
-    baseline: String,
-    polarisation: String,
-    phase: int[];
-}
-
-Spectrograms {
-    spectrogram: Spectrogram[];
-}
-```
-
-See the file `rand_phase_display_data.py` as an example.
-
- 

@@ -47,7 +47,8 @@ const SpectrumPage = () => {
     const spectrumPlot = new SpectrumPlotSvg("#divId", WIDTH, HEIGHT);
 
     //
-    // spectrum plot: canvas implementation (incomplete)
+    // Spectrum plot: canvas implementation 
+    // The Ci/SD band visualization is not complete
     //
     // const spectrumPlot = new SpectrumPlotCanvas({
     //   canvasId: "canvasId",
@@ -56,7 +57,7 @@ const SpectrumPage = () => {
     // });
 
     // test plot with mock data
-    //spectrumPlot.draw(mockSpectrumData);
+    // spectrumPlot.draw(mockSpectrumData);
 
     const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${protocol}_${MESSAGE_TOPIC}`;
     // prettier-ignore
@@ -86,18 +87,18 @@ const SpectrumPage = () => {
           // prettier-ignore
           console.log("SpectrumPage: received, type = ArrayBuffer, data = ", data);
         } else if (data instanceof Blob) {
-          decodeSpectrum(data).then((decoded: any) => {
+          decodeSpectrum(data, true).then((decoded: any) => {
             // prettier-ignore
             // console.log("SpectrumPage: received type = Blob, decoded = ", decoded);
             window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
           });
         } else {
-          const decoded = decodeJson(data);
+          const decoded = decodeJson(data, true);
           if (decoded && decoded.status) {
             setSocketStatus(decoded.status);
           } else {
             // prettier-ignore
-            console.log("SpectrumPage: received type = text, decoded = ", decoded);
+            // console.log("SpectrumPage: received type = text, decoded = ", decoded);
             window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
           }
         }
@@ -121,17 +122,6 @@ const SpectrumPage = () => {
         <title>Spectrum Plot</title>
       </Head>
       <DashboardLayout>
-        {/* <Box
-          sx={{
-            position: "fixed",
-            overflow: "visible",
-            bottom: 0,
-            left: { xs: 0, md: 280 },
-            top: 60,
-            right: 0,
-          }}
-        > */}
-        {/* <Container> */}
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Card sx={{ minWidth: WIDTH + 60 }}>

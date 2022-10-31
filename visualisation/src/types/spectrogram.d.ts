@@ -1,9 +1,10 @@
 import * as $protobuf from "protobufjs";
+import Long = require("long");
 /** Properties of a Spectrogram. */
 export interface ISpectrogram {
 
     /** Spectrogram timestamp */
-    timestamp?: (string|null);
+    timestamp?: (number|Long|null);
 
     /** Spectrogram baseline */
     baseline?: (string|null);
@@ -25,7 +26,7 @@ export class Spectrogram implements ISpectrogram {
     constructor(properties?: ISpectrogram);
 
     /** Spectrogram timestamp. */
-    public timestamp: string;
+    public timestamp: (number|Long);
 
     /** Spectrogram baseline. */
     public baseline: string;
@@ -105,10 +106,20 @@ export class Spectrogram implements ISpectrogram {
      * @returns JSON object
      */
     public toJSON(): { [k: string]: any };
+
+    /**
+     * Gets the default type url for Spectrogram
+     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns The default type url
+     */
+    public static getTypeUrl(typeUrlPrefix?: string): string;
 }
 
 /** Properties of a Spectrograms. */
 export interface ISpectrograms {
+
+    /** Spectrograms timestamp */
+    timestamp?: (number|Long|null);
 
     /** Spectrograms spectrogram */
     spectrogram?: (ISpectrogram[]|null);
@@ -122,6 +133,9 @@ export class Spectrograms implements ISpectrograms {
      * @param [properties] Properties to set
      */
     constructor(properties?: ISpectrograms);
+
+    /** Spectrograms timestamp. */
+    public timestamp: (number|Long);
 
     /** Spectrograms spectrogram. */
     public spectrogram: ISpectrogram[];
@@ -195,4 +209,11 @@ export class Spectrograms implements ISpectrograms {
      * @returns JSON object
      */
     public toJSON(): { [k: string]: any };
+
+    /**
+     * Gets the default type url for Spectrograms
+     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns The default type url
+     */
+    public static getTypeUrl(typeUrlPrefix?: string): string;
 }
