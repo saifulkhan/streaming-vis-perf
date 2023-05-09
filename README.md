@@ -64,3 +64,21 @@ Please see the `visualisation/README` and `producer/README`.
 ![alt text](./achitecture-code.png "Code architecture")
 
 # References
+
+Cite
+
+```
+@ARTICLE{10044667,
+  author={Khan, Saiful and Rydow, Erik and Etemaditajbakhsh, Shahriar and Adamek, Karel and Armour, Wes},
+  journal={IEEE Access}, 
+  title={Web Performance Evaluation of High Volume Streaming Data Visualization}, 
+  year={2023},
+  volume={11},
+  number={},
+  pages={15623-15636},
+  doi={10.1109/ACCESS.2023.3245043}}
+```
+
+
+
+
